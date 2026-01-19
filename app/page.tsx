@@ -40,13 +40,13 @@ export default async function LandingPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+      <nav className="border-b border-border bg-background sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center">
               <Image src="/evalorio-logo.svg" alt="Evalorio" width={163} height={30} className="h-7 w-auto" priority />
             </Link>
-            <div className="hidden md:flex items-center gap-8 font-outfit">
+            <div className="hidden md:flex items-center gap-6">
               <Link
                 href="#features"
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
@@ -65,34 +65,28 @@ export default async function LandingPage() {
               >
                 Pricing
               </Link>
-              <Link
-                href="/about"
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                About
-              </Link>
-              <Link
-                href="/contact"
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Contact
-              </Link>
               {user ? (
                 <>
-                  <Link href="/upload">
-                    <Button size="sm">Upload</Button>
+                  <Link href="/dashboard/upload">
+                    <Button size="sm" className="bg-[#4169E1] hover:bg-[#3457c9]">
+                      Upload Video or Images
+                    </Button>
                   </Link>
                   <UserNav />
                 </>
               ) : (
                 <>
-                  <Link href="/auth/login">
-                    <Button variant="ghost" size="sm">
-                      Login
+                  <Link href="/dashboard/upload">
+                    <Button size="sm" className="bg-[#4169E1] hover:bg-[#3457c9]">
+                      Upload Video or Images
                     </Button>
                   </Link>
-                  <Link href="/auth/sign-up">
-                    <Button size="sm">Get Started</Button>
+                  <Link href="/auth/login">
+                    <Button variant="ghost" size="icon" className="h-9 w-9">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </Button>
                   </Link>
                 </>
               )}
@@ -102,51 +96,42 @@ export default async function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-background pt-20 pb-32 lg:pb-20 lg:pt-5">
+      <section className="relative overflow-hidden bg-background py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl tracking-tight text-foreground mb-8 text-balance font-normal">
-              AI Property Scoring at{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                Your Fingertips
-              </span>
-            </h1>
-            <p className="text-xl sm:text-2xl text-muted-foreground mb-12 text-pretty leading-relaxed max-w-3xl mx-auto">
-              Upload property videos or images and get instant AI analysis with room detection, quality scoring, price
-              estimates, and marketing content in minutes.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-              {user ? (
-                <Link href="/upload">
-                  <Button size="lg" className="text-base px-8 h-12">
-                    Get Started
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+            {/* Left Column - Text */}
+            <div>
+              <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.1] tracking-tight text-foreground mb-6">
+                AI Scoring for Real Estate – Upload Videos or Images, Get Results in 1 Minute
+              </h1>
+              <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-xl">
+                Evalorio analyzes your property videos and images using AI: detects rooms, estimates surfaces, scores quality, and generates marketing content automatically.
+              </p>
+              <div className="flex flex-col sm:flex-row items-start gap-4 mb-6">
+                <Link href={user ? "/dashboard/upload" : "/auth/sign-up"}>
+                  <Button size="lg" className="bg-[#4169E1] hover:bg-[#3457c9] text-base px-6 h-12 gap-2">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                    </svg>
+                    Upload Video or Images
                   </Button>
                 </Link>
-              ) : (
-                <>
-                  <Link href="/auth/sign-up">
-                    <Button size="lg" className="text-base px-8 h-12">
-                      Get Started
-                    </Button>
-                  </Link>
-                  <Link href="/contact">
-                    <Button size="lg" variant="outline" className="text-base px-8 h-12 bg-transparent">
-                      Contact Us
-                    </Button>
-                  </Link>
-                </>
-              )}
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-muted/50">
+                <Sparkles className="w-4 h-4 text-[#4169E1]" />
+                <span className="text-sm font-medium text-[#4169E1]">AI-Powered Video & Image Analysis</span>
+              </div>
             </div>
 
-            {/* Hero image/screenshot placeholder */}
-            <div className="relative mx-auto max-w-5xl">
-              <div className="relative rounded-xl overflow-hidden shadow-2xl border border-border">
+            {/* Right Column - Building Image */}
+            <div className="relative flex justify-center lg:justify-end">
+              <div className="relative">
                 <Image
                   src="/images/header-hero-v5.webp"
-                  alt="Evalorio Dashboard Preview"
-                  width={1200}
-                  height={750}
-                  className="w-full h-auto"
+                  alt="Modern apartment building"
+                  width={550}
+                  height={700}
+                  className="w-full max-w-md lg:max-w-lg h-auto"
                   priority
                 />
               </div>
