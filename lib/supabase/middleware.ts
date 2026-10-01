@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr"
 import type { NextRequest, NextResponse } from "next/server"
-import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/env"
+import { AUTH_COOKIE_NAME, SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/env"
 
 /**
  * Refreshes the Supabase session cookies on the given response (the one produced by the i18n
@@ -8,6 +8,7 @@ import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/env"
  */
 export async function refreshSession(request: NextRequest, response: NextResponse) {
   const supabase = createServerClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    cookieOptions: { name: AUTH_COOKIE_NAME },
     cookies: {
       getAll() {
         return request.cookies.getAll()

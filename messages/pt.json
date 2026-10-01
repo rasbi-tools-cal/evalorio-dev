@@ -74,7 +74,9 @@
     "privacy": "Política de privacidade",
     "cookies": "Cookies",
     "rights": "© {year} Evalorio. Todos os direitos reservados.",
-    "geonames": "Dados geográficos © GeoNames (CC BY 4.0)"
+    "geonames": "Dados geográficos © GeoNames (CC BY 4.0)",
+    "legalNotice": "Aviso legal",
+    "privacyRequest": "Os seus direitos de privacidade"
   },
   "operations": {
     "sale": "Para venda",
@@ -560,7 +562,8 @@
     "reportCount": "{count, plural, one {# denúncia} other {# denúncias}}",
     "openListing": "Abrir anúncio",
     "searchUsers": "Pesquisar por email",
-    "done": "Feito"
+    "done": "Feito",
+    "privacy": "Privacidade"
   },
   "alerts": {
     "subject": "{count, plural, one {# casa nova} other {# casas novas}} para «{name}»",
@@ -578,7 +581,16 @@
     "listingApprovedSubject": "O seu anúncio está online",
     "listingApprovedText": "Boas notícias — «{listing}» foi aprovado e já está visível no Evalorio.",
     "listingRejectedSubject": "O seu anúncio precisa de alterações",
-    "listingRejectedText": "«{listing}» ainda não pôde ser publicado. Nota do moderador: {reason}"
+    "listingRejectedText": "«{listing}» ainda não pôde ser publicado. Nota do moderador: {reason}",
+    "listingRemovedSubject": "O seu anúncio foi removido",
+    "listingRemovedText": "Removemos o seu anúncio «{listing}» porque não cumpre os nossos termos de utilização ou a lei. Motivo: {reason}",
+    "accountSuspendedSubject": "A sua conta Evalorio foi suspensa",
+    "accountSuspendedText": "Suspendemos a sua conta e os seus anúncios deixaram de estar visíveis. Motivo: {reason}",
+    "decisionByPerson": "Esta decisão foi tomada por uma pessoa da nossa equipa de moderação após analisar o conteúdo; não foi tomada de forma automática.",
+    "howToAppeal": "Se acha que nos enganámos, responda a este email ou escreva para {email} no prazo de seis meses e uma pessoa reverá a decisão. Pode também recorrer a um organismo certificado de resolução extrajudicial de litígios ou aos tribunais.",
+    "reportOutcomeSubject": "Novidades sobre o anúncio que denunciou",
+    "reportResolvedText": "Obrigado pela sua denúncia do anúncio {listing}. Analisámo-lo e agimos: o anúncio foi removido ou corrigido.",
+    "reportDismissedText": "Obrigado pela sua denúncia do anúncio {listing}. Analisámo-lo e não viola as nossas regras nem a lei, pelo que continua publicado. Se tiver mais informações, responda a este email."
   },
   "errors": {
     "notFoundTitle": "Página não encontrada",
@@ -587,11 +599,6 @@
     "errorTitle": "Algo correu mal",
     "errorText": "Ocorreu um erro inesperado. Tente novamente."
   },
-  "cookies": {
-    "text": "Usamos apenas cookies essenciais para manter a sessão iniciada e lembrar as suas preferências. Sem cookies de publicidade ou rastreamento.",
-    "ok": "OK",
-    "learnMore": "Saber mais"
-  },
   "static": {
     "howItWorksTitle": "Como anunciar",
     "aboutTitle": "Sobre o Evalorio",
@@ -599,5 +606,130 @@
     "termsTitle": "Termos de utilização",
     "privacyTitle": "Política de privacidade",
     "cookiesTitle": "Política de cookies"
+  },
+  "consent": {
+    "bannerTitle": "As suas escolhas de privacidade",
+    "bannerText": "Usamos cookies estritamente necessários para o Evalorio funcionar: manter a sessão iniciada, proteger os formulários contra bots e lembrar esta escolha. Com a sua autorização também medimos, de forma anónima, como o site é usado para o melhorar. Nada de opcional é usado antes de decidir, e pode mudar de ideia a qualquer momento em «Definições de cookies», no fundo de cada página. Saiba mais na <cookies>política de cookies</cookies> e na <privacy>política de privacidade</privacy>.",
+    "acceptAll": "Aceitar tudo",
+    "rejectAll": "Rejeitar tudo",
+    "customize": "Personalizar",
+    "saveChoices": "Guardar as minhas escolhas",
+    "settingsTitle": "Definições de cookies",
+    "settingsIntro": "Escolha que categorias opcionais permite. As estritamente necessárias não podem ser desativadas porque o site não funciona sem elas. Detalhes na <cookies>política de cookies</cookies>.",
+    "alwaysActive": "Sempre ativos",
+    "saved": "As suas escolhas foram guardadas",
+    "footerLink": "Definições de cookies",
+    "categories": {
+      "necessary": {
+        "title": "Estritamente necessários",
+        "description": "Início de sessão, segurança contra bots e abusos, guardar a sua escolha de cookies, carregar o mapa. Isentos de consentimento ao abrigo das regras ePrivacy."
+      },
+      "preferences": {
+        "title": "Preferências",
+        "description": "Lembram as suas escolhas para encontrar o site como o deixou."
+      },
+      "analytics": {
+        "title": "Análise",
+        "description": "Estatísticas anónimas sobre as páginas visitadas para melhorar o Evalorio. Sem cookies, sem perfis publicitários, nada partilhado com anunciantes."
+      },
+      "marketing": {
+        "title": "Marketing",
+        "description": "Medem campanhas publicitárias e mostram anúncios relevantes noutros sites."
+      }
+    },
+    "items": {
+      "authToken": {
+        "purpose": "Mantém a sua sessão iniciada em segurança. Pode ser dividido em várias partes numeradas (.0, .1…) quando a sessão é grande.",
+        "duration": "Até terminar a sessão (renovado enquanto usa o site)"
+      },
+      "authVerifier": {
+        "purpose": "Protege o início de sessão (chave de uso único).",
+        "duration": "Alguns minutos, durante o início de sessão"
+      },
+      "consent": {
+        "purpose": "Lembra as suas escolhas de cookies para não voltarmos a perguntar.",
+        "duration": "12 meses"
+      },
+      "turnstile": {
+        "purpose": "Verifica que os formulários (registo, mensagens, denúncias) são enviados por uma pessoa e não por um bot.",
+        "duration": "Sem cookie no nosso domínio; tratado pela Cloudflare quando é mostrado um formulário",
+        "name": "Verificação anti-bots (Turnstile)"
+      },
+      "mapTiles": {
+        "purpose": "Carrega as imagens do mapa; o servidor de mapas recebe o seu endereço IP para as enviar.",
+        "duration": "Sem cookie",
+        "name": "Imagens do mapa"
+      },
+      "vercelAnalytics": {
+        "purpose": "Conta visualizações de forma anónima (um hash que muda todos os dias em vez de um identificador).",
+        "duration": "Sem cookie; estatísticas agregadas",
+        "name": "Web Analytics"
+      }
+    },
+    "table": {
+      "name": "Nome",
+      "provider": "Fornecedor",
+      "purpose": "Finalidade",
+      "duration": "Duração",
+      "type": "Tipo",
+      "category": "Categoria",
+      "cookie": "Cookie",
+      "network": "Pedido",
+      "localStorage": "Armazenamento local",
+      "first": "Próprio",
+      "third": "De terceiros"
+    },
+    "openSettings": "Abrir definições de cookies"
+  },
+  "privacyRequest": {
+    "title": "Os seus direitos de privacidade",
+    "intro": "Ao abrigo do RGPD pode pedir-nos a qualquer momento o acesso, a retificação, o apagamento, a limitação ou a portabilidade dos seus dados, ou opor-se ao seu tratamento. Respondemos no prazo de um mês.",
+    "selfService": "Tem sessão iniciada? Pode descarregar todos os seus dados ou eliminar a sua conta em <settings>Definições</settings>, de imediato.",
+    "type": "O que pretende fazer?",
+    "types": {
+      "access": "Obter uma cópia dos meus dados (acesso)",
+      "rectification": "Corrigir dados inexatos (retificação)",
+      "erasure": "Apagar os meus dados (apagamento)",
+      "restriction": "Suspender o uso dos meus dados (limitação)",
+      "portability": "Receber os meus dados num formato legível por máquina (portabilidade)",
+      "objection": "Opor-me a um uso dos meus dados (oposição)",
+      "withdraw_consent": "Retirar um consentimento que dei",
+      "other": "Outro assunto / uma pergunta"
+    },
+    "email": "Email associado aos seus dados",
+    "name": "O seu nome",
+    "details": "Detalhes",
+    "detailsHelp": "Diga-nos do que se trata (por exemplo, a referência de um anúncio). Não envie documentos de identificação aqui; pedi-los-emos se precisarmos de verificar a sua identidade.",
+    "notice": "Usamos estes dados apenas para tratar o seu pedido e guardamos um registo durante 3 anos como prova da resposta.",
+    "submit": "Enviar pedido",
+    "sentTitle": "Pedido recebido",
+    "sentText": "A sua referência é {reference}. Enviámos uma confirmação para {email} e responderemos até {date}.",
+    "emailSubject": "Recebemos o seu pedido de privacidade {reference}",
+    "emailText": "Recebemos o seu pedido ({type}). Referência: {reference}. Responderemos até {date}. Se precisarmos de confirmar a sua identidade, responderemos a este email. Pode também apresentar reclamação à sua autoridade de proteção de dados a qualquer momento."
+  },
+  "privacyAdmin": {
+    "title": "Pedidos de privacidade",
+    "empty": "Sem pedidos de privacidade.",
+    "due": "Prazo {date}",
+    "overdue": "Atrasado",
+    "note": "Nota interna",
+    "update": "Atualizar",
+    "statuses": {
+      "received": "Recebido",
+      "verifying": "A verificar identidade",
+      "in_progress": "Em curso",
+      "completed": "Concluído",
+      "rejected": "Recusado"
+    }
+  },
+  "privacySettings": {
+    "title": "Privacidade",
+    "text": "Gira as suas escolhas de cookies, veja os consentimentos dados e exerça os restantes direitos.",
+    "consentHistory": "Histórico de consentimentos",
+    "noConsents": "Ainda não há escolhas de cookies registadas na sua conta.",
+    "accepted": "Aceites",
+    "rejected": "Rejeitados",
+    "makeRequest": "Fazer um pedido de privacidade",
+    "requests": "Os seus pedidos"
   }
 }

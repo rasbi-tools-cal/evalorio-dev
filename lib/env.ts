@@ -9,6 +9,9 @@ export const MAP_TILE_ATTRIBUTION =
   process.env.NEXT_PUBLIC_MAP_TILE_ATTRIBUTION ||
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 
+/** Our own name for the Supabase session cookie (instead of the default "sb-<project-ref>-auth-token"). */
+export const AUTH_COOKIE_NAME = "evalorio_session"
+
 export const PHOTO_BUCKET = "listing-photos"
 
 export function photoUrl(path: string): string {

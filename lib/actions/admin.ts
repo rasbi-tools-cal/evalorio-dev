@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
-import { notifyOwnerOfModeration } from "@/lib/notifications"
+import { notifyOwnerOfModeration, notifyReporterOfOutcome, notifyUserOfSuspension } from "@/lib/notifications"
 import { createClient, getProfile } from "@/lib/supabase/server"
 
 async function requireAdmin() {
@@ -25,9 +25,7 @@ export async function moderateListing(input: { listingId: number; action: "appro
     p_note: parsed.data.note,
   })
   if (error) return { ok: false as const }
-  if (parsed.data.action !== "remove") {
-    await notifyOwnerOfModeration(parsed.data.listingId, parsed.data.action, parsed.data.note)
-  }
+  await notifyOwnerOfModeration(parsed.data.listingId, parsed.data.action, parsed.data.note)
   revalidatePath("/[locale]", "layout")
   return { ok: true as const }
 }
@@ -38,6 +36,7 @@ export async function setUserBanned(input: { userId: string; banned: boolean; no
   await requireAdmin()
   const supabase = await createClient()
   const { error } = await supabase.rpc("set_user_banned", { p_user_id: parsed.data.userId, p_banned: parsed.data.banned, p_note: parsed.data.note })
+  if (!error && parsed.data.banned) await notifyUserOfSuspension(parsed.data.userId, parsed.data.note)
   revalidatePath("/[locale]", "layout")
   return { ok: !error }
 }
@@ -48,6 +47,7 @@ export async function resolveReport(input: { reportId: string; status: "resolved
   await requireAdmin()
   const supabase = await createClient()
   const { error } = await supabase.rpc("resolve_report", { p_report_id: parsed.data.reportId, p_status: parsed.data.status })
+  if (!error) await notifyReporterOfOutcome(parsed.data.reportId)
   revalidatePath("/[locale]/admin", "layout")
   return { ok: !error }
 }

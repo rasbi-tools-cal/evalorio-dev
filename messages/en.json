@@ -74,7 +74,9 @@
     "privacy": "Privacy policy",
     "cookies": "Cookies",
     "rights": "© {year} Evalorio. All rights reserved.",
-    "geonames": "Place data © GeoNames (CC BY 4.0)"
+    "geonames": "Place data © GeoNames (CC BY 4.0)",
+    "legalNotice": "Legal notice",
+    "privacyRequest": "Your privacy rights"
   },
   "operations": {
     "sale": "For sale",
@@ -554,7 +556,8 @@
     "reportCount": "{count, plural, one {# report} other {# reports}}",
     "openListing": "Open listing",
     "searchUsers": "Search by email",
-    "done": "Done"
+    "done": "Done",
+    "privacy": "Privacy"
   },
   "alerts": {
     "subject": "{count, plural, one {# new home} other {# new homes}} for “{name}”",
@@ -572,7 +575,16 @@
     "listingApprovedSubject": "Your listing is live",
     "listingApprovedText": "Good news — “{listing}” has been approved and is now visible on Evalorio.",
     "listingRejectedSubject": "Your listing needs changes",
-    "listingRejectedText": "“{listing}” couldn't be published yet. Moderator note: {reason}"
+    "listingRejectedText": "“{listing}” couldn't be published yet. Moderator note: {reason}",
+    "listingRemovedSubject": "Your listing has been removed",
+    "listingRemovedText": "We removed your listing “{listing}” because it does not comply with our terms of use or the law. Reason: {reason}",
+    "accountSuspendedSubject": "Your Evalorio account has been suspended",
+    "accountSuspendedText": "We have suspended your account and your listings are no longer visible. Reason: {reason}",
+    "decisionByPerson": "This decision was taken by a member of our moderation team after reviewing the content; it was not taken automatically.",
+    "howToAppeal": "If you think we made a mistake, reply to this email or write to {email} within six months and a person will review the decision. You can also turn to a certified out-of-court dispute settlement body or to the courts.",
+    "reportOutcomeSubject": "Update on the listing you reported",
+    "reportResolvedText": "Thank you for your report about listing {listing}. We reviewed it and took action: the listing was removed or corrected.",
+    "reportDismissedText": "Thank you for your report about listing {listing}. We reviewed it and found that it does not break our rules or the law, so it stays online. If you have more information, reply to this email."
   },
   "errors": {
     "notFoundTitle": "Page not found",
@@ -580,11 +592,6 @@
     "backHome": "Back to home",
     "errorTitle": "Something went wrong",
     "errorText": "An unexpected error occurred. Please try again."
-  },
-  "cookies": {
-    "text": "We only use essential cookies to keep you logged in and remember your preferences. No advertising or tracking cookies.",
-    "ok": "OK",
-    "learnMore": "Learn more"
   },
   "static": {
     "howItWorksTitle": "How listing works",
@@ -599,5 +606,130 @@
     "FR": "in France",
     "IT": "in Italy",
     "PT": "in Portugal"
+  },
+  "consent": {
+    "bannerTitle": "Your privacy choices",
+    "bannerText": "We use strictly necessary cookies to run Evalorio: keeping you signed in, protecting forms against bots and remembering this choice. With your permission we also measure, anonymously, how the site is used so we can improve it. Nothing optional is used until you decide, and you can change your mind at any time from “Cookie settings” at the bottom of every page. More in our <cookies>cookie policy</cookies> and <privacy>privacy policy</privacy>.",
+    "acceptAll": "Accept all",
+    "rejectAll": "Reject all",
+    "customize": "Customize",
+    "saveChoices": "Save my choices",
+    "settingsTitle": "Cookie settings",
+    "settingsIntro": "Choose which optional categories you allow. Strictly necessary ones cannot be switched off because the site does not work without them. Details in the <cookies>cookie policy</cookies>.",
+    "alwaysActive": "Always active",
+    "saved": "Your choices have been saved",
+    "footerLink": "Cookie settings",
+    "categories": {
+      "necessary": {
+        "title": "Strictly necessary",
+        "description": "Sign-in, security against bots and abuse, remembering your cookie choice, loading the map. Exempt from consent under the ePrivacy rules."
+      },
+      "preferences": {
+        "title": "Preferences",
+        "description": "Remember choices you make so the site feels the way you left it."
+      },
+      "analytics": {
+        "title": "Analytics",
+        "description": "Anonymous statistics about which pages are visited, so we can improve Evalorio. No cookies, no advertising profiles, nothing shared with advertisers."
+      },
+      "marketing": {
+        "title": "Marketing",
+        "description": "Measure advertising campaigns and show relevant ads on other sites."
+      }
+    },
+    "items": {
+      "authToken": {
+        "purpose": "Keeps you signed in securely after you log in. May be split into several numbered parts (.0, .1…) when the session is large.",
+        "duration": "Until you log out (renewed while you use the site)"
+      },
+      "authVerifier": {
+        "purpose": "Protects the sign-in flow (proof key used once).",
+        "duration": "A few minutes, during sign-in"
+      },
+      "consent": {
+        "purpose": "Remembers your cookie choices so we don't ask again.",
+        "duration": "12 months"
+      },
+      "turnstile": {
+        "purpose": "Checks that forms (sign-up, messages, reports) are sent by a person, not a bot.",
+        "duration": "No cookie on our domain; processed by Cloudflare when a form is shown",
+        "name": "Anti-bot check (Turnstile)"
+      },
+      "mapTiles": {
+        "purpose": "Loads the map images; the map server receives your IP address to send them.",
+        "duration": "No cookie",
+        "name": "Map images"
+      },
+      "vercelAnalytics": {
+        "purpose": "Counts page views anonymously (a daily changing hash instead of an identifier).",
+        "duration": "No cookie; aggregated statistics",
+        "name": "Web Analytics"
+      }
+    },
+    "table": {
+      "name": "Name",
+      "provider": "Provider",
+      "purpose": "Purpose",
+      "duration": "Duration",
+      "type": "Type",
+      "category": "Category",
+      "cookie": "Cookie",
+      "network": "Request",
+      "localStorage": "Local storage",
+      "first": "First party",
+      "third": "Third party"
+    },
+    "openSettings": "Open cookie settings"
+  },
+  "privacyRequest": {
+    "title": "Your privacy rights",
+    "intro": "Under the GDPR you can ask us at any time to access, correct, delete, restrict or transfer your data, or object to how we use it. We answer within one month.",
+    "selfService": "Signed in? You can download all your data or delete your account yourself in <settings>Settings</settings>, instantly.",
+    "type": "What would you like to do?",
+    "types": {
+      "access": "Get a copy of my data (access)",
+      "rectification": "Correct inaccurate data (rectification)",
+      "erasure": "Delete my data (erasure)",
+      "restriction": "Pause the use of my data (restriction)",
+      "portability": "Receive my data in a machine-readable format (portability)",
+      "objection": "Object to a use of my data (objection)",
+      "withdraw_consent": "Withdraw a consent I gave",
+      "other": "Something else / a question"
+    },
+    "email": "Email address linked to your data",
+    "name": "Your name",
+    "details": "Details",
+    "detailsHelp": "Tell us what the request is about (for example a listing reference). Please don't send ID documents here; we'll ask if we need to verify your identity.",
+    "notice": "We use these details only to handle your request and keep a record of it for 3 years, as proof that we answered.",
+    "submit": "Send request",
+    "sentTitle": "Request received",
+    "sentText": "Your reference is {reference}. We've sent a confirmation to {email} and will answer by {date} at the latest.",
+    "emailSubject": "We received your privacy request {reference}",
+    "emailText": "We received your request ({type}). Reference: {reference}. We will answer by {date} at the latest. If we need to confirm your identity we will reply to this email. You can also complain to your data protection authority at any time."
+  },
+  "privacyAdmin": {
+    "title": "Privacy requests",
+    "empty": "No privacy requests.",
+    "due": "Due {date}",
+    "overdue": "Overdue",
+    "note": "Internal note",
+    "update": "Update",
+    "statuses": {
+      "received": "Received",
+      "verifying": "Verifying identity",
+      "in_progress": "In progress",
+      "completed": "Completed",
+      "rejected": "Rejected"
+    }
+  },
+  "privacySettings": {
+    "title": "Privacy",
+    "text": "Manage your cookie choices, see the consents you gave and exercise your other rights.",
+    "consentHistory": "Consent history",
+    "noConsents": "No cookie choices recorded for your account yet.",
+    "accepted": "Accepted",
+    "rejected": "Rejected",
+    "makeRequest": "Make a privacy request",
+    "requests": "Your requests"
   }
 }

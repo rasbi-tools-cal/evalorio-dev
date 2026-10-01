@@ -1,10 +1,28 @@
-import { expect, test, type Page } from "@playwright/test"
+import { expect, test, type BrowserContext, type Page } from "@playwright/test"
 import path from "node:path"
+import { POLICY_VERSION } from "../lib/legal/company"
 
 const MAILPIT = process.env.MAILPIT_URL ?? "http://127.0.0.1:54324"
 const stamp = Date.now()
 const owner = { name: "Test Owner", email: `owner.${stamp}@example.com`, password: "Evalorio2026x" }
 const title = `E2E sunny flat ${stamp.toString(36)}`
+
+/** A stored "reject all" choice, so the cookie banner doesn't cover the page in flow tests. */
+async function rememberConsent(context: BrowserContext) {
+  const state = {
+    id: crypto.randomUUID(),
+    version: POLICY_VERSION,
+    categories: { preferences: false, analytics: false, marketing: false },
+    at: new Date().toISOString(),
+    source: "banner",
+  }
+  const url = test.info().project.use.baseURL ?? "http://localhost:3100"
+  await context.addCookies([{ name: "evalorio_consent", value: encodeURIComponent(JSON.stringify(state)), url }])
+}
+
+test.beforeEach(async ({ context }) => {
+  if (!test.info().title.startsWith("cookie banner")) await rememberConsent(context)
+})
 
 async function latestEmailLink(to: string, contains: string) {
   for (let i = 0; i < 30; i++) {
@@ -97,7 +115,9 @@ test.describe.serial("owner → moderation → buyer", () => {
   })
 
   test("admin approves, listing becomes public and searchable", async ({ page, browser }) => {
-    const anon = await browser.newPage()
+    const anonContext = await browser.newContext()
+    await rememberConsent(anonContext)
+    const anon = await anonContext.newPage()
     await anon.goto("/spain/valencia/homes-for-sale")
     await expect(anon.getByText(title)).toHaveCount(0)
 
@@ -109,13 +129,13 @@ test.describe.serial("owner → moderation → buyer", () => {
     await expect(page.getByText(title)).toHaveCount(0)
 
     await anon.goto("/spain/valencia/homes-for-sale")
-    await expect(anon.getByRole("link", { name: title })).toBeVisible()
-    await anon.close()
+    await expect(anon.getByRole("link", { name: title, exact: true })).toBeVisible()
+    await anonContext.close()
   })
 
   test("buyer reveals phone and messages the owner", async ({ page }) => {
     await page.goto("/spain/valencia/homes-for-sale")
-    await page.getByRole("link", { name: title }).click()
+    await page.getByRole("link", { name: title, exact: true }).click()
     await expect(page.getByRole("heading", { level: 1, name: title })).toBeVisible()
     expect(await page.content()).not.toContain("611 222 333")
 
@@ -159,4 +179,21 @@ test("protected pages redirect to login and non-admins get 404 on /admin", async
   await login(page, "new@evalorio.test", "Evalorio2026")
   const res = await page.goto("/admin")
   expect(res?.status()).toBe(404)
+})
+
+test("cookie banner: nothing optional before a choice, reject is one click, choice can be changed", async ({ page, context }) => {
+  await page.goto("/")
+  const banner = page.getByRole("dialog", { name: "Your privacy choices" })
+  await expect(banner).toBeVisible()
+  expect((await context.cookies()).map((c) => c.name)).not.toContain("evalorio_consent")
+
+  await banner.getByRole("button", { name: "Reject all" }).click()
+  await expect(banner).toHaveCount(0)
+  const stored = (await context.cookies()).find((c) => c.name === "evalorio_consent")
+  expect(JSON.parse(decodeURIComponent(stored!.value)).categories.analytics).toBe(false)
+
+  await page.reload()
+  await expect(page.getByRole("dialog", { name: "Your privacy choices" })).toHaveCount(0)
+  await page.getByRole("button", { name: "Cookie settings" }).last().click()
+  await expect(page.getByRole("dialog", { name: "Cookie settings" })).toBeVisible()
 })

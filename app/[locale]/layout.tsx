@@ -2,6 +2,8 @@ import { notFound } from "next/navigation"
 import { hasLocale, NextIntlClientProvider } from "next-intl"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 import { Toaster } from "sonner"
+import { ConsentProvider } from "@/components/consent/consent-provider"
+import { ConsentBanner, ConsentedScripts, ConsentSettingsDialog } from "@/components/consent/consent-ui"
 import { FavoritesProvider } from "@/components/listings/favorites-provider"
 import { SiteFooter } from "@/components/layout/site-footer"
 import { SiteHeader } from "@/components/layout/site-header"
@@ -30,6 +32,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
 
   return (
     <NextIntlClientProvider>
+      <ConsentProvider>
       <FavoritesProvider>
       <a
         href="#main"
@@ -45,7 +48,11 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         <SiteFooter />
       </div>
       <Toaster position="bottom-center" richColors closeButton />
+      <ConsentBanner />
+      <ConsentSettingsDialog />
+      <ConsentedScripts />
       </FavoritesProvider>
+      </ConsentProvider>
     </NextIntlClientProvider>
   )
 }

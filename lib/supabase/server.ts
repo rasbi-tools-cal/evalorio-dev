@@ -3,13 +3,14 @@ import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
 import { cache } from "react"
 import type { Database } from "@/lib/database.types"
-import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/env"
+import { AUTH_COOKIE_NAME, SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/env"
 
 /** Per-request client acting as the signed-in user (RLS applies). */
 export async function createClient() {
   const cookieStore = await cookies()
 
   return createServerClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    cookieOptions: { name: AUTH_COOKIE_NAME },
     cookies: {
       getAll() {
         return cookieStore.getAll()

@@ -13,7 +13,8 @@ const mapTileOrigins = (process.env.NEXT_PUBLIC_MAP_TILE_ORIGINS || "https://til
 
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com${isDev ? " 'unsafe-eval'" : ""}`,
+  // Vercel Analytics loads its debug script from va.vercel-scripts.com in development only.
+  `script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com${isDev ? " 'unsafe-eval' https://va.vercel-scripts.com" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   `img-src 'self' data: blob: ${supabaseUrl.origin} ${mapTileOrigins}`,
   "font-src 'self'",
@@ -30,6 +31,8 @@ const contentSecurityPolicy = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   poweredByHeader: false,
+  // Legal pages read content/legal/<locale>/*.md at runtime.
+  outputFileTracingIncludes: { "/[locale]/**": ["./content/legal/**/*.md"] },
   reactStrictMode: true,
   images: {
     remotePatterns: [

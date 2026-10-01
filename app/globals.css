@@ -177,3 +177,26 @@
 .prose-evalorio strong {
   @apply text-foreground;
 }
+
+/* Tables inside legal pages (scroll horizontally on phones instead of overflowing). */
+.legal-table {
+  @apply my-4 overflow-x-auto rounded-lg border;
+}
+.legal-table table {
+  @apply w-full min-w-[640px] border-collapse text-left text-[13px];
+}
+.legal-table th {
+  @apply bg-surface text-foreground border-b px-3 py-2 font-semibold;
+}
+.legal-table td {
+  @apply border-b px-3 py-2 align-top;
+}
+.legal-table tr:last-child td {
+  @apply border-b-0;
+}
+.prose-evalorio h3 {
+  @apply text-foreground mt-6 text-lg font-semibold;
+}
+.prose-evalorio code {
+  @apply text-foreground text-xs;
+}

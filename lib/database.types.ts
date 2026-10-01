@@ -30,6 +30,31 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"consent_records": {
+                  Row: {
+                    "action": string,"categories": NonNullable<Json>,"consent_id": string,"created_at": string,"id": number,"ip_hash": string | null,"policy_version": string,"user_id": string | null
+                  }
+                  Insert: {
+                    "action": string,"categories": NonNullable<Json>,"consent_id": string,"created_at"?: string,"id"?: never,"ip_hash"?: string | null,"policy_version": string,"user_id"?: string | null
+                  }
+                  Update: {
+                    "action"?: string,"categories"?: NonNullable<Json>,"consent_id"?: string,"created_at"?: string,"id"?: never,"ip_hash"?: string | null,"policy_version"?: string,"user_id"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "consent_records_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "consent_records_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "public_profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"countries": {
                   Row: {
                     "code": string,"name": string
@@ -310,6 +335,31 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"privacy_requests": {
+                  Row: {
+                    "admin_note": string | null,"created_at": string,"details": string | null,"due_at": string,"email": string,"id": string,"ip_hash": string | null,"locale": string,"name": string | null,"reference": string,"resolved_at": string | null,"status": Database["public"]['Enums']["privacy_request_status"],"type": Database["public"]['Enums']["privacy_request_type"],"updated_at": string,"user_id": string | null
+                  }
+                  Insert: {
+                    "admin_note"?: string | null,"created_at"?: string,"details"?: string | null,"due_at"?: string,"email": string,"id"?: string,"ip_hash"?: string | null,"locale"?: string,"name"?: string | null,"reference"?: string,"resolved_at"?: string | null,"status"?: Database["public"]['Enums']["privacy_request_status"],"type": Database["public"]['Enums']["privacy_request_type"],"updated_at"?: string,"user_id"?: string | null
+                  }
+                  Update: {
+                    "admin_note"?: string | null,"created_at"?: string,"details"?: string | null,"due_at"?: string,"email"?: string,"id"?: string,"ip_hash"?: string | null,"locale"?: string,"name"?: string | null,"reference"?: string,"resolved_at"?: string | null,"status"?: Database["public"]['Enums']["privacy_request_status"],"type"?: Database["public"]['Enums']["privacy_request_type"],"updated_at"?: string,"user_id"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "privacy_requests_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "privacy_requests_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "public_profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"profiles": {
                   Row: {
                     "created_at": string,"display_name": string | null,"id": string,"is_banned": boolean,"is_trusted": boolean,"locale": string,"phone": string | null,"role": Database["public"]['Enums']["user_role"],"updated_at": string
@@ -357,13 +407,13 @@ isOneToOne: false
                   ]
                 },"reports": {
                   Row: {
-                    "created_at": string,"details": string | null,"id": string,"ip_hash": string | null,"listing_id": number,"reason": Database["public"]['Enums']["report_reason"],"reporter_email": string | null,"reporter_id": string | null,"resolved_at": string | null,"resolved_by": string | null,"status": Database["public"]['Enums']["report_status"]
+                    "created_at": string,"details": string | null,"id": string,"ip_hash": string | null,"listing_id": number,"locale": string,"reason": Database["public"]['Enums']["report_reason"],"reporter_email": string | null,"reporter_id": string | null,"resolved_at": string | null,"resolved_by": string | null,"status": Database["public"]['Enums']["report_status"]
                   }
                   Insert: {
-                    "created_at"?: string,"details"?: string | null,"id"?: string,"ip_hash"?: string | null,"listing_id": number,"reason": Database["public"]['Enums']["report_reason"],"reporter_email"?: string | null,"reporter_id"?: string | null,"resolved_at"?: string | null,"resolved_by"?: string | null,"status"?: Database["public"]['Enums']["report_status"]
+                    "created_at"?: string,"details"?: string | null,"id"?: string,"ip_hash"?: string | null,"listing_id": number,"locale"?: string,"reason": Database["public"]['Enums']["report_reason"],"reporter_email"?: string | null,"reporter_id"?: string | null,"resolved_at"?: string | null,"resolved_by"?: string | null,"status"?: Database["public"]['Enums']["report_status"]
                   }
                   Update: {
-                    "created_at"?: string,"details"?: string | null,"id"?: string,"ip_hash"?: string | null,"listing_id"?: number,"reason"?: Database["public"]['Enums']["report_reason"],"reporter_email"?: string | null,"reporter_id"?: string | null,"resolved_at"?: string | null,"resolved_by"?: string | null,"status"?: Database["public"]['Enums']["report_status"]
+                    "created_at"?: string,"details"?: string | null,"id"?: string,"ip_hash"?: string | null,"listing_id"?: number,"locale"?: string,"reason"?: Database["public"]['Enums']["report_reason"],"reporter_email"?: string | null,"reporter_id"?: string | null,"resolved_at"?: string | null,"resolved_by"?: string | null,"status"?: Database["public"]['Enums']["report_status"]
                   }
                   Relationships: [
                     {
@@ -459,6 +509,9 @@ isOneToOne: false
 "fuzz_location":
 { Args: { "exact": unknown,"seed": string }; Returns: unknown
                            },
+"gdpr_retention":
+{ Args: Record<PropertyKey, never>; Returns: Json
+                           },
 "get_city":
 { Args: { "p_id": number }; Returns: {
               "country_code": string,"id": number,"lat": number,"lng": number,"name": string,"region": string,"slug": string
@@ -534,10 +587,13 @@ isOneToOne: false
                            },
 "slugify":
 { Args: { "value": string }; Returns: string
+                           },
+"update_privacy_request":
+{ Args: { "p_id": string,"p_note"?: string,"p_status": Database["public"]['Enums']["privacy_request_status"] }; Returns: undefined
                            }
           }
           Enums: {
-            "alert_frequency": "instant"|"daily"|"weekly","listing_operation": "sale"|"rent","listing_status": "draft"|"pending"|"active"|"paused"|"closed"|"rejected"|"expired"|"removed","property_type": "apartment"|"penthouse"|"duplex"|"studio"|"house"|"villa"|"country_house"|"room"|"land"|"commercial"|"office"|"garage","report_reason": "scam"|"wrong_info"|"already_sold"|"duplicate"|"offensive"|"agency_posing_as_owner"|"other","report_status": "open"|"resolved"|"dismissed","user_role": "user"|"agency"|"admin"
+            "alert_frequency": "instant"|"daily"|"weekly","listing_operation": "sale"|"rent","listing_status": "draft"|"pending"|"active"|"paused"|"closed"|"rejected"|"expired"|"removed","privacy_request_status": "received"|"verifying"|"in_progress"|"completed"|"rejected","privacy_request_type": "access"|"rectification"|"erasure"|"restriction"|"portability"|"objection"|"withdraw_consent"|"other","property_type": "apartment"|"penthouse"|"duplex"|"studio"|"house"|"villa"|"country_house"|"room"|"land"|"commercial"|"office"|"garage","report_reason": "scam"|"wrong_info"|"already_sold"|"duplicate"|"offensive"|"agency_posing_as_owner"|"other","report_status": "open"|"resolved"|"dismissed","user_role": "user"|"agency"|"admin"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -653,7 +709,7 @@ export type CompositeTypes<
 export const Constants = {
   "public": {
           Enums: {
-            "alert_frequency": ["instant", "daily", "weekly"],"listing_operation": ["sale", "rent"],"listing_status": ["draft", "pending", "active", "paused", "closed", "rejected", "expired", "removed"],"property_type": ["apartment", "penthouse", "duplex", "studio", "house", "villa", "country_house", "room", "land", "commercial", "office", "garage"],"report_reason": ["scam", "wrong_info", "already_sold", "duplicate", "offensive", "agency_posing_as_owner", "other"],"report_status": ["open", "resolved", "dismissed"],"user_role": ["user", "agency", "admin"]
+            "alert_frequency": ["instant", "daily", "weekly"],"listing_operation": ["sale", "rent"],"listing_status": ["draft", "pending", "active", "paused", "closed", "rejected", "expired", "removed"],"privacy_request_status": ["received", "verifying", "in_progress", "completed", "rejected"],"privacy_request_type": ["access", "rectification", "erasure", "restriction", "portability", "objection", "withdraw_consent", "other"],"property_type": ["apartment", "penthouse", "duplex", "studio", "house", "villa", "country_house", "room", "land", "commercial", "office", "garage"],"report_reason": ["scam", "wrong_info", "already_sold", "duplicate", "offensive", "agency_posing_as_owner", "other"],"report_status": ["open", "resolved", "dismissed"],"user_role": ["user", "agency", "admin"]
           }
         }
 } as const

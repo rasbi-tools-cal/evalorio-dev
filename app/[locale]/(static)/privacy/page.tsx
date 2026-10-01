@@ -1,22 +1,14 @@
 import type { Metadata } from "next"
-import { StaticPage } from "@/components/static/static-page"
+import { LegalDocument, legalMetadata } from "@/components/legal/legal-document"
 import { pageLocale } from "@/i18n/locale"
-import { STATIC_CONTENT } from "@/lib/static-content"
-import { absoluteUrl } from "@/lib/urls"
-
-const page = STATIC_CONTENT["privacy"]
+import { localizedAlternates } from "@/lib/seo"
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/privacy">): Promise<Metadata> {
-  await pageLocale(params)
-  // Content exists in English only for now: every language version points to it as canonical.
-  return { title: page.title, description: page.description, alternates: { canonical: absoluteUrl("en", "/privacy") } }
+  const locale = await pageLocale(params)
+  return { ...(await legalMetadata(locale, "privacy")), alternates: localizedAlternates(locale, () => "/privacy") }
 }
 
 export default async function Page({ params }: PageProps<"/[locale]/privacy">) {
-  await pageLocale(params)
-  return (
-    <StaticPage title={page.title} updated={page.updated}>
-      {page.body}
-    </StaticPage>
-  )
+  const locale = await pageLocale(params)
+  return <LegalDocument locale={locale} page="privacy" />
 }

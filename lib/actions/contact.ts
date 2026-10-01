@@ -1,5 +1,6 @@
 "use server"
 
+import { getLocale } from "next-intl/server"
 import { z } from "zod"
 import { REPORT_REASONS } from "@/lib/catalog"
 import { notifyOwnerOfMessage } from "@/lib/notifications"
@@ -118,6 +119,7 @@ export async function reportListing(input: z.infer<typeof reportSchema>): Promis
     reason: parsed.data.reason,
     details: parsed.data.details || null,
     ip_hash: ip,
+    locale: await getLocale(),
   })
   return error ? { ok: false, error: "generic" } : { ok: true }
 }

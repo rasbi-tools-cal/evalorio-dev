@@ -10,6 +10,8 @@ export const routing = defineRouting({
   localePrefix: "as-needed",
   // Never auto-redirect by Accept-Language: crawlers and shared links must always get the URL they asked for.
   localeDetection: false,
+  // No NEXT_LOCALE cookie: the language comes from the URL only (nothing stored without need).
+  localeCookie: false,
   // hreflang alternates are emitted per page (localized slugs differ), see lib/seo/metadata.ts.
   alternateLinks: false,
 })

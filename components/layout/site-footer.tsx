@@ -1,4 +1,5 @@
 import { getLocale, getTranslations } from "next-intl/server"
+import { CookieSettingsButton } from "@/components/consent/consent-ui"
 import { Logo } from "@/components/brand/logo"
 import { Link } from "@/i18n/navigation"
 import type { Locale } from "@/i18n/routing"
@@ -60,6 +61,13 @@ export async function SiteFooter() {
             </Link>
             <Link href="/cookies" className={linkClass}>
               {t("cookies")}
+            </Link>
+            <CookieSettingsButton className={linkClass} />
+            <Link href="/legal-notice" className={linkClass}>
+              {t("legalNotice")}
+            </Link>
+            <Link href="/privacy/request" className={linkClass}>
+              {t("privacyRequest")}
             </Link>
           </nav>
         </div>

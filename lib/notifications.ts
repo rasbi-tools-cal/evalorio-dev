@@ -2,6 +2,7 @@ import "server-only"
 import { getTranslations } from "next-intl/server"
 import type { Locale } from "@/i18n/routing"
 import { emailButton, emailLayout, escapeHtml, sendEmail } from "@/lib/email"
+import { COMPANY } from "@/lib/legal/company"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { absoluteUrl, listingPath } from "@/lib/urls"
 
@@ -67,7 +68,8 @@ export async function notifyOwnerOfMessage(opts: {
   })
 }
 
-export async function notifyOwnerOfModeration(listingId: number, action: "approve" | "reject", reason?: string | null) {
+/** Approval, or a statement of reasons for a rejection / removal (DSA Art. 17). */
+export async function notifyOwnerOfModeration(listingId: number, action: "approve" | "reject" | "remove", reason?: string | null) {
   const listing = await listingLabel(listingId)
   if (!listing) return
   const owner = await userContact(listing.owner_id)
@@ -75,14 +77,52 @@ export async function notifyOwnerOfModeration(listingId: number, action: "approv
   const t = await getTranslations({ locale: owner.locale, namespace: "notifications" })
   const approved = action === "approve"
   const link = approved ? absoluteUrl(owner.locale, listingPath(listing.id, listing.title)) : absoluteUrl(owner.locale, "/account/listings")
-  const text = approved
-    ? t("listingApprovedText", { listing: listing.label })
-    : t("listingRejectedText", { listing: listing.label, reason: reason || "-" })
+  const paragraphs = approved
+    ? [t("listingApprovedText", { listing: listing.label })]
+    : [
+        action === "remove"
+          ? t("listingRemovedText", { listing: listing.label, reason: reason || "-" })
+          : t("listingRejectedText", { listing: listing.label, reason: reason || "-" }),
+        t("decisionByPerson"),
+        t("howToAppeal", { email: COMPANY.supportEmail }),
+      ]
 
   await sendEmail({
     to: owner.email,
-    subject: approved ? t("listingApprovedSubject") : t("listingRejectedSubject"),
-    text: `${text}\n\n${link}`,
-    html: emailLayout(`<p>${escapeHtml(text)}</p><p>${emailButton(link, "Evalorio")}</p>`),
+    subject: approved ? t("listingApprovedSubject") : action === "remove" ? t("listingRemovedSubject") : t("listingRejectedSubject"),
+    text: `${paragraphs.join("\n\n")}\n\n${link}`,
+    html: emailLayout(`${paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join("")}<p>${emailButton(link, "Evalorio")}</p>`),
+  })
+}
+
+/** Statement of reasons when an account is suspended (DSA Art. 17). */
+export async function notifyUserOfSuspension(userId: string, reason?: string | null) {
+  const user = await userContact(userId)
+  if (!user.email) return
+  const t = await getTranslations({ locale: user.locale, namespace: "notifications" })
+  const paragraphs = [t("accountSuspendedText", { reason: reason || "-" }), t("decisionByPerson"), t("howToAppeal", { email: COMPANY.supportEmail })]
+  await sendEmail({
+    to: user.email,
+    subject: t("accountSuspendedSubject"),
+    text: paragraphs.join("\n\n"),
+    html: emailLayout(paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join("")),
+  })
+}
+
+/** Tells the person who reported a listing what we decided (DSA Art. 16(5)). */
+export async function notifyReporterOfOutcome(reportId: string) {
+  const { data: report } = await createAdminClient()
+    .from("reports")
+    .select("listing_id, reporter_email, locale, status")
+    .eq("id", reportId)
+    .single()
+  if (!report?.reporter_email || (report.status !== "resolved" && report.status !== "dismissed")) return
+  const t = await getTranslations({ locale: report.locale as Locale, namespace: "notifications" })
+  const text = t(report.status === "resolved" ? "reportResolvedText" : "reportDismissedText", { listing: `#${report.listing_id}` })
+  await sendEmail({
+    to: report.reporter_email,
+    subject: t("reportOutcomeSubject"),
+    text,
+    html: emailLayout(`<p>${escapeHtml(text)}</p>`),
   })
 }

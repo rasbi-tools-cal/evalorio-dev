@@ -22,6 +22,7 @@ export default async function AdminLayout({ children, params }: LayoutProps<"/[l
           { href: "/admin", label: t("queue") },
           { href: "/admin/reports", label: t("reports") },
           { href: "/admin/users", label: t("users") },
+          { href: "/admin/privacy", label: t("privacy") },
           { href: "/admin/log", label: t("log") },
         ]}
       />

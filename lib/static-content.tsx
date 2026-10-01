@@ -1,10 +1,9 @@
 /**
- * Static page content (English). Legal texts are a starting template and MUST be reviewed by a
- * lawyer and completed with the company's legal details (marked with [brackets]) before launch.
+ * Static page content (English). Legal pages live in content/legal/<locale>/*.md.
  */
 import { Link } from "@/i18n/navigation"
 
-export const STATIC_PAGES = ["about", "how-it-works", "contact", "terms", "privacy", "cookies"] as const
+export const STATIC_PAGES = ["about", "how-it-works", "contact"] as const
 export type StaticSlug = (typeof STATIC_PAGES)[number]
 
 export const STATIC_CONTENT: Record<StaticSlug, { title: string; description: string; updated?: string; body: React.ReactNode }> = {
@@ -83,99 +82,6 @@ export const STATIC_CONTENT: Record<StaticSlug, { title: string; description: st
           For privacy requests (access, correction, deletion), write to <a href="mailto:privacy@evalorio.com">privacy@evalorio.com</a>.
           You can also download or delete your data yourself from your account settings.
         </p>
-      </>
-    ),
-  },
-  terms: {
-    title: "Terms of use",
-    description: "The rules for using Evalorio.",
-    updated: "Draft — to be reviewed before launch",
-    body: (
-      <>
-        <p>
-          These terms govern the use of evalorio.com, operated by [Company legal name], [registered address], [registration number]
-          (“Evalorio”, “we”).
-        </p>
-        <h2>1. The service</h2>
-        <p>
-          Evalorio lets private owners publish property listings for sale or rent and lets visitors search listings and contact
-          owners. Evalorio is not a party to any transaction between users and does not act as a real estate agent.
-        </p>
-        <h2>2. Accounts</h2>
-        <p>You must provide accurate information, keep your password secure and be at least 18 years old.</p>
-        <h2>3. Listings</h2>
-        <ul>
-          <li>You may only publish properties you own or are authorised to market.</li>
-          <li>Listings must be truthful: real photos, correct price, size and location.</li>
-          <li>No duplicate listings, no contact details or links in text fields, no discriminatory or offensive content.</li>
-          <li>We may review, reject, suspend or remove listings and accounts that break these rules.</li>
-        </ul>
-        <h2>4. Contact between users</h2>
-        <p>
-          Messages and phone numbers are shared only to discuss the listed property. Using them for spam or marketing is forbidden.
-          Never send money before visiting a property and verifying the owner.
-        </p>
-        <h2>5. Liability</h2>
-        <p>
-          Listings are published by users. We moderate content but cannot guarantee its accuracy. To the extent permitted by law, we
-          are not liable for agreements between users.
-        </p>
-        <h2>6. Changes and law</h2>
-        <p>We may update these terms and will notify registered users of material changes. [Governing law and jurisdiction].</p>
-      </>
-    ),
-  },
-  privacy: {
-    title: "Privacy policy",
-    description: "How Evalorio collects and uses personal data.",
-    updated: "Draft — to be reviewed before launch",
-    body: (
-      <>
-        <p>Controller: [Company legal name], [address]. Contact: privacy@evalorio.com.</p>
-        <h2>Data we process</h2>
-        <ul>
-          <li>Account: email, name, password (hashed), language, optional phone number.</li>
-          <li>Listings: property details, photos (location metadata is removed on upload), exact address and position (private).</li>
-          <li>Messages you send to owners: name, email, optional phone and message text.</li>
-          <li>Security: salted hashes of IP addresses for rate limiting and abuse prevention; anti-bot checks by Cloudflare Turnstile.</li>
-        </ul>
-        <h2>Why and legal basis</h2>
-        <ul>
-          <li>Providing the service you signed up for (contract).</li>
-          <li>Preventing fraud, spam and abuse (legitimate interest).</li>
-          <li>Search alerts by email, only if you create them (consent; unsubscribe anytime).</li>
-        </ul>
-        <h2>Sharing</h2>
-        <p>
-          When you contact an owner, we share your name, email and optional phone with them. Processors: hosting and database
-          [providers and regions], email delivery [provider], Cloudflare Turnstile. We do not sell personal data.
-        </p>
-        <h2>Retention</h2>
-        <p>Account data is kept while your account exists. Deleted accounts are erased with their listings, photos and messages.</p>
-        <h2>Your rights</h2>
-        <p>
-          Access, rectification, erasure, portability, objection and complaint to your data protection authority. Download or delete
-          your data from Account → Settings, or write to privacy@evalorio.com.
-        </p>
-      </>
-    ),
-  },
-  cookies: {
-    title: "Cookie policy",
-    description: "Which cookies Evalorio uses.",
-    body: (
-      <>
-        <p>Evalorio only uses cookies that are strictly necessary for the site to work. We do not use advertising or tracking cookies.</p>
-        <ul>
-          <li>
-            <strong>Authentication (sb-*)</strong>: keeps you logged in. Set by our authentication provider, deleted when you log out.
-          </li>
-          <li>
-            <strong>Cloudflare Turnstile</strong>: may process technical signals to tell humans from bots on forms (login, sign-up,
-            contact).
-          </li>
-        </ul>
-        <p>Because these are strictly necessary, no consent banner is required. If we ever add optional cookies, we will ask first.</p>
       </>
     ),
   },
