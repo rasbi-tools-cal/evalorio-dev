@@ -30,7 +30,7 @@ function dbError(error: { message: string; code?: string } | null) {
   if (!error) return null
   const m = error.message.toLowerCase()
   if (m.includes("at least one photo")) return fail("photos")
-  if (m.includes("at most 20")) return fail("photoLimit")
+  if (m.includes("can have at most")) return fail("photoLimit")
   if (m.includes("too far")) return fail("location", "location")
   if (m.includes("suspended")) return fail("banned")
   if (m.includes("listings_complete")) return fail("incomplete")

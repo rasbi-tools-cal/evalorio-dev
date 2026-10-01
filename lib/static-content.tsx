@@ -43,7 +43,7 @@ export const STATIC_CONTENT: Record<StaticSlug, { title: string; description: st
             <strong>Describe your property</strong>: type, location on the map, size, rooms and price. You can save and finish later.
           </li>
           <li>
-            <strong>Add up to 20 photos.</strong> The first photo is the cover. Location data inside photos is removed automatically.
+            <strong>Add up to 12 photos.</strong> The first photo is the cover. Location data inside photos is removed automatically.
           </li>
           <li>
             <strong>Publish.</strong> Your first listing is reviewed by our team, usually within a few hours. After that, your listings

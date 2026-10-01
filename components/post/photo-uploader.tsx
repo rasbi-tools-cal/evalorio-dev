@@ -16,7 +16,7 @@ export interface UploadedPhoto {
   storage_path: string
 }
 
-const MAX_PHOTOS = 20
+const MAX_PHOTOS = 12
 
 export function PhotoUploader({
   listingId,

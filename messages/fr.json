@@ -165,7 +165,7 @@
     "valueAlertsTitle": "Ne ratez aucun bien",
     "valueAlertsText": "Enregistrez vos recherches et recevez un email dès qu'un bien correspondant est publié.",
     "ctaTitle": "Vous vendez ou louez un bien ?",
-    "ctaText": "Créez votre annonce en quelques minutes. Jusqu'à 20 photos, gratuitement.",
+    "ctaText": "Créez votre annonce en quelques minutes. Jusqu'à 12 photos, gratuitement.",
     "ctaButton": "Publier votre bien"
   },
   "searchBar": {
@@ -384,11 +384,11 @@
     "descriptionPlaceholder": "Qu'est-ce qui le rend unique ? Luminosité, vue, travaux, transports, écoles…",
     "descriptionHelp": "{count}/5000 caractères. N'indiquez ni téléphone ni lien : on vous contacte via Evalorio.",
     "photosTitle": "Ajoutez des photos",
-    "photosHelp": "Jusqu'à 20 photos. JPG, PNG ou WebP. La première photo sert de couverture. Les données de localisation sont supprimées automatiquement.",
+    "photosHelp": "Jusqu'à 12 photos. JPG, PNG ou WebP. La première photo sert de couverture. Les données de localisation sont supprimées automatiquement.",
     "addPhotos": "Ajouter des photos",
     "dropPhotos": "Déposez les photos ici ou touchez pour choisir",
     "uploading": "Envoi {done}/{total}…",
-    "photoLimit": "Vous pouvez ajouter jusqu'à 20 photos.",
+    "photoLimit": "Vous pouvez ajouter jusqu'à 12 photos.",
     "photoTooBig": "{name} est trop lourde ou n'est pas une image compatible.",
     "makeCover": "Mettre en couverture",
     "moveLeft": "Déplacer à gauche",

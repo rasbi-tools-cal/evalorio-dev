@@ -1,8 +1,8 @@
 /**
- * Client-side photo preparation: decode, downscale to max 2048 px, re-encode (WebP, JPEG fallback).
+ * Client-side photo preparation: decode, downscale to max 1600 px, re-encode (WebP, JPEG fallback).
  * Re-encoding through a canvas drops all EXIF metadata, including GPS coordinates.
  */
-const MAX_SIDE = 2048
+const MAX_SIDE = 1600
 const MAX_INPUT_BYTES = 30 * 1024 * 1024
 const ACCEPTED = /^image\/(jpeg|png|webp|heic|heif|avif)$/
 
@@ -56,9 +56,9 @@ export async function preparePhoto(file: File): Promise<PreparedPhoto> {
   ctx.drawImage(source, 0, 0, width, height)
   if ("close" in source) source.close()
 
-  const webp = await toBlob(canvas, "image/webp", 0.82)
+  const webp = await toBlob(canvas, "image/webp", 0.75)
   if (webp && webp.type === "image/webp") return { blob: webp, ext: "webp", width, height }
-  const jpeg = await toBlob(canvas, "image/jpeg", 0.85)
+  const jpeg = await toBlob(canvas, "image/jpeg", 0.78)
   if (!jpeg) throw new Error("unsupported")
   return { blob: jpeg, ext: "jpg", width, height }
 }

@@ -165,7 +165,7 @@
     "valueAlertsTitle": "Never miss a home",
     "valueAlertsText": "Save your searches and get an email when a matching home is published.",
     "ctaTitle": "Selling or renting out a property?",
-    "ctaText": "Create your listing in a few minutes. Up to 20 photos, free.",
+    "ctaText": "Create your listing in a few minutes. Up to 12 photos, free.",
     "ctaButton": "List your property"
   },
   "searchBar": {
@@ -384,11 +384,11 @@
     "descriptionPlaceholder": "What makes it special? Light, views, renovations, transport, schools…",
     "descriptionHelp": "{count}/5000 characters. Don't include phone numbers or links — buyers contact you through Evalorio.",
     "photosTitle": "Add photos",
-    "photosHelp": "Up to 20 photos. JPG, PNG or WebP. The first photo is the cover. Location data is removed automatically.",
+    "photosHelp": "Up to 12 photos. JPG, PNG or WebP. The first photo is the cover. Location data is removed automatically.",
     "addPhotos": "Add photos",
     "dropPhotos": "Drop photos here or tap to choose",
     "uploading": "Uploading {done}/{total}…",
-    "photoLimit": "You can add up to 20 photos.",
+    "photoLimit": "You can add up to 12 photos.",
     "photoTooBig": "{name} is too large or not a supported image.",
     "makeCover": "Make cover",
     "moveLeft": "Move left",

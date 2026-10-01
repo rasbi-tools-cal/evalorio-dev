@@ -171,7 +171,7 @@
     "valueAlertsTitle": "Não perca nenhuma casa",
     "valueAlertsText": "Guarde as suas pesquisas e receba um email quando for publicada uma casa que lhe interesse.",
     "ctaTitle": "Vende ou arrenda um imóvel?",
-    "ctaText": "Crie o seu anúncio em poucos minutos. Até 20 fotos, grátis.",
+    "ctaText": "Crie o seu anúncio em poucos minutos. Até 12 fotos, grátis.",
     "ctaButton": "Anuncie o seu imóvel"
   },
   "searchBar": {
@@ -390,11 +390,11 @@
     "descriptionPlaceholder": "O que o torna especial? Luz, vistas, obras, transportes, escolas…",
     "descriptionHelp": "{count}/5000 caracteres. Não inclua telefones nem links — contactam-no através do Evalorio.",
     "photosTitle": "Adicione fotos",
-    "photosHelp": "Até 20 fotos. JPG, PNG ou WebP. A primeira foto é a capa. Os dados de localização são removidos automaticamente.",
+    "photosHelp": "Até 12 fotos. JPG, PNG ou WebP. A primeira foto é a capa. Os dados de localização são removidos automaticamente.",
     "addPhotos": "Adicionar fotos",
     "dropPhotos": "Arraste as fotos para aqui ou toque para escolher",
     "uploading": "A carregar {done}/{total}…",
-    "photoLimit": "Pode adicionar até 20 fotos.",
+    "photoLimit": "Pode adicionar até 12 fotos.",
     "photoTooBig": "{name} é demasiado grande ou não é uma imagem suportada.",
     "makeCover": "Definir como capa",
     "moveLeft": "Mover para a esquerda",

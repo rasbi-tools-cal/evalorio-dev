@@ -165,7 +165,7 @@
     "valueAlertsTitle": "No te pierdas nada",
     "valueAlertsText": "Guarda tus búsquedas y recibe un email cuando se publique una vivienda que encaje.",
     "ctaTitle": "¿Vendes o alquilas un inmueble?",
-    "ctaText": "Crea tu anuncio en pocos minutos. Hasta 20 fotos, gratis.",
+    "ctaText": "Crea tu anuncio en pocos minutos. Hasta 12 fotos, gratis.",
     "ctaButton": "Publica tu inmueble"
   },
   "searchBar": {
@@ -384,11 +384,11 @@
     "descriptionPlaceholder": "¿Qué lo hace especial? Luz, vistas, reformas, transporte, colegios…",
     "descriptionHelp": "{count}/5000 caracteres. No incluyas teléfonos ni enlaces: te contactarán a través de Evalorio.",
     "photosTitle": "Añade fotos",
-    "photosHelp": "Hasta 20 fotos. JPG, PNG o WebP. La primera foto es la portada. Los datos de ubicación se eliminan automáticamente.",
+    "photosHelp": "Hasta 12 fotos. JPG, PNG o WebP. La primera foto es la portada. Los datos de ubicación se eliminan automáticamente.",
     "addPhotos": "Añadir fotos",
     "dropPhotos": "Arrastra las fotos aquí o toca para elegirlas",
     "uploading": "Subiendo {done}/{total}…",
-    "photoLimit": "Puedes añadir hasta 20 fotos.",
+    "photoLimit": "Puedes añadir hasta 12 fotos.",
     "photoTooBig": "{name} es demasiado grande o no es una imagen compatible.",
     "makeCover": "Poner de portada",
     "moveLeft": "Mover a la izquierda",
