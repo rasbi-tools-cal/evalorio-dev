@@ -584,7 +584,10 @@
     "howToAppeal": "Si vous pensez que nous nous sommes trompés, répondez à cet email ou écrivez à {email} dans un délai de six mois : une personne réexaminera la décision. Vous pouvez aussi saisir un organisme certifié de règlement extrajudiciaire des litiges ou les tribunaux.",
     "reportOutcomeSubject": "Suite donnée à votre signalement",
     "reportResolvedText": "Merci pour votre signalement de l'annonce {listing}. Nous l'avons examinée et avons agi : l'annonce a été retirée ou corrigée.",
-    "reportDismissedText": "Merci pour votre signalement de l'annonce {listing}. Après examen, elle n'enfreint ni nos règles ni la loi et reste en ligne. Si vous avez d'autres informations, répondez à cet email."
+    "reportDismissedText": "Merci pour votre signalement de l'annonce {listing}. Après examen, elle n'enfreint ni nos règles ni la loi et reste en ligne. Si vous avez d'autres informations, répondez à cet email.",
+    "openMessages": "Voir les messages",
+    "viewListing": "Voir l'annonce",
+    "openMyListings": "Ouvrir mes annonces"
   },
   "errors": {
     "notFoundTitle": "Page introuvable",

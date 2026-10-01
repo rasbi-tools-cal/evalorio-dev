@@ -33,7 +33,7 @@ export async function notifyAdminsOfPendingListing(listingId: number) {
       to: email,
       subject: `[Evalorio] Listing #${listingId} waiting for review`,
       text: `"${listing.label}" was submitted and is waiting for review: ${link}`,
-      html: emailLayout(`<p>"${escapeHtml(listing.label)}" was submitted and is waiting for review.</p><p>${emailButton(link, "Open moderation queue")}</p>`),
+      html: emailLayout(`<p>"${escapeHtml(listing.label)}" was submitted and is waiting for review.</p>${emailButton(link, "Open moderation queue")}`),
     })
   }
 }
@@ -60,10 +60,10 @@ export async function notifyOwnerOfMessage(opts: {
     text: `${t("newMessageIntro", { name: opts.senderName })}\n\n${opts.body}\n\n${opts.senderName} <${opts.senderEmail}>${phoneLine}\n\n${t("replyHint", { name: opts.senderName })}\n${link}`,
     html: emailLayout(
       `<p>${escapeHtml(t("newMessageIntro", { name: opts.senderName }))}</p>
-       <blockquote style="margin:16px 0;padding:12px 16px;background:#eff4ff;border-radius:8px;white-space:pre-wrap">${escapeHtml(opts.body)}</blockquote>
+       <blockquote style="margin:16px 0;padding:14px 16px;background:#f3f6f4;border-left:3px solid #006948;border-radius:8px;color:#0b1c30;white-space:pre-wrap">${escapeHtml(opts.body)}</blockquote>
        <p><strong>${escapeHtml(opts.senderName)}</strong> · ${escapeHtml(opts.senderEmail)}${opts.senderPhone ? ` · ${escapeHtml(opts.senderPhone)}` : ""}</p>
        <p style="color:#565e74">${escapeHtml(t("replyHint", { name: opts.senderName }))}</p>
-       <p>${emailButton(link, "Evalorio")}</p>`,
+       ${emailButton(link, t("openMessages"))}`,
     ),
   })
 }
@@ -91,7 +91,7 @@ export async function notifyOwnerOfModeration(listingId: number, action: "approv
     to: owner.email,
     subject: approved ? t("listingApprovedSubject") : action === "remove" ? t("listingRemovedSubject") : t("listingRejectedSubject"),
     text: `${paragraphs.join("\n\n")}\n\n${link}`,
-    html: emailLayout(`${paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join("")}<p>${emailButton(link, "Evalorio")}</p>`),
+    html: emailLayout(`${paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join("")}${emailButton(link, approved ? t("viewListing") : t("openMyListings"))}`),
   })
 }
 

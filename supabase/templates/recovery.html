@@ -1,19 +1,44 @@
 <!doctype html>
 <html>
-  <body style="margin:0;padding:0;background:#f8f9ff;font-family:Inter,Arial,sans-serif;color:#0b1c30">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="padding:32px 16px">
-      <tr><td align="center">
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#ffffff;border:1px solid #d9e2dc;border-radius:12px;padding:32px">
-          <tr><td style="font-size:22px;font-weight:700;padding-bottom:16px">Evalorio</td></tr>
-          <tr><td style="font-size:18px;font-weight:600;padding-bottom:8px">Reset your password</td></tr>
-          <tr><td style="font-size:15px;line-height:24px;color:#3d4a42;padding-bottom:24px">We received a request to reset your Evalorio password. The link is valid for one hour.</td></tr>
-          <tr><td style="padding-bottom:24px">
-            <a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}"
-               style="display:inline-block;background:#006948;color:#ffffff;text-decoration:none;font-weight:600;padding:12px 20px;border-radius:8px">Choose a new password</a>
-          </td></tr>
-          <tr><td style="font-size:13px;line-height:20px;color:#565e74">If you didn't request this, you can safely ignore this email.</td></tr>
-        </table>
-      </td></tr>
-    </table>
-  </body>
+<head><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"></head>
+<body style="margin:0;padding:0;background:#f3f6f4;font-family:Inter,-apple-system,'Segoe UI',Arial,sans-serif;color:#0b1c30">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f3f6f4;padding:32px 12px"><tr><td align="center">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border:1px solid #e1e8e3;border-radius:16px;overflow:hidden">
+<tr><td style="height:4px;background:#006948;font-size:0;line-height:0">&nbsp;</td></tr>
+<tr><td style="padding:28px 32px 4px"><a href="{{ .SiteURL }}" style="text-decoration:none"><img src="{{ .SiteURL }}/email/evalorio-logo.png" width="120" height="22" alt="Evalorio" style="display:block;border:0;width:120px;height:auto"></a></td></tr>
+{{ if eq .Data.locale "es" }}
+<tr><td style="padding:20px 32px 0;font-size:22px;line-height:30px;font-weight:700;color:#0b1c30">Restablece tu contraseña</td></tr>
+<tr><td style="padding:8px 32px 0;font-size:15px;line-height:24px;color:#3d4a42">Hemos recibido una solicitud para restablecer tu contraseña de Evalorio. El enlace es válido durante una hora.</td></tr>
+<tr><td style="padding:24px 32px 0"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border-radius:10px;background:#006948"><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}" style="display:inline-block;padding:13px 22px;color:#ffffff;font-weight:600;font-size:15px;text-decoration:none;border-radius:10px">Elegir nueva contraseña</a></td></tr></table></td></tr>
+<tr><td style="padding:24px 32px 0;font-size:13px;line-height:20px;color:#565e74">Si no lo has pedido tú, ignora este email: tu contraseña no cambia.</td></tr>
+<tr><td style="padding:16px 32px 32px;font-size:12px;line-height:18px;color:#7a8580">¿El botón no funciona? Copia este enlace en tu navegador:<br><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}" style="color:#006948;word-break:break-all">{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}</a></td></tr>
+{{ else if eq .Data.locale "fr" }}
+<tr><td style="padding:20px 32px 0;font-size:22px;line-height:30px;font-weight:700;color:#0b1c30">Réinitialisez votre mot de passe</td></tr>
+<tr><td style="padding:8px 32px 0;font-size:15px;line-height:24px;color:#3d4a42">Nous avons reçu une demande de réinitialisation de votre mot de passe Evalorio. Le lien est valable une heure.</td></tr>
+<tr><td style="padding:24px 32px 0"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border-radius:10px;background:#006948"><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}" style="display:inline-block;padding:13px 22px;color:#ffffff;font-weight:600;font-size:15px;text-decoration:none;border-radius:10px">Choisir un nouveau mot de passe</a></td></tr></table></td></tr>
+<tr><td style="padding:24px 32px 0;font-size:13px;line-height:20px;color:#565e74">Si vous n'êtes pas à l'origine de cette demande, ignorez cet email : votre mot de passe reste inchangé.</td></tr>
+<tr><td style="padding:16px 32px 32px;font-size:12px;line-height:18px;color:#7a8580">Le bouton ne fonctionne pas ? Copiez ce lien dans votre navigateur :<br><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}" style="color:#006948;word-break:break-all">{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}</a></td></tr>
+{{ else if eq .Data.locale "it" }}
+<tr><td style="padding:20px 32px 0;font-size:22px;line-height:30px;font-weight:700;color:#0b1c30">Reimposta la password</td></tr>
+<tr><td style="padding:8px 32px 0;font-size:15px;line-height:24px;color:#3d4a42">Abbiamo ricevuto una richiesta di reimpostazione della tua password Evalorio. Il link è valido per un'ora.</td></tr>
+<tr><td style="padding:24px 32px 0"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border-radius:10px;background:#006948"><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}" style="display:inline-block;padding:13px 22px;color:#ffffff;font-weight:600;font-size:15px;text-decoration:none;border-radius:10px">Scegli una nuova password</a></td></tr></table></td></tr>
+<tr><td style="padding:24px 32px 0;font-size:13px;line-height:20px;color:#565e74">Se non l'hai richiesto tu, ignora questa email: la tua password non cambia.</td></tr>
+<tr><td style="padding:16px 32px 32px;font-size:12px;line-height:18px;color:#7a8580">Il pulsante non funziona? Copia questo link nel browser:<br><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}" style="color:#006948;word-break:break-all">{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}</a></td></tr>
+{{ else if eq .Data.locale "pt" }}
+<tr><td style="padding:20px 32px 0;font-size:22px;line-height:30px;font-weight:700;color:#0b1c30">Redefina a sua palavra-passe</td></tr>
+<tr><td style="padding:8px 32px 0;font-size:15px;line-height:24px;color:#3d4a42">Recebemos um pedido para redefinir a sua palavra-passe do Evalorio. A ligação é válida durante uma hora.</td></tr>
+<tr><td style="padding:24px 32px 0"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border-radius:10px;background:#006948"><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}" style="display:inline-block;padding:13px 22px;color:#ffffff;font-weight:600;font-size:15px;text-decoration:none;border-radius:10px">Escolher nova palavra-passe</a></td></tr></table></td></tr>
+<tr><td style="padding:24px 32px 0;font-size:13px;line-height:20px;color:#565e74">Se não fez este pedido, ignore este email: a sua palavra-passe mantém-se.</td></tr>
+<tr><td style="padding:16px 32px 32px;font-size:12px;line-height:18px;color:#7a8580">O botão não funciona? Copie esta ligação para o navegador:<br><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}" style="color:#006948;word-break:break-all">{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}</a></td></tr>
+{{ else }}
+<tr><td style="padding:20px 32px 0;font-size:22px;line-height:30px;font-weight:700;color:#0b1c30">Reset your password</td></tr>
+<tr><td style="padding:8px 32px 0;font-size:15px;line-height:24px;color:#3d4a42">We received a request to reset your Evalorio password. The link is valid for one hour.</td></tr>
+<tr><td style="padding:24px 32px 0"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border-radius:10px;background:#006948"><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}" style="display:inline-block;padding:13px 22px;color:#ffffff;font-weight:600;font-size:15px;text-decoration:none;border-radius:10px">Choose a new password</a></td></tr></table></td></tr>
+<tr><td style="padding:24px 32px 0;font-size:13px;line-height:20px;color:#565e74">If you didn't ask for this, you can safely ignore this email: your password stays the same.</td></tr>
+<tr><td style="padding:16px 32px 32px;font-size:12px;line-height:18px;color:#7a8580">Button not working? Copy this link into your browser:<br><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}" style="color:#006948;word-break:break-all">{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next={{ .RedirectTo }}</a></td></tr>
+{{ end }}
+</table>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px"><tr><td style="padding:20px 32px 0;font-size:12px;line-height:18px;color:#7a8580;text-align:center">Evalorio · Homes from their owners in Spain, France, Italy and Portugal<br><a href="{{ .SiteURL }}" style="color:#7a8580">evalorio.com</a></td></tr></table>
+</td></tr></table>
+</body>
 </html>
