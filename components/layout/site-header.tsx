@@ -27,7 +27,7 @@ export async function SiteHeader() {
       <div className="page-container flex h-16 items-center justify-between gap-4 lg:h-[72px]">
         <div className="flex items-center gap-8">
           <Link href="/" className="text-foreground flex items-center" aria-label="Evalorio">
-            <Logo className="h-6 w-auto lg:h-7" />
+            <Logo className="h-[19px] w-auto lg:h-[22px]" />
           </Link>
           <nav aria-label={t("mainNavigation")} className="hidden items-center gap-1 md:flex">
             <BrowseMenu label={t("buy")} items={browse("sale")} />
