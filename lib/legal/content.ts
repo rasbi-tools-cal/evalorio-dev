@@ -2,7 +2,6 @@ import "server-only"
 import { readFile } from "node:fs/promises"
 import path from "node:path"
 import type { Locale } from "@/i18n/routing"
-import { SITE_URL } from "@/lib/env"
 import { mapTileProvider } from "@/lib/consent/registry"
 import { COMPANY, POLICY_VERSION } from "./company"
 import { fillTokens } from "./markdown"
@@ -39,7 +38,7 @@ export async function loadLegal(locale: Locale, page: LegalPage) {
     emailProvider: COMPANY.emailProvider,
     emailRegion: COMPANY.emailRegion,
     mapProvider: mapTileProvider(),
-    siteUrl: SITE_URL,
+    siteUrl: COMPANY.website,
     updated: POLICY_VERSION,
   }
   return { title: meta.title ?? page, description: meta.description ?? "", body: fillTokens(body, tokens) }

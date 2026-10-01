@@ -8,7 +8,9 @@ const value = (v: string | undefined, placeholder: string) => v?.trim() || `[${p
 
 export const COMPANY = {
   brand: "Evalorio",
-  legalName: value(process.env.NEXT_PUBLIC_COMPANY_LEGAL_NAME, "Company legal name"),
+  /** Always the production domain in legal texts, whatever environment renders them. */
+  website: "evalorio.com",
+  legalName: process.env.NEXT_PUBLIC_COMPANY_LEGAL_NAME?.trim() || "Evalorio",
   legalForm: value(process.env.NEXT_PUBLIC_COMPANY_LEGAL_FORM, "Legal form, e.g. S.L."),
   address: value(process.env.NEXT_PUBLIC_COMPANY_ADDRESS, "Registered address"),
   country: value(process.env.NEXT_PUBLIC_COMPANY_COUNTRY, "Country of establishment"),
