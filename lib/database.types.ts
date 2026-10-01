@@ -47,12 +47,6 @@ isOneToOne: false
 isOneToOne: false
       referencedRelation: "profiles"
       referencedColumns: ["id"]
-    },{
-      foreignKeyName: "consent_records_user_id_fkey"
-      columns: ["user_id"]
-isOneToOne: false
-      referencedRelation: "public_profiles"
-      referencedColumns: ["id"]
     }
                   ]
                 },"countries": {
@@ -90,12 +84,6 @@ isOneToOne: false
       columns: ["user_id"]
 isOneToOne: false
       referencedRelation: "profiles"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "favorites_user_id_fkey"
-      columns: ["user_id"]
-isOneToOne: false
-      referencedRelation: "public_profiles"
       referencedColumns: ["id"]
     }
                   ]
@@ -191,12 +179,6 @@ isOneToOne: false
 isOneToOne: false
       referencedRelation: "profiles"
       referencedColumns: ["id"]
-    },{
-      foreignKeyName: "listings_owner_id_fkey"
-      columns: ["owner_id"]
-isOneToOne: false
-      referencedRelation: "public_profiles"
-      referencedColumns: ["id"]
     }
                   ]
                 },"messages": {
@@ -223,22 +205,10 @@ isOneToOne: false
       referencedRelation: "profiles"
       referencedColumns: ["id"]
     },{
-      foreignKeyName: "messages_recipient_id_fkey"
-      columns: ["recipient_id"]
-isOneToOne: false
-      referencedRelation: "public_profiles"
-      referencedColumns: ["id"]
-    },{
       foreignKeyName: "messages_sender_id_fkey"
       columns: ["sender_id"]
 isOneToOne: false
       referencedRelation: "profiles"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "messages_sender_id_fkey"
-      columns: ["sender_id"]
-isOneToOne: false
-      referencedRelation: "public_profiles"
       referencedColumns: ["id"]
     }
                   ]
@@ -260,12 +230,6 @@ isOneToOne: false
       referencedRelation: "profiles"
       referencedColumns: ["id"]
     },{
-      foreignKeyName: "moderation_log_actor_id_fkey"
-      columns: ["actor_id"]
-isOneToOne: false
-      referencedRelation: "public_profiles"
-      referencedColumns: ["id"]
-    },{
       foreignKeyName: "moderation_log_listing_id_fkey"
       columns: ["listing_id"]
 isOneToOne: false
@@ -276,12 +240,6 @@ isOneToOne: false
       columns: ["target_user_id"]
 isOneToOne: false
       referencedRelation: "profiles"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "moderation_log_target_user_id_fkey"
-      columns: ["target_user_id"]
-isOneToOne: false
-      referencedRelation: "public_profiles"
       referencedColumns: ["id"]
     }
                   ]
@@ -327,12 +285,6 @@ isOneToOne: false
 isOneToOne: false
       referencedRelation: "profiles"
       referencedColumns: ["id"]
-    },{
-      foreignKeyName: "phone_reveals_viewer_id_fkey"
-      columns: ["viewer_id"]
-isOneToOne: false
-      referencedRelation: "public_profiles"
-      referencedColumns: ["id"]
     }
                   ]
                 },"privacy_requests": {
@@ -351,12 +303,6 @@ isOneToOne: false
       columns: ["user_id"]
 isOneToOne: false
       referencedRelation: "profiles"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "privacy_requests_user_id_fkey"
-      columns: ["user_id"]
-isOneToOne: false
-      referencedRelation: "public_profiles"
       referencedColumns: ["id"]
     }
                   ]
@@ -429,22 +375,10 @@ isOneToOne: false
       referencedRelation: "profiles"
       referencedColumns: ["id"]
     },{
-      foreignKeyName: "reports_reporter_id_fkey"
-      columns: ["reporter_id"]
-isOneToOne: false
-      referencedRelation: "public_profiles"
-      referencedColumns: ["id"]
-    },{
       foreignKeyName: "reports_resolved_by_fkey"
       columns: ["resolved_by"]
 isOneToOne: false
       referencedRelation: "profiles"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "reports_resolved_by_fkey"
-      columns: ["resolved_by"]
-isOneToOne: false
-      referencedRelation: "public_profiles"
       referencedColumns: ["id"]
     }
                   ]
@@ -465,31 +399,12 @@ isOneToOne: false
 isOneToOne: false
       referencedRelation: "profiles"
       referencedColumns: ["id"]
-    },{
-      foreignKeyName: "saved_searches_user_id_fkey"
-      columns: ["user_id"]
-isOneToOne: false
-      referencedRelation: "public_profiles"
-      referencedColumns: ["id"]
     }
                   ]
                 }
           }
           Views: {
-            "public_profiles": {
-                  Row: {
-                    "created_at": string | null,"display_name": string | null,"id": string | null,"seller_type": string | null
-                  }
-                  Insert: {
-                           "created_at"?: string | null,"display_name"?: string | null,"id"?: string | null,"seller_type"?: never
-                         }
-                        Update: {
-                           "created_at"?: string | null,"display_name"?: string | null,"id"?: string | null,"seller_type"?: never
-                         }
-                        Relationships: [
-                    
-                  ]
-                }
+            [_ in never]: never
           }
           Functions: {
             "admin_user_email":
@@ -563,6 +478,11 @@ isOneToOne: false
               "city_slug": string,"kind": string,"listings": number,"name": string,"slug": string
             }[]
                            },
+"public_profile":
+{ Args: { "p_user_id": string }; Returns: {
+              "created_at": string,"display_name": string
+            }[]
+                           },
 "renew_listing":
 { Args: { "p_listing_id": number }; Returns: undefined
                            },
@@ -581,6 +501,9 @@ isOneToOne: false
                            },
 "search_listings":
 { Args: { "p_area_max"?: number,"p_area_min"?: number,"p_bathrooms_min"?: number,"p_bedrooms_min"?: number,"p_city_id"?: number,"p_country"?: string,"p_east"?: number,"p_features"?: (string)[],"p_limit"?: number,"p_neighborhood_id"?: number,"p_north"?: number,"p_offset"?: number,"p_operation": Database["public"]['Enums']["listing_operation"],"p_price_max"?: number,"p_price_min"?: number,"p_province_id"?: number,"p_sort"?: string,"p_south"?: number,"p_types"?: (Database["public"]['Enums']["property_type"])[],"p_west"?: number }; Returns: Json
+                           },
+"seller_type":
+{ Args: { "p_user_id": string }; Returns: string
                            },
 "set_user_banned":
 { Args: { "p_banned": boolean,"p_note"?: string,"p_user_id": string }; Returns: undefined
