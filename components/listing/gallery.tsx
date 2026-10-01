@@ -9,11 +9,13 @@ import { useCallback, useEffect, useState } from "react"
 import { photoUrl } from "@/lib/env"
 import { cn } from "@/lib/utils"
 
-export function Gallery({ photos, title }: { photos: string[]; title: string }) {
+/** `initialPhoto` (1-based, from "?photo=N" links on result cards) opens the lightbox on that photo. */
+export function Gallery({ photos, title, initialPhoto }: { photos: string[]; title: string; initialPhoto?: number }) {
   const t = useTranslations("listing")
   const tc = useTranslations("common")
-  const [open, setOpen] = useState(false)
-  const [start, setStart] = useState(0)
+  const initial = initialPhoto && initialPhoto >= 1 && initialPhoto <= photos.length ? initialPhoto - 1 : null
+  const [open, setOpen] = useState(initial !== null)
+  const [start, setStart] = useState(initial ?? 0)
 
   const openAt = (i: number) => {
     setStart(i)

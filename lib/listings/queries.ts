@@ -24,6 +24,7 @@ export interface ListingSummary {
   lat: number
   lng: number
   photos: string[]
+  photo_count?: number
 }
 
 export interface MapMarker {

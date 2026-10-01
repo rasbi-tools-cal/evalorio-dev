@@ -1,12 +1,11 @@
-import { Bath, BedDouble, Camera, ImageOff, MapPin, Maximize } from "lucide-react"
-import Image from "next/image"
+import { Bath, BedDouble, MapPin, Maximize } from "lucide-react"
 import { useFormatter, useTranslations } from "next-intl"
 import { Link } from "@/i18n/navigation"
-import { photoUrl } from "@/lib/env"
 import { displayTitle, isNewListing, pricePerSqm } from "@/lib/listings/display"
 import type { ListingSummary } from "@/lib/listings/queries"
 import { listingPath } from "@/lib/urls"
 import { cn } from "@/lib/utils"
+import { CardPhotos } from "./card-photos"
 import { FavoriteButton } from "./favorite-button"
 
 export function ListingCard({
@@ -29,7 +28,6 @@ export function ListingCard({
   const href = listingPath(listing.id, title)
   const perSqm = pricePerSqm(listing.price, listing.area_m2)
   const place = [listing.neighborhood, listing.city].filter(Boolean).join(", ")
-  const cover = listing.photos[0]
   const isNew = isNewListing(listing.published_at)
   const horizontal = layout === "horizontal"
 
@@ -40,41 +38,20 @@ export function ListingCard({
         horizontal ? "flex-col sm:flex-row" : "flex-col",
       )}
     >
-      <div
-        className={cn(
-          "bg-surface-low relative shrink-0 overflow-hidden",
-          horizontal ? "aspect-[4/3] sm:aspect-auto sm:w-[42%] sm:min-h-56" : "aspect-[4/3]",
-        )}
-      >
-        {cover ? (
-          <Image
-            src={photoUrl(cover)}
-            alt={title}
-            fill
-            priority={priority}
-            sizes={horizontal ? "(min-width: 1024px) 380px, (min-width: 640px) 42vw, 100vw" : "(min-width: 1280px) 330px, (min-width: 640px) 50vw, 100vw"}
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-          />
-        ) : (
-          <div className="text-muted-foreground flex h-full flex-col items-center justify-center gap-2 text-sm">
-            <ImageOff className="size-6" aria-hidden />
-            {t("noPhoto")}
-          </div>
-        )}
-        <div className="absolute top-2.5 left-2.5 flex gap-1.5">
-          {isNew && (
-            <span className="bg-primary text-primary-foreground rounded px-2 py-0.5 text-[11px] font-semibold">
-              {t("new")}
-            </span>
-          )}
+      <div className={cn("relative shrink-0", horizontal && "sm:w-[42%]")}>
+        <CardPhotos
+          photos={listing.photos}
+          total={listing.photo_count}
+          title={title}
+          href={href}
+          priority={priority}
+          thumbnails={horizontal}
+          sizes={horizontal ? "(min-width: 1024px) 400px, (min-width: 640px) 42vw, 100vw" : "(min-width: 1280px) 330px, (min-width: 640px) 50vw, 100vw"}
+        />
+        <div className="pointer-events-none absolute top-2.5 left-2.5 z-20 flex gap-1.5">
+          {isNew && <span className="bg-primary text-primary-foreground rounded px-2 py-0.5 text-[11px] font-semibold">{t("new")}</span>}
         </div>
-        <FavoriteButton listingId={listing.id} className="absolute top-2.5 right-2.5 z-10" />
-        {listing.photos.length > 1 && (
-          <span className="bg-background/90 absolute right-2.5 bottom-2.5 flex items-center gap-1 rounded px-2 py-0.5 text-[11px] font-medium">
-            <Camera className="size-3.5" aria-hidden />
-            {listing.photos.length}
-          </span>
-        )}
+        <FavoriteButton listingId={listing.id} className="absolute top-2.5 right-2.5 z-20" />
       </div>
 
       <div className={cn("flex flex-1 flex-col gap-2", horizontal ? "p-4 sm:p-5" : "p-4")}>

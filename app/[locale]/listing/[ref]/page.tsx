@@ -90,8 +90,10 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/listing/
   }
 }
 
-export default async function ListingPage({ params }: PageProps<"/[locale]/listing/[ref]">) {
+export default async function ListingPage({ params, searchParams }: PageProps<"/[locale]/listing/[ref]">) {
   const { locale, listing, slug } = await load(params)
+  const { photo } = await searchParams
+  const initialPhoto = typeof photo === "string" && /^\d{1,2}$/.test(photo) ? Number(photo) : undefined
   const title = await titleFor(listing, locale)
   const expected = slugify(title).slice(0, 80)
   if (slug !== expected) permanentRedirect({ href: listingPath(listing.id, title), locale })
@@ -243,7 +245,7 @@ export default async function ListingPage({ params }: PageProps<"/[locale]/listi
         </div>
       </div>
 
-      <Gallery photos={listing.photos.map((p) => p.storage_path)} title={title} />
+      <Gallery photos={listing.photos.map((p) => p.storage_path)} title={title} initialPhoto={initialPhoto} />
 
       <div className="bg-surface my-6 flex flex-col gap-5 rounded-xl border p-5 sm:p-6 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
