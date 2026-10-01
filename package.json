@@ -20,7 +20,9 @@
     "remote:check": "node --env-file=.env.remote.local scripts/check-supabase.mjs",
     "remote:make-admin": "node --env-file=.env.remote.local scripts/make-admin.mjs",
     "db:check": "node --env-file=.env.local scripts/check-supabase.mjs",
-    "remote:migrate-local": "node --env-file=.env.remote.local scripts/migrate-local-to-remote.mjs"
+    "remote:migrate-local": "node --env-file=.env.remote.local scripts/migrate-local-to-remote.mjs",
+    "seed:photos": "node --env-file=.env.local scripts/refresh-demo-photos.mjs",
+    "remote:seed-photos": "node --env-file=.env.remote.local scripts/refresh-demo-photos.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

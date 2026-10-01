@@ -1,8 +1,9 @@
 // LOCAL DEVELOPMENT ONLY: creates demo listings with photos for the demo owner from supabase/seed.sql.
 // Usage: pnpm seed:demo   (after `supabase db reset`)
-// Photos: Unsplash (Unsplash License), downloaded once and uploaded to local Storage.
+// Photos: Unsplash (Unsplash License), 6-8 per listing from scripts/demo-photos.json.
 import { createClient } from "@supabase/supabase-js"
 import { randomUUID } from "node:crypto"
+import { downloadPhoto, photosFor } from "./demo-photos.mjs"
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL
 const key = process.env.SUPABASE_SECRET_KEY
@@ -11,25 +12,6 @@ if (!/127\.0\.0\.1|localhost/.test(url)) throw new Error("Refusing to seed a non
 
 const supabase = createClient(url, key, { auth: { persistSession: false } })
 const OWNER = "a0000000-0000-4000-8000-000000000002"
-
-const PHOTO_IDS = [
-  "photo-1502672260266-1c1ef2d93688",
-  "photo-1522708323590-d24dbb6b0267",
-  "photo-1493809842364-78817add7ffb",
-  "photo-1484154218962-a197022b5858",
-  "photo-1505691938895-1758d7feb511",
-  "photo-1560448204-e02f11c3d0e2",
-  "photo-1560185007-cde436f6a4d0",
-  "photo-1556909114-f6e7ad7d3136",
-  "photo-1552321554-5fefe8c9ef14",
-  "photo-1600596542815-ffad4c1539a9",
-  "photo-1600585154340-be6161a56a0c",
-  "photo-1512917774080-9991f1c4c750",
-  "photo-1564013799919-ab600027ffc6",
-  "photo-1570129477492-45c003edd2be",
-  "photo-1600607687939-ce8a6c25118c",
-  "photo-1586023492125-27b2c045efd7",
-]
 
 const LISTINGS = [
   { country: "ES", city: "madrid", hood: "chamberi", lat: 40.4338, lng: -3.7041, op: "sale", type: "apartment", price: 485000, area: 96, beds: 3, baths: 2, floor: 4, year: 1965, energy: "D", features: ["elevator", "balcony", "heating", "built_in_wardrobes"], title: "Bright 3-bedroom flat with balcony in Chamberí", description: "Exterior apartment on a quiet tree-lined street, fully renovated in 2022. Open kitchen, two bathrooms, wooden floors and lots of natural light all day. Metro Iglesia is a 3-minute walk." },
@@ -49,23 +31,6 @@ const LISTINGS = [
   { country: "PT", city: "lisboa", lat: 38.7139, lng: -9.1394, op: "sale", type: "apartment", price: 395000, area: 75, beds: 2, baths: 1, floor: 3, year: 1920, energy: "D", features: ["balcony", "heating"], title: "Renovated flat with river glimpses in Graça", description: "Two-bedroom apartment in a renovated building, balcony with views towards the Tagus." },
   { country: "PT", city: "porto", lat: 41.1496, lng: -8.611, op: "rent", type: "duplex", price: 1250, area: 95, beds: 2, baths: 2, year: 2019, energy: "B", features: ["terrace", "furnished", "air_conditioning"], title: "Duplex with terrace near Ribeira", description: "Modern duplex with a private terrace, fully furnished, five minutes from the river." },
 ]
-
-async function downloadPhotos() {
-  const photos = []
-  for (const id of PHOTO_IDS) {
-    const res = await fetch(`https://images.unsplash.com/${id}?w=1600&q=78&fm=jpg&fit=crop`)
-    if (!res.ok) {
-      console.warn(`skip ${id}: ${res.status}`)
-      continue
-    }
-    photos.push(Buffer.from(await res.arrayBuffer()))
-  }
-  if (!photos.length) throw new Error("No demo photos could be downloaded")
-  return photos
-}
-
-const photos = await downloadPhotos()
-console.log(`${photos.length} photos downloaded`)
 
 let created = 0
 for (const [i, l] of LISTINGS.entries()) {
@@ -99,6 +64,7 @@ for (const [i, l] of LISTINGS.entries()) {
       country_code: l.country,
       city_id: city.id,
       neighborhood_id: hoodId,
+      exterior: ["house", "villa"].includes(l.type) ? null : i % 4 !== 3,
     })
     .select("id")
     .single()
@@ -112,11 +78,9 @@ for (const [i, l] of LISTINGS.entries()) {
     show_phone: true,
   })
 
-  const count = 4 + (i % 3)
-  for (let p = 0; p < count; p++) {
+  for (const [p, photoId] of photosFor(i, l.type).entries()) {
     const path = `${OWNER}/${listing.id}/${randomUUID()}.jpg`
-    const body = photos[(i * 3 + p) % photos.length]
-    const { error: upErr } = await supabase.storage.from("listing-photos").upload(path, body, { contentType: "image/jpeg" })
+    const { error: upErr } = await supabase.storage.from("listing-photos").upload(path, await downloadPhoto(photoId), { contentType: "image/jpeg" })
     if (upErr) throw upErr
     await supabase.from("listing_photos").insert({ listing_id: listing.id, storage_path: path, position: p, width: 1600, height: 1067 })
   }
