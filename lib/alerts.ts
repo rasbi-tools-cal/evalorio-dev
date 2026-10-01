@@ -95,7 +95,7 @@ export async function runAlerts(frequency: "instant" | "daily" | "weekly") {
            <span style="color:#0b1c30;font-weight:700">${escapeHtml(r.price)}</span> · ${r.area} m² · <span style="color:#565e74">${escapeHtml(r.place)}</span></p>`,
          )
          .join("")}
-       <p>${emailButton(resultsUrl, t("viewAll"))}</p>`,
+       ${emailButton(resultsUrl, t("viewAll"))}`,
       `<a href="${escapeHtml(manageUrl)}" style="color:#565e74">${escapeHtml(t("manage"))}</a> · <a href="${escapeHtml(unsubscribeUrl)}" style="color:#565e74">${escapeHtml(t("unsubscribe"))}</a>`,
     )
     const text = `${t("intro", { name: s.name })}\n\n${rows.map((r) => `${r.title} — ${r.price}\n${r.url}`).join("\n\n")}\n\n${t("viewAll")}: ${resultsUrl}\n${t("unsubscribe")}: ${unsubscribeUrl}`

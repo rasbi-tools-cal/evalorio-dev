@@ -590,7 +590,10 @@
     "howToAppeal": "Se acha que nos enganámos, responda a este email ou escreva para {email} no prazo de seis meses e uma pessoa reverá a decisão. Pode também recorrer a um organismo certificado de resolução extrajudicial de litígios ou aos tribunais.",
     "reportOutcomeSubject": "Novidades sobre o anúncio que denunciou",
     "reportResolvedText": "Obrigado pela sua denúncia do anúncio {listing}. Analisámo-lo e agimos: o anúncio foi removido ou corrigido.",
-    "reportDismissedText": "Obrigado pela sua denúncia do anúncio {listing}. Analisámo-lo e não viola as nossas regras nem a lei, pelo que continua publicado. Se tiver mais informações, responda a este email."
+    "reportDismissedText": "Obrigado pela sua denúncia do anúncio {listing}. Analisámo-lo e não viola as nossas regras nem a lei, pelo que continua publicado. Se tiver mais informações, responda a este email.",
+    "openMessages": "Abrir mensagens",
+    "viewListing": "Ver anúncio",
+    "openMyListings": "Abrir os meus anúncios"
   },
   "errors": {
     "notFoundTitle": "Página não encontrada",

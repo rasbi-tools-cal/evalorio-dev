@@ -584,7 +584,10 @@
     "howToAppeal": "If you think we made a mistake, reply to this email or write to {email} within six months and a person will review the decision. You can also turn to a certified out-of-court dispute settlement body or to the courts.",
     "reportOutcomeSubject": "Update on the listing you reported",
     "reportResolvedText": "Thank you for your report about listing {listing}. We reviewed it and took action: the listing was removed or corrected.",
-    "reportDismissedText": "Thank you for your report about listing {listing}. We reviewed it and found that it does not break our rules or the law, so it stays online. If you have more information, reply to this email."
+    "reportDismissedText": "Thank you for your report about listing {listing}. We reviewed it and found that it does not break our rules or the law, so it stays online. If you have more information, reply to this email.",
+    "openMessages": "Open messages",
+    "viewListing": "View listing",
+    "openMyListings": "Open my listings"
   },
   "errors": {
     "notFoundTitle": "Page not found",

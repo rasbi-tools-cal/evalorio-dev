@@ -1,19 +1,44 @@
 <!doctype html>
 <html>
-  <body style="margin:0;padding:0;background:#f8f9ff;font-family:Inter,Arial,sans-serif;color:#0b1c30">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="padding:32px 16px">
-      <tr><td align="center">
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#ffffff;border:1px solid #d9e2dc;border-radius:12px;padding:32px">
-          <tr><td style="font-size:22px;font-weight:700;padding-bottom:16px">Evalorio</td></tr>
-          <tr><td style="font-size:18px;font-weight:600;padding-bottom:8px">Confirm your email</td></tr>
-          <tr><td style="font-size:15px;line-height:24px;color:#3d4a42;padding-bottom:24px">Welcome to Evalorio! Confirm your email address to finish creating your account.</td></tr>
-          <tr><td style="padding-bottom:24px">
-            <a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}"
-               style="display:inline-block;background:#006948;color:#ffffff;text-decoration:none;font-weight:600;padding:12px 20px;border-radius:8px">Confirm my email</a>
-          </td></tr>
-          <tr><td style="font-size:13px;line-height:20px;color:#565e74">If you didn't request this, you can safely ignore this email.</td></tr>
-        </table>
-      </td></tr>
-    </table>
-  </body>
+<head><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"></head>
+<body style="margin:0;padding:0;background:#f3f6f4;font-family:Inter,-apple-system,'Segoe UI',Arial,sans-serif;color:#0b1c30">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f3f6f4;padding:32px 12px"><tr><td align="center">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border:1px solid #e1e8e3;border-radius:16px;overflow:hidden">
+<tr><td style="height:4px;background:#006948;font-size:0;line-height:0">&nbsp;</td></tr>
+<tr><td style="padding:28px 32px 4px"><a href="{{ .SiteURL }}" style="text-decoration:none"><img src="{{ .SiteURL }}/email/evalorio-logo.png" width="120" height="22" alt="Evalorio" style="display:block;border:0;width:120px;height:auto"></a></td></tr>
+{{ if eq .Data.locale "es" }}
+<tr><td style="padding:20px 32px 0;font-size:22px;line-height:30px;font-weight:700;color:#0b1c30">Confirma tu email</td></tr>
+<tr><td style="padding:8px 32px 0;font-size:15px;line-height:24px;color:#3d4a42">¡Te damos la bienvenida a Evalorio! Confirma tu dirección de email para empezar a publicar y contactar con propietarios.</td></tr>
+<tr><td style="padding:24px 32px 0"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border-radius:10px;background:#006948"><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}" style="display:inline-block;padding:13px 22px;color:#ffffff;font-weight:600;font-size:15px;text-decoration:none;border-radius:10px">Confirmar email</a></td></tr></table></td></tr>
+<tr><td style="padding:24px 32px 0;font-size:13px;line-height:20px;color:#565e74">Si no has creado una cuenta, puedes ignorar este email.</td></tr>
+<tr><td style="padding:16px 32px 32px;font-size:12px;line-height:18px;color:#7a8580">¿El botón no funciona? Copia este enlace en tu navegador:<br><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}" style="color:#006948;word-break:break-all">{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}</a></td></tr>
+{{ else if eq .Data.locale "fr" }}
+<tr><td style="padding:20px 32px 0;font-size:22px;line-height:30px;font-weight:700;color:#0b1c30">Confirmez votre email</td></tr>
+<tr><td style="padding:8px 32px 0;font-size:15px;line-height:24px;color:#3d4a42">Bienvenue sur Evalorio ! Confirmez votre adresse email pour publier des annonces et contacter les propriétaires.</td></tr>
+<tr><td style="padding:24px 32px 0"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border-radius:10px;background:#006948"><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}" style="display:inline-block;padding:13px 22px;color:#ffffff;font-weight:600;font-size:15px;text-decoration:none;border-radius:10px">Confirmer mon email</a></td></tr></table></td></tr>
+<tr><td style="padding:24px 32px 0;font-size:13px;line-height:20px;color:#565e74">Si vous n'avez pas créé de compte, vous pouvez ignorer cet email.</td></tr>
+<tr><td style="padding:16px 32px 32px;font-size:12px;line-height:18px;color:#7a8580">Le bouton ne fonctionne pas ? Copiez ce lien dans votre navigateur :<br><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}" style="color:#006948;word-break:break-all">{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}</a></td></tr>
+{{ else if eq .Data.locale "it" }}
+<tr><td style="padding:20px 32px 0;font-size:22px;line-height:30px;font-weight:700;color:#0b1c30">Conferma la tua email</td></tr>
+<tr><td style="padding:8px 32px 0;font-size:15px;line-height:24px;color:#3d4a42">Benvenuto su Evalorio! Conferma il tuo indirizzo email per pubblicare annunci e contattare i proprietari.</td></tr>
+<tr><td style="padding:24px 32px 0"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border-radius:10px;background:#006948"><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}" style="display:inline-block;padding:13px 22px;color:#ffffff;font-weight:600;font-size:15px;text-decoration:none;border-radius:10px">Conferma email</a></td></tr></table></td></tr>
+<tr><td style="padding:24px 32px 0;font-size:13px;line-height:20px;color:#565e74">Se non hai creato un account, puoi ignorare questa email.</td></tr>
+<tr><td style="padding:16px 32px 32px;font-size:12px;line-height:18px;color:#7a8580">Il pulsante non funziona? Copia questo link nel browser:<br><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}" style="color:#006948;word-break:break-all">{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}</a></td></tr>
+{{ else if eq .Data.locale "pt" }}
+<tr><td style="padding:20px 32px 0;font-size:22px;line-height:30px;font-weight:700;color:#0b1c30">Confirme o seu email</td></tr>
+<tr><td style="padding:8px 32px 0;font-size:15px;line-height:24px;color:#3d4a42">Bem-vindo ao Evalorio! Confirme o seu endereço de email para começar a publicar e contactar proprietários.</td></tr>
+<tr><td style="padding:24px 32px 0"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border-radius:10px;background:#006948"><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}" style="display:inline-block;padding:13px 22px;color:#ffffff;font-weight:600;font-size:15px;text-decoration:none;border-radius:10px">Confirmar email</a></td></tr></table></td></tr>
+<tr><td style="padding:24px 32px 0;font-size:13px;line-height:20px;color:#565e74">Se não criou uma conta, pode ignorar este email.</td></tr>
+<tr><td style="padding:16px 32px 32px;font-size:12px;line-height:18px;color:#7a8580">O botão não funciona? Copie esta ligação para o navegador:<br><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}" style="color:#006948;word-break:break-all">{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}</a></td></tr>
+{{ else }}
+<tr><td style="padding:20px 32px 0;font-size:22px;line-height:30px;font-weight:700;color:#0b1c30">Confirm your email</td></tr>
+<tr><td style="padding:8px 32px 0;font-size:15px;line-height:24px;color:#3d4a42">Welcome to Evalorio! Confirm your email address to start publishing and contacting owners.</td></tr>
+<tr><td style="padding:24px 32px 0"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border-radius:10px;background:#006948"><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}" style="display:inline-block;padding:13px 22px;color:#ffffff;font-weight:600;font-size:15px;text-decoration:none;border-radius:10px">Confirm email</a></td></tr></table></td></tr>
+<tr><td style="padding:24px 32px 0;font-size:13px;line-height:20px;color:#565e74">If you didn't create an account, you can safely ignore this email.</td></tr>
+<tr><td style="padding:16px 32px 32px;font-size:12px;line-height:18px;color:#7a8580">Button not working? Copy this link into your browser:<br><a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}" style="color:#006948;word-break:break-all">{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next={{ .RedirectTo }}</a></td></tr>
+{{ end }}
+</table>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px"><tr><td style="padding:20px 32px 0;font-size:12px;line-height:18px;color:#7a8580;text-align:center">Evalorio · Homes from their owners in Spain, France, Italy and Portugal<br><a href="{{ .SiteURL }}" style="color:#7a8580">evalorio.com</a></td></tr></table>
+</td></tr></table>
+</body>
 </html>

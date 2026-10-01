@@ -590,7 +590,10 @@
     "howToAppeal": "Se pensi che abbiamo sbagliato, rispondi a questa email o scrivi a {email} entro sei mesi e una persona riesaminerà la decisione. Puoi anche rivolgerti a un organismo certificato di risoluzione extragiudiziale delle controversie o all'autorità giudiziaria.",
     "reportOutcomeSubject": "Aggiornamento sull'annuncio che hai segnalato",
     "reportResolvedText": "Grazie per la segnalazione dell'annuncio {listing}. L'abbiamo esaminato e siamo intervenuti: l'annuncio è stato rimosso o corretto.",
-    "reportDismissedText": "Grazie per la segnalazione dell'annuncio {listing}. L'abbiamo esaminato e non viola le nostre regole né la legge, quindi resta online. Se hai altre informazioni, rispondi a questa email."
+    "reportDismissedText": "Grazie per la segnalazione dell'annuncio {listing}. L'abbiamo esaminato e non viola le nostre regole né la legge, quindi resta online. Se hai altre informazioni, rispondi a questa email.",
+    "openMessages": "Apri i messaggi",
+    "viewListing": "Vedi l'annuncio",
+    "openMyListings": "Apri i miei annunci"
   },
   "errors": {
     "notFoundTitle": "Pagina non trovata",
