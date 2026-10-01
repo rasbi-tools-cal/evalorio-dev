@@ -8,7 +8,7 @@ Cette politique explique quelles données personnelles {{brand}} traite lorsque 
 
 ## 1. Responsable du traitement
 
-Le responsable du traitement de vos données est **{{legalName}}** ({{legalForm}}), {{address}}, {{country}}, immatriculée au {{registry}}, numéro fiscal {{vatId}} (« {{brand}} », « nous »).
+Le responsable du traitement de vos données est **{{legalName}}**{{controllerDetails}}.
 
 Contact confidentialité : [{{privacyEmail}}](mailto:{{privacyEmail}}). Contact protection des données / DPO : {{dpo}}.
 

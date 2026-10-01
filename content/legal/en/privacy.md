@@ -8,7 +8,7 @@ This policy explains what personal data {{brand}} processes when you use our web
 
 ## 1. Who is responsible for your data
 
-The controller of your personal data is **{{legalName}}** ({{legalForm}}), {{address}}, {{country}}, registered in {{registry}}, tax ID {{vatId}} ("{{brand}}", "we").
+The controller of your personal data is **{{legalName}}**{{controllerDetails}}.
 
 Privacy contact: [{{privacyEmail}}](mailto:{{privacyEmail}}). Data protection contact / DPO: {{dpo}}.
 

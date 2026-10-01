@@ -8,7 +8,7 @@ Questa informativa spiega quali dati personali {{brand}} tratta quando usi il no
 
 ## 1. Titolare del trattamento
 
-Il titolare del trattamento dei tuoi dati è **{{legalName}}** ({{legalForm}}), {{address}}, {{country}}, iscritta al {{registry}}, codice fiscale / partita IVA {{vatId}} («{{brand}}», «noi»).
+Il titolare del trattamento dei tuoi dati è **{{legalName}}**{{controllerDetails}}.
 
 Contatto privacy: [{{privacyEmail}}](mailto:{{privacyEmail}}). Contatto protezione dati / RPD: {{dpo}}.
 

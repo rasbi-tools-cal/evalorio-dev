@@ -8,7 +8,7 @@ Esta política explica que dados pessoais o {{brand}} trata quando utiliza o nos
 
 ## 1. Responsável pelo tratamento
 
-O responsável pelo tratamento dos seus dados é **{{legalName}}** ({{legalForm}}), {{address}}, {{country}}, registada em {{registry}}, NIF {{vatId}} («{{brand}}», «nós»).
+O responsável pelo tratamento dos seus dados é **{{legalName}}**{{controllerDetails}}.
 
 Contacto de privacidade: [{{privacyEmail}}](mailto:{{privacyEmail}}). Contacto de proteção de dados / EPD: {{dpo}}.
 

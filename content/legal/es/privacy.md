@@ -8,7 +8,7 @@ Esta política explica qué datos personales trata {{brand}} cuando usas nuestra
 
 ## 1. Responsable del tratamiento
 
-El responsable de tus datos personales es **{{legalName}}** ({{legalForm}}), {{address}}, {{country}}, inscrita en {{registry}}, NIF {{vatId}} («{{brand}}», «nosotros»).
+El responsable de tus datos personales es **{{legalName}}**{{controllerDetails}}.
 
 Contacto de privacidad: [{{privacyEmail}}](mailto:{{privacyEmail}}). Contacto de protección de datos / DPD: {{dpo}}.
 
