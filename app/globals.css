@@ -1,138 +1,202 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
+/* Evalorio design tokens — green palette from design/02–04 mockups.
+   Semantic names follow shadcn so every ui/* component picks them up. */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.155 0.007 285.885);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.155 0.007 285.885);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.155 0.007 285.885);
-  --primary: oklch(0.443 0.148 264.559);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.965 0.002 285.885);
-  --secondary-foreground: oklch(0.155 0.007 285.885);
-  --muted: oklch(0.965 0.002 285.885);
-  --muted-foreground: oklch(0.524 0.008 285.885);
-  --accent: oklch(0.965 0.002 285.885);
-  --accent-foreground: oklch(0.155 0.007 285.885);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.918 0.002 285.885);
-  --input: oklch(0.918 0.002 285.885);
-  --ring: oklch(0.443 0.148 264.559);
-  --chart-1: oklch(0.443 0.148 264.559);
-  --chart-2: oklch(0.62 0.142 265.754);
-  --chart-3: oklch(0.765 0.085 266.948);
-  --chart-4: oklch(0.324 0.098 264.559);
-  --chart-5: oklch(0.543 0.168 264.559);
-  --radius: 0.75rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.155 0.007 285.885);
-  --sidebar-primary: oklch(0.443 0.148 264.559);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.965 0.002 285.885);
-  --sidebar-accent-foreground: oklch(0.155 0.007 285.885);
-  --sidebar-border: oklch(0.918 0.002 285.885);
-  --sidebar-ring: oklch(0.443 0.148 264.559);
-}
+  --background: #ffffff;
+  --foreground: #0b1c30;
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.62 0.142 265.754);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.62 0.142 265.754);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  --surface: #f8f9ff;
+  --surface-low: #eff4ff;
+  --surface-container: #e5eeff;
+  --surface-high: #dce9ff;
+
+  --card: #ffffff;
+  --card-foreground: #0b1c30;
+  --popover: #ffffff;
+  --popover-foreground: #0b1c30;
+
+  --primary: #006948;
+  --primary-hover: #00855d;
+  --primary-foreground: #ffffff;
+  --primary-soft: #e3f7ee;
+  --primary-soft-foreground: #005137;
+
+  --secondary: #eff4ff;
+  --secondary-foreground: #0b1c30;
+  --muted: #eff4ff;
+  --muted-foreground: #565e74;
+  --accent: #e5eeff;
+  --accent-foreground: #0b1c30;
+  --subtle-foreground: #3d4a42;
+
+  --destructive: #ba1a1a;
+  --destructive-foreground: #ffffff;
+  --destructive-soft: #ffdad6;
+  --warning: #8a5a00;
+  --warning-soft: #fff1d6;
+
+  --border: #d9e2dc;
+  --input: #bccac0;
+  --ring: #006948;
+
+  --inverse: #213145;
+  --inverse-foreground: #eaf1ff;
+
+  --radius: 0.5rem;
 }
 
 @theme inline {
-  /* Updated to use Outfit for headings and Inter for body */
-  --font-sans: "Inter", "Inter Fallback", system-ui, -apple-system, sans-serif;
-  --font-heading: "Outfit", "Outfit Fallback", system-ui, -apple-system, sans-serif;
-  --font-mono: "Geist Mono", "Geist Mono Fallback", monospace;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-heading: var(--font-outfit), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-low: var(--surface-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-high: var(--surface-high);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-soft-foreground: var(--primary-soft-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
+  --color-inverse: var(--inverse);
+  --color-inverse-foreground: var(--inverse-foreground);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+
+  --shadow-card: 0 1px 3px 0 rgb(15 23 42 / 0.04), 0 8px 24px -4px rgb(15 23 42 / 0.04);
+  --shadow-raised: 0 12px 32px -8px rgb(15 23 42 / 0.16);
+
+  --container-page: 1440px;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
+  html {
+    -webkit-text-size-adjust: 100%;
   }
-
-  /* Apply Outfit font to all headings */
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: 15px;
+    line-height: 1.6;
+  }
   h1,
   h2,
   h3,
-  h4,
-  h5,
-  h6 {
+  h4 {
     font-family: var(--font-heading);
-    font-weight: 700;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
   }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+  ::selection {
+    background: var(--primary-soft);
+    color: var(--primary-soft-foreground);
+  }
+}
+
+@layer components {
+  .page-container {
+    @apply mx-auto w-full max-w-(--container-page) px-4 sm:px-6 lg:px-12;
+  }
+}
+
+/* Leaflet (imported CSS lives in components/map) — keep map UI on-brand. */
+.leaflet-container {
+  font: inherit;
+  background: var(--surface-low);
+}
+.leaflet-container a.price-marker {
+  @apply block rounded-md border-2 border-white bg-primary px-2 py-1 text-xs leading-none font-bold whitespace-nowrap text-white no-underline shadow-md;
+  transform: translate(-50%, -50%);
+  width: max-content;
+}
+.leaflet-container a.price-marker:hover,
+.leaflet-container a.price-marker[data-active="true"] {
+  @apply bg-inverse text-white;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Long-form text (static pages). */
+.prose-evalorio {
+  @apply text-subtle-foreground leading-relaxed;
+}
+.prose-evalorio > * + * {
+  @apply mt-4;
+}
+.prose-evalorio h2 {
+  @apply text-foreground mt-8 text-xl font-semibold;
+}
+.prose-evalorio ul {
+  @apply list-disc space-y-1.5 pl-5;
+}
+.prose-evalorio ol {
+  @apply list-decimal space-y-2 pl-5;
+}
+.prose-evalorio a {
+  @apply text-primary font-medium underline-offset-2 hover:underline;
+}
+.prose-evalorio strong {
+  @apply text-foreground;
+}
+
+/* Tables inside legal pages (scroll horizontally on phones instead of overflowing). */
+.legal-table {
+  @apply my-4 overflow-x-auto rounded-lg border;
+}
+.legal-table table {
+  @apply w-full min-w-[640px] border-collapse text-left text-[13px];
+}
+.legal-table th {
+  @apply bg-surface text-foreground border-b px-3 py-2 font-semibold;
+}
+.legal-table td {
+  @apply border-b px-3 py-2 align-top;
+}
+.legal-table tr:last-child td {
+  @apply border-b-0;
+}
+.prose-evalorio h3 {
+  @apply text-foreground mt-6 text-lg font-semibold;
+}
+.prose-evalorio code {
+  @apply text-foreground text-xs;
 }

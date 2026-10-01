@@ -1,0 +1,10 @@
+allowBuilds:
+  '@tailwindcss/oxide': true
+  sharp: true
+  supabase: true
+  '@parcel/watcher': false
+  '@swc/core': false
+  unrs-resolver: false
+overrides:
+  browserslist: ^4.28.7
+  baseline-browser-mapping: ^2.11.0

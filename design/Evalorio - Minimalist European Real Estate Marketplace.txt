@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Evalorio — Western Europe Real Estate Marketplace</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; background-color: #ffffff; color: #0f172a; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#059669",
+            "primary-dark": "#047857",
+            "primary-light": "#ecfdf5",
+            "surface-pure": "#ffffff",
+            "border-subtle": "#e5e7eb",
+            "border-hairline": "#f1f5f9",
+            "text-main": "#0f172a",
+            "text-muted": "#64748b"
+          },
+          fontFamily: {
+            sans: ["Hanken Grotesk", "sans-serif"]
+          },
+          borderRadius: {
+            sm: "3px",
+            DEFAULT: "4px",
+            md: "6px",
+            lg: "8px"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-white font-sans text-text-main antialiased selection:bg-emerald-100 selection:text-emerald-900">
+<!-- TOP HEADER -->
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-border-subtle">
+<div class="max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-20 xl:px-24 h-20 flex items-center justify-between gap-6">
+<!-- Brand & Left Navigation -->
+<div class="flex items-center gap-10">
+<a class="flex items-center gap-2.5" href="#">
+<img alt="Evalorio Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VPOIodYWjhIk5_VW9ty9XoF04otfD_gew6vgFp-T_8J4e4Qiy-SJ_fNtn7ZfSFK9poMsKpHNOq5QJNOXomuipWINhIUh0TCm76t-kJilIuuqKczWhuudQJVkh6m9Exyn_B-POKl_RKSyeR91LgP4gMWnrSa1TNRbiX_hTamPOehhB3xkhXZL8ek4Zl4ekN1_uBVKnti7vPkd7fH1hEc-xGZ74pWtFf1TKkONqfqOxL8IwPUJzcmrhDUSE"/>
+<span class="text-xl font-bold tracking-tight text-slate-900">Evalorio</span>
+</a>
+<nav class="hidden lg:flex items-center gap-1 text-sm font-medium text-slate-600">
+<a class="px-3 py-1.5 hover:text-slate-950 transition-colors" href="#buy">Buy</a>
+<a class="px-3 py-1.5 hover:text-slate-950 transition-colors" href="#rent">Rent</a>
+<a class="px-3 py-1.5 hover:text-slate-950 transition-colors" href="#share">Share</a>
+<a class="px-3 py-1.5 hover:text-emerald-700 transition-colors flex items-center gap-1.5 text-emerald-700 font-semibold" href="#ai-valuation">
+<span class="material-symbols-outlined text-[17px]">auto_awesome</span>
+<span>AI Valuation</span>
+</a>
+<a class="px-3 py-1.5 hover:text-slate-950 transition-colors" href="#features">Market Reports</a>
+</nav>
+</div>
+<!-- Action Nav -->
+<div class="flex items-center gap-4">
+<!-- Region Dropdown -->
+<div class="hidden sm:flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-600 border border-border-subtle rounded-md hover:border-slate-300 cursor-pointer transition-colors">
+<span>🇪🇺 EN · EUR</span>
+<span class="material-symbols-outlined text-[16px] text-slate-400">expand_more</span>
+</div>
+<a class="text-sm font-medium text-slate-700 hover:text-slate-900 px-2 py-1.5 hidden md:block" href="#">Log in</a>
+<!-- Highlighted Free Listing CTA -->
+<a class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold uppercase tracking-wider rounded-md transition-all shadow-sm" href="#list-property">
+<span class="material-symbols-outlined text-[17px]">add_business</span>
+<span>List for Free</span>
+</a>
+</div>
+</div>
+</header>
+<main class="w-full">
+<!-- HERO SECTION (IDEALISTA STYLE SEARCH + CRISP ENTRY POINT) -->
+<section class="max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-20 xl:px-24 pt-16 pb-20">
+<!-- Top Subtitle Indicator -->
+<div class="flex items-center gap-2 mb-4 text-xs font-semibold uppercase tracking-widest text-emerald-700">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span>Western Europe Real Estate Portal · Spain · France · Italy · Portugal</span>
+</div>
+<!-- Hero Headline -->
+<div class="max-w-3xl mb-10">
+<h1 class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]">
+          Find your home or list for free with <span class="text-emerald-700">AI in 60 seconds</span>.
+        </h1>
+<p class="mt-4 text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
+          The next-generation architectural property portal. Scan any home with your phone to get instant 3D room detection, verified floorplans, and direct contact with zero commission fees.
+        </p>
+</div>
+<!-- PRIMARY SEARCH & LIST ENGINE (IDEALISTA PARADIGM) -->
+<div class="bg-white border border-border-subtle rounded-md shadow-sm p-4 sm:p-5">
+<!-- Search Mode Switcher & Right Quick Link -->
+<div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100">
+<div class="flex items-center gap-1">
+<button class="px-5 py-2 text-xs font-bold uppercase tracking-wider bg-slate-900 text-white rounded-sm">Buy</button>
+<button class="px-5 py-2 text-xs font-semibold uppercase tracking-wider text-slate-600 hover:bg-slate-100 rounded-sm transition-colors">Rent</button>
+<button class="px-5 py-2 text-xs font-semibold uppercase tracking-wider text-slate-600 hover:bg-slate-100 rounded-sm transition-colors">Share</button>
+</div>
+<!-- Seamless Free Listing Callout alongside search -->
+<div class="flex items-center gap-2">
+<span class="text-xs text-slate-500 hidden sm:inline">Owner?</span>
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-semibold rounded-sm border border-emerald-200 transition-colors" href="#list-property">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">auto_awesome</span>
+<span>List property for FREE with AI (0% Commission)</span>
+</a>
+</div>
+</div>
+<!-- Integrated Search Bar Columns -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-3 mt-4">
+<!-- Property Type Selector -->
+<div class="md:col-span-3 border border-border-subtle rounded-sm px-3.5 py-2 hover:border-slate-400 transition-colors">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Property Type</label>
+<select class="w-full bg-transparent text-sm font-semibold text-slate-900 border-none p-0 focus:ring-0 cursor-pointer mt-0.5">
+<option>Homes &amp; Apartments</option>
+<option>Penthouses &amp; Lofts</option>
+<option>Villas &amp; Chalets</option>
+<option>New Developments</option>
+</select>
+</div>
+<!-- Location Search Input -->
+<div class="md:col-span-5 border border-border-subtle rounded-sm px-3.5 py-2 hover:border-slate-400 transition-colors">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Location (City, Neighborhood, Postal Code)</label>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="material-symbols-outlined text-[17px] text-slate-400">location_on</span>
+<input class="w-full bg-transparent text-sm font-medium text-slate-900 placeholder:text-slate-400 border-none p-0 focus:ring-0" placeholder="e.g. Madrid Centro, Paris 16e, Lisbon Chiado, Milan..." type="text" value="Madrid Centro, Spain"/>
+</div>
+</div>
+<!-- Max Price Range -->
+<div class="md:col-span-2 border border-border-subtle rounded-sm px-3.5 py-2 hover:border-slate-400 transition-colors">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Max Budget</label>
+<select class="w-full bg-transparent text-sm font-semibold text-slate-900 border-none p-0 focus:ring-0 cursor-pointer mt-0.5">
+<option>Up to €450,000</option>
+<option>Up to €300,000</option>
+<option>Up to €750,000</option>
+<option>Up to €1,500,000</option>
+<option>No maximum</option>
+</select>
+</div>
+<!-- Primary Search Button -->
+<div class="md:col-span-2">
+<button class="w-full h-full min-h-[48px] bg-slate-900 hover:bg-slate-800 text-white rounded-sm text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<span>Search</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- MINIMALIST FEATURED PROPERTIES (4 CRISP PAN-EUROPEAN CARDS) -->
+<section class="max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-20 xl:px-24 py-12 border-t border-slate-100">
+<!-- Section Header -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+<div>
+<span class="text-xs font-bold text-emerald-700 uppercase tracking-widest">Handpicked Listings</span>
+<h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mt-1">
+            Featured homes with verified AI score
+          </h2>
+<p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Direct owner contact with certified floorplans and zero agency commission.
+          </p>
+</div>
+<!-- Filter tabs -->
+<div class="flex items-center gap-1 border border-border-subtle p-1 rounded-sm text-xs font-semibold">
+<button class="px-3 py-1 bg-slate-900 text-white rounded-sm">All</button>
+<button class="px-3 py-1 text-slate-600 hover:text-slate-900">Spain</button>
+<button class="px-3 py-1 text-slate-600 hover:text-slate-900">France</button>
+<button class="px-3 py-1 text-slate-600 hover:text-slate-900">Portugal</button>
+<button class="px-3 py-1 text-slate-600 hover:text-slate-900">Italy</button>
+</div>
+</div>
+<!-- Properties Grid: Clean, Uncluttered, Sharp Corners -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- CARD 1: Madrid (IMAGE_8) -->
+<article class="group bg-white border border-border-subtle rounded-sm overflow-hidden hover:border-slate-400 transition-all flex flex-col">
+<div class="relative aspect-[16/11] bg-slate-100 overflow-hidden">
+<img alt="Renovated Penthouse with Terrace in Salamanca" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaMBonGaV1-TxTwXFzoejT5jC5JZhGEkAPPjgGlBY7S4D_NlHKtZCEKxsE9TnuJzMQb81Fp6n3rkTaKQYL15UYYX-KmWGkaxclearRzTSzNNPxXE_2-ebNgQIg9mJ3BC-gqEyBwVZ_oGbaynmmz-M6aX6V0Re6bVZj44RLP-ku2QxLPlHvDp8lulGUInFf-tMOtjgWjm5hnTwQBWJ6Q8MaPr22FrISgDsNJlnKrHwJgko144Su9-tB"/>
+<div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+<span class="px-2 py-0.5 bg-slate-900/90 text-white text-[10px] font-bold uppercase tracking-wider rounded-sm">AI Score 9.8</span>
+<span class="px-2 py-0.5 bg-white/95 text-slate-900 text-[10px] font-bold uppercase tracking-wider rounded-sm">Direct Owner</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-1 justify-between">
+<div>
+<div class="text-xl font-bold text-slate-900">€385,000</div>
+<h3 class="text-sm font-semibold text-slate-900 mt-1 line-clamp-1 group-hover:text-emerald-700 transition-colors">
+                Renovated Penthouse with Skyline Terrace
+              </h3>
+<p class="text-xs text-slate-500 mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-slate-400">location_on</span>
+                Madrid, Spain
+              </p>
+<div class="mt-3 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center gap-3">
+<span>3 beds</span>
+<span>•</span>
+<span>110 m²</span>
+<span>•</span>
+<span>Terrace 18m²</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+<span class="font-semibold text-emerald-700">0% Commission</span>
+<span class="font-medium text-slate-700 group-hover:underline">View home →</span>
+</div>
+</div>
+</article>
+<!-- CARD 2: Paris (IMAGE_7) -->
+<article class="group bg-white border border-border-subtle rounded-sm overflow-hidden hover:border-slate-400 transition-all flex flex-col">
+<div class="relative aspect-[16/11] bg-slate-100 overflow-hidden">
+<img alt="Classic Haussmann Apartment" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHRes6M9IUNLRq7JVnGwjNSmpEIozpBH96lMtFiWbAA93KNOxMM_oqd0GXokRg2HKnwU7h79mvkhA1-svqeRdduVdnFfL1rDQzatflHVKZ2e-2vAAXnCpnCK48bhoj2QGfPNISUi54UbKBZ5qDPV5xECHaXCSJUWzqizCVsSXgIQdmzt5H2dehYsu0olhZt8DM4qbxl5zZWPGcmHd3kyjyDwTQeDERYqNWsDt4KhAZjwLgv75d0BvT"/>
+<div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+<span class="px-2 py-0.5 bg-slate-900/90 text-white text-[10px] font-bold uppercase tracking-wider rounded-sm">AI Score 9.6</span>
+<span class="px-2 py-0.5 bg-white/95 text-slate-900 text-[10px] font-bold uppercase tracking-wider rounded-sm">Direct Owner</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-1 justify-between">
+<div>
+<div class="text-xl font-bold text-slate-900">€640,000</div>
+<h3 class="text-sm font-semibold text-slate-900 mt-1 line-clamp-1 group-hover:text-emerald-700 transition-colors">
+                Classic Haussmannian Interior &amp; Balcony
+              </h3>
+<p class="text-xs text-slate-500 mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-slate-400">location_on</span>
+                Paris 16e, France
+              </p>
+<div class="mt-3 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center gap-3">
+<span>2 beds</span>
+<span>•</span>
+<span>88 m²</span>
+<span>•</span>
+<span>Fireplace</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+<span class="font-semibold text-emerald-700">0% Commission</span>
+<span class="font-medium text-slate-700 group-hover:underline">View home →</span>
+</div>
+</div>
+</article>
+<!-- CARD 3: Lisbon (IMAGE_6) -->
+<article class="group bg-white border border-border-subtle rounded-sm overflow-hidden hover:border-slate-400 transition-all flex flex-col">
+<div class="relative aspect-[16/11] bg-slate-100 overflow-hidden">
+<img alt="Historic Chiado Apartment with River View" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7_X5s2va7Ajaahg5zIRq5KKgELsGjnE_T9ty0gSqZtnNZVgBi8cGxMOp7gK5Dx5PH1d5Re1dKas5j_zyA1H0xVz01rg7YkFgWSTF1WM48PqM4YugLqUQ96CFvxg5IzynaA0FMfbkragBb9DdNhJppCIiZf1SZAN-68BpqMhE25YNmd3Ejd2qiNQbea7RrBQVBarSUBcrXxdQblqeRvVE6SYGJf2jFkajOg88MhAJ-pcJVchqVXKPN"/>
+<div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+<span class="px-2 py-0.5 bg-slate-900/90 text-white text-[10px] font-bold uppercase tracking-wider rounded-sm">AI Score 9.9</span>
+<span class="px-2 py-0.5 bg-white/95 text-slate-900 text-[10px] font-bold uppercase tracking-wider rounded-sm">Direct Owner</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-1 justify-between">
+<div>
+<div class="text-xl font-bold text-slate-900">€415,000</div>
+<h3 class="text-sm font-semibold text-slate-900 mt-1 line-clamp-1 group-hover:text-emerald-700 transition-colors">
+                Historic Chiado Flat with Tagus View
+              </h3>
+<p class="text-xs text-slate-500 mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-slate-400">location_on</span>
+                Lisbon, Portugal
+              </p>
+<div class="mt-3 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center gap-3">
+<span>2 beds</span>
+<span>•</span>
+<span>94 m²</span>
+<span>•</span>
+<span>Balcony</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+<span class="font-semibold text-emerald-700">0% Commission</span>
+<span class="font-medium text-slate-700 group-hover:underline">View home →</span>
+</div>
+</div>
+</article>
+<!-- CARD 4: Milan (IMAGE_5) -->
+<article class="group bg-white border border-border-subtle rounded-sm overflow-hidden hover:border-slate-400 transition-all flex flex-col">
+<div class="relative aspect-[16/11] bg-slate-100 overflow-hidden">
+<img alt="Designer Mezzanine Loft in Navigli" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq6e9yNZEmh7TcOS0Kd9Blt5EyYt4qzV7fFZQjf-la0TuI2S4iGRXT3MXHQKrF3108cXWdoRTbqwK51jYhbTkXwDKRpWn3C-_lvQUKEnjERNZwUbhsG-XPerJNmKApyG8VxstYKmW5MnnOFMmgv7UeOHt_OAmw5Q4z0aUpm7i9RtUUHvIcamkKgiMlreZPLf34SfGf4ymuT5UJ3_V6H22pjO-BT1I9JPQ70UmwSIUbHQcaN2RVHt4O"/>
+<div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+<span class="px-2 py-0.5 bg-slate-900/90 text-white text-[10px] font-bold uppercase tracking-wider rounded-sm">AI Score 9.7</span>
+<span class="px-2 py-0.5 bg-white/95 text-slate-900 text-[10px] font-bold uppercase tracking-wider rounded-sm">Direct Owner</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-1 justify-between">
+<div>
+<div class="text-xl font-bold text-slate-900">€475,000</div>
+<h3 class="text-sm font-semibold text-slate-900 mt-1 line-clamp-1 group-hover:text-emerald-700 transition-colors">
+                Designer Mezzanine Loft in Navigli
+              </h3>
+<p class="text-xs text-slate-500 mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-slate-400">location_on</span>
+                Milan, Italy
+              </p>
+<div class="mt-3 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center gap-3">
+<span>1 bed</span>
+<span>•</span>
+<span>105 m²</span>
+<span>•</span>
+<span>2 baths</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+<span class="font-semibold text-emerald-700">0% Commission</span>
+<span class="font-medium text-slate-700 group-hover:underline">View home →</span>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- WHY EVALORIO (CLEAN MINIMAL 3-PILLAR FEATURE STRIP - NO DENSE TABLES) -->
+<section class="max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-20 xl:px-24 py-16 border-t border-slate-100" id="features">
+<div class="max-w-2xl mb-12">
+<span class="text-xs font-bold text-emerald-700 uppercase tracking-widest">Why Evalorio</span>
+<h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mt-1">
+          A modern real estate layer for Western Europe
+        </h2>
+<p class="text-sm text-slate-600 mt-1">
+          No obsolete agency barriers, no 40-question forms, and no hidden listing fees.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Pillar 1 -->
+<div class="p-6 border border-border-subtle rounded-sm">
+<div class="w-10 h-10 rounded-sm bg-emerald-50 text-emerald-700 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-[22px]">money_off</span>
+</div>
+<h3 class="text-base font-bold text-slate-900">100% Free for Owners</h3>
+<p class="text-sm text-slate-600 mt-2 leading-relaxed">
+            List your apartment or house without time restrictions or paywalls. Deal directly with buyers and renters with absolute transparency and zero broker commissions.
+          </p>
+</div>
+<!-- Pillar 2 -->
+<div class="p-6 border border-border-subtle rounded-sm">
+<div class="w-10 h-10 rounded-sm bg-emerald-50 text-emerald-700 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-[22px]">auto_awesome</span>
+</div>
+<h3 class="text-base font-bold text-slate-900">Instant AI Floorplans &amp; Valuation</h3>
+<p class="text-sm text-slate-600 mt-2 leading-relaxed">
+            Just record a 60-second smartphone video walk-through. Evalorio extracts usable floor dimensions, identifies key features, and calculates fair real-time market value automatically.
+          </p>
+</div>
+<!-- Pillar 3 -->
+<div class="p-6 border border-border-subtle rounded-sm">
+<div class="w-10 h-10 rounded-sm bg-emerald-50 text-emerald-700 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-[22px]">language</span>
+</div>
+<h3 class="text-base font-bold text-slate-900">Pan-European Cross-Exposure</h3>
+<p class="text-sm text-slate-600 mt-2 leading-relaxed">
+            One single click distributes your property across verified buyers in Spain, France, Italy, and Portugal with automatic multi-lingual localized descriptions.
+          </p>
+</div>
+</div>
+</section>
+<!-- CLEAN MINIMAL CTA BANNER -->
+<section class="max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-20 xl:px-24 pb-20" id="list-property">
+<div class="border border-slate-900 bg-slate-950 text-white rounded-sm p-8 sm:p-12 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+<div class="max-w-xl">
+<span class="px-2.5 py-1 bg-white/10 text-emerald-300 text-[10px] font-bold uppercase tracking-wider rounded-sm">Direct Owner Access</span>
+<h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-white mt-3">
+            Ready to sell or rent? Get your instant AI valuation and list in 60 seconds.
+          </h3>
+<p class="text-sm text-slate-400 mt-2 leading-relaxed">
+            Upload pictures or a quick video clip from your phone. No paperwork, no agency exclusivity. Free forever.
+          </p>
+</div>
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
+<a class="px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold uppercase tracking-wider text-center rounded-sm transition-colors shadow-sm" href="#">
+            List Property for Free
+          </a>
+<a class="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white text-xs font-bold uppercase tracking-wider text-center rounded-sm transition-colors" href="#">
+            Calculate Market Price
+          </a>
+</div>
+</div>
+</section>
+</main>
+<!-- CLEAN MODERN FOOTER -->
+<footer class="w-full bg-white border-t border-border-subtle pt-14 pb-10">
+<div class="max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-20 xl:px-24">
+<!-- Top Row -->
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-10 border-b border-slate-100">
+<div class="flex items-center gap-2.5">
+<img alt="Evalorio Logo" class="h-6 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VPOIodYWjhIk5_VW9ty9XoF04otfD_gew6vgFp-T_8J4e4Qiy-SJ_fNtn7ZfSFK9poMsKpHNOq5QJNOXomuipWINhIUh0TCm76t-kJilIuuqKczWhuudQJVkh6m9Exyn_B-POKl_RKSyeR91LgP4gMWnrSa1TNRbiX_hTamPOehhB3xkhXZL8ek4Zl4ekN1_uBVKnti7vPkd7fH1hEc-xGZ74pWtFf1TKkONqfqOxL8IwPUJzcmrhDUSE"/>
+<span class="font-bold text-slate-900 text-base">Evalorio Europe</span>
+</div>
+<div class="flex flex-wrap items-center gap-6 text-xs text-slate-600">
+<span class="font-semibold text-slate-900">Regional Coverage:</span>
+<a class="hover:text-slate-950" href="#">Spain (Madrid, Barcelona, Málaga)</a>
+<a class="hover:text-slate-950" href="#">France (Paris, Côte d'Azur, Lyon)</a>
+<a class="hover:text-slate-950" href="#">Italy (Milan, Rome, Florence)</a>
+<a class="hover:text-slate-950" href="#">Portugal (Lisbon, Porto, Algarve)</a>
+</div>
+</div>
+<!-- Links Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 py-10 text-xs text-slate-600">
+<div>
+<h4 class="font-bold text-slate-900 uppercase tracking-wider mb-3">Explore</h4>
+<ul class="space-y-2">
+<li><a class="hover:text-slate-950 transition-colors" href="#">Apartments in Madrid</a></li>
+<li><a class="hover:text-slate-950 transition-colors" href="#">Properties in Paris</a></li>
+<li><a class="hover:text-slate-950 transition-colors" href="#">Homes in Lisbon</a></li>
+<li><a class="hover:text-slate-950 transition-colors" href="#">Lofts in Milan</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 uppercase tracking-wider mb-3">Owners</h4>
+<ul class="space-y-2">
+<li><a class="hover:text-slate-950 transition-colors" href="#">List for Free</a></li>
+<li><a class="hover:text-slate-950 transition-colors" href="#">AI Video Floorplan Scanner</a></li>
+<li><a class="hover:text-slate-950 transition-colors" href="#">Instant Valuation Engine</a></li>
+<li><a class="hover:text-slate-950 transition-colors" href="#">Seller Guidance</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 uppercase tracking-wider mb-3">Company</h4>
+<ul class="space-y-2">
+<li><a class="hover:text-slate-950 transition-colors" href="#">About Evalorio</a></li>
+<li><a class="hover:text-slate-950 transition-colors" href="#">Market Intelligence 2025</a></li>
+<li><a class="hover:text-slate-950 transition-colors" href="#">Careers</a></li>
+<li><a class="hover:text-slate-950 transition-colors" href="#">Press &amp; Media</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 uppercase tracking-wider mb-3">Legal &amp; Trust</h4>
+<ul class="space-y-2">
+<li><a class="hover:text-slate-950 transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-slate-950 transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-slate-950 transition-colors" href="#">Cookie Preferences</a></li>
+<li><a class="hover:text-slate-950 transition-colors" href="#">Security Standards</a></li>
+</ul>
+</div>
+</div>
+<!-- Bottom Copyright -->
+<div class="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+<div>© 2025 Evalorio Europe S.L. All rights reserved.</div>
+<div class="flex items-center gap-4">
+<span>Clean architectural real estate indexing</span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>
