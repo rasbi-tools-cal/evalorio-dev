@@ -13,7 +13,7 @@ export async function loadListingForEdit(id: number) {
   const { data: listing } = await supabase
     .from("listings")
     .select(
-      `id, owner_id, status, operation, property_type, title, description, price, area_m2, bedrooms, bathrooms, floor,
+      `id, owner_id, status, operation, property_type, title, description, price, area_m2, bedrooms, bathrooms, floor, exterior,
        year_built, energy_rating, features, neighborhood_id, rejection_reason, city_id,
        photos:listing_photos(id, storage_path, position, created_at)`,
     )
@@ -49,6 +49,7 @@ export async function loadListingForEdit(id: number) {
     bedrooms: listing.bedrooms,
     bathrooms: listing.bathrooms,
     floor: listing.floor,
+    exterior: listing.exterior,
     year_built: listing.year_built,
     energy_rating: listing.energy_rating,
     features: listing.features,

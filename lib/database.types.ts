@@ -87,6 +87,25 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"listing_price_history": {
+                  Row: {
+                    "changed_at": string,"id": number,"listing_id": number,"new_price": number,"old_price": number | null
+                  }
+                  Insert: {
+                    "changed_at"?: string,"id"?: never,"listing_id": number,"new_price": number,"old_price"?: number | null
+                  }
+                  Update: {
+                    "changed_at"?: string,"id"?: never,"listing_id"?: number,"new_price"?: number,"old_price"?: number | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "listing_price_history_listing_id_fkey"
+      columns: ["listing_id"]
+isOneToOne: false
+      referencedRelation: "listings"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"listing_private": {
                   Row: {
                     "address": string | null,"contact_name": string | null,"contact_phone": string | null,"listing_id": number,"location_exact": unknown,"show_exact_location": boolean,"show_phone": boolean,"updated_at": string
@@ -108,13 +127,13 @@ isOneToOne: true
                   ]
                 },"listings": {
                   Row: {
-                    "area_m2": number | null,"bathrooms": number | null,"bedrooms": number | null,"city_id": number | null,"country_code": string | null,"created_at": string,"currency": string,"description": string | null,"energy_rating": string | null,"expires_at": string | null,"features": (string)[],"floor": number | null,"id": number,"location": unknown,"neighborhood_id": number | null,"operation": Database["public"]['Enums']["listing_operation"],"owner_id": string,"price": number | null,"property_type": Database["public"]['Enums']["property_type"],"published_at": string | null,"rejection_reason": string | null,"search_vector": unknown,"status": Database["public"]['Enums']["listing_status"],"title": string | null,"updated_at": string,"views_count": number,"year_built": number | null
+                    "area_m2": number | null,"bathrooms": number | null,"bedrooms": number | null,"city_id": number | null,"country_code": string | null,"created_at": string,"currency": string,"description": string | null,"energy_rating": string | null,"expires_at": string | null,"exterior": boolean | null,"features": (string)[],"floor": number | null,"id": number,"location": unknown,"neighborhood_id": number | null,"operation": Database["public"]['Enums']["listing_operation"],"owner_id": string,"previous_price": number | null,"price": number | null,"property_type": Database["public"]['Enums']["property_type"],"published_at": string | null,"rejection_reason": string | null,"search_vector": unknown,"status": Database["public"]['Enums']["listing_status"],"title": string | null,"updated_at": string,"views_count": number,"year_built": number | null
                   }
                   Insert: {
-                    "area_m2"?: number | null,"bathrooms"?: number | null,"bedrooms"?: number | null,"city_id"?: number | null,"country_code"?: string | null,"created_at"?: string,"currency"?: string,"description"?: string | null,"energy_rating"?: string | null,"expires_at"?: string | null,"features"?: (string)[],"floor"?: number | null,"id"?: never,"location"?: unknown,"neighborhood_id"?: number | null,"operation": Database["public"]['Enums']["listing_operation"],"owner_id"?: string,"price"?: number | null,"property_type": Database["public"]['Enums']["property_type"],"published_at"?: string | null,"rejection_reason"?: string | null,"search_vector"?: never,"status"?: Database["public"]['Enums']["listing_status"],"title"?: string | null,"updated_at"?: string,"views_count"?: number,"year_built"?: number | null
+                    "area_m2"?: number | null,"bathrooms"?: number | null,"bedrooms"?: number | null,"city_id"?: number | null,"country_code"?: string | null,"created_at"?: string,"currency"?: string,"description"?: string | null,"energy_rating"?: string | null,"expires_at"?: string | null,"exterior"?: boolean | null,"features"?: (string)[],"floor"?: number | null,"id"?: never,"location"?: unknown,"neighborhood_id"?: number | null,"operation": Database["public"]['Enums']["listing_operation"],"owner_id"?: string,"previous_price"?: number | null,"price"?: number | null,"property_type": Database["public"]['Enums']["property_type"],"published_at"?: string | null,"rejection_reason"?: string | null,"search_vector"?: never,"status"?: Database["public"]['Enums']["listing_status"],"title"?: string | null,"updated_at"?: string,"views_count"?: number,"year_built"?: number | null
                   }
                   Update: {
-                    "area_m2"?: number | null,"bathrooms"?: number | null,"bedrooms"?: number | null,"city_id"?: number | null,"country_code"?: string | null,"created_at"?: string,"currency"?: string,"description"?: string | null,"energy_rating"?: string | null,"expires_at"?: string | null,"features"?: (string)[],"floor"?: number | null,"id"?: never,"location"?: unknown,"neighborhood_id"?: number | null,"operation"?: Database["public"]['Enums']["listing_operation"],"owner_id"?: string,"price"?: number | null,"property_type"?: Database["public"]['Enums']["property_type"],"published_at"?: string | null,"rejection_reason"?: string | null,"search_vector"?: never,"status"?: Database["public"]['Enums']["listing_status"],"title"?: string | null,"updated_at"?: string,"views_count"?: number,"year_built"?: number | null
+                    "area_m2"?: number | null,"bathrooms"?: number | null,"bedrooms"?: number | null,"city_id"?: number | null,"country_code"?: string | null,"created_at"?: string,"currency"?: string,"description"?: string | null,"energy_rating"?: string | null,"expires_at"?: string | null,"exterior"?: boolean | null,"features"?: (string)[],"floor"?: number | null,"id"?: never,"location"?: unknown,"neighborhood_id"?: number | null,"operation"?: Database["public"]['Enums']["listing_operation"],"owner_id"?: string,"previous_price"?: number | null,"price"?: number | null,"property_type"?: Database["public"]['Enums']["property_type"],"published_at"?: string | null,"rejection_reason"?: string | null,"search_vector"?: never,"status"?: Database["public"]['Enums']["listing_status"],"title"?: string | null,"updated_at"?: string,"views_count"?: number,"year_built"?: number | null
                   }
                   Relationships: [
                     {
@@ -384,13 +403,13 @@ isOneToOne: false
           Views: {
             "public_profiles": {
                   Row: {
-                    "created_at": string | null,"display_name": string | null,"id": string | null
+                    "created_at": string | null,"display_name": string | null,"id": string | null,"seller_type": string | null
                   }
                   Insert: {
-                           "created_at"?: string | null,"display_name"?: string | null,"id"?: string | null
+                           "created_at"?: string | null,"display_name"?: string | null,"id"?: string | null,"seller_type"?: never
                          }
                         Update: {
-                           "created_at"?: string | null,"display_name"?: string | null,"id"?: string | null
+                           "created_at"?: string | null,"display_name"?: string | null,"id"?: string | null,"seller_type"?: never
                          }
                         Relationships: [
                     
@@ -434,6 +453,9 @@ isOneToOne: false
                            },
 "is_privileged_context":
 { Args: Record<PropertyKey, never>; Returns: boolean
+                           },
+"listing_has_phone":
+{ Args: { "p_listing_id": number }; Returns: boolean
                            },
 "listing_private_point":
 { Args: { "p_listing_id": number }; Returns: {

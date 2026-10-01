@@ -193,6 +193,7 @@ export default async function ListingPage({ params, searchParams }: PageProps<"/
   ]
 
   const tAccount = await getTranslations("account.status")
+  const tCard = await getTranslations("card")
   const tContact = await getTranslations("contact")
 
   return (
@@ -253,6 +254,12 @@ export default async function ListingPage({ params, searchParams }: PageProps<"/
             {format.number(listing.price!, "price")}
             {operation === "rent" && <span className="text-muted-foreground text-lg font-medium">{tc("perMonth")}</span>}
           </p>
+          {listing.previous_price && listing.previous_price > listing.price! && (
+            <p className="text-destructive text-sm font-semibold">
+              <span className="text-muted-foreground mr-2 font-normal line-through">{format.number(listing.previous_price, "price")}</span>
+              {tCard("priceDrop", { amount: format.number(listing.previous_price - listing.price!, "price") })}
+            </p>
+          )}
           {perSqm && operation === "sale" && (
             <p className="text-muted-foreground text-sm">{tc("pricePerSqm", { value: format.number(perSqm, "price") })}</p>
           )}
@@ -308,6 +315,7 @@ export default async function ListingPage({ params, searchParams }: PageProps<"/
                 [t("propertyType"), tt(listing.property_type)],
                 [t("operation"), to(operation)],
                 [t("area"), tc("sqm", { value: listing.area_m2! })],
+                listing.exterior != null ? [t("orientation"), listing.exterior ? tCard("exterior") : tCard("interior")] : null,
                 perSqm && operation === "sale" ? [t("pricePerSqm"), format.number(perSqm, "price")] : null,
                 listing.energy_rating
                   ? [te("label"), listing.energy_rating === "exempt" ? te("exempt") : listing.energy_rating === "pending" ? te("pending") : listing.energy_rating]

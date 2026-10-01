@@ -242,7 +242,15 @@
     "addFavorite": "Save to favourites",
     "removeFavorite": "Remove from favourites",
     "view": "View",
-    "new": "New"
+    "new": "New",
+    "contact": "Contact",
+    "viewPhone": "View phone",
+    "priceDrop": "Price drop -{amount}",
+    "previousPrice": "Previous price",
+    "privateOwner": "Private owner",
+    "agency": "Agency",
+    "exterior": "Exterior",
+    "interior": "Interior"
   },
   "listing": {
     "ref": "Ref. {id}",
@@ -277,7 +285,8 @@
     "statusBanner": "Status: {status}",
     "views": "{count, plural, one {# view} other {# views}}",
     "publishedLabel": "Published",
-    "refLabel": "Reference"
+    "refLabel": "Reference",
+    "orientation": "Exterior / interior"
   },
   "contact": {
     "title": "Contact the owner",
@@ -414,7 +423,10 @@
       "phone": "Enter a valid phone number",
       "terms": "Please accept the terms",
       "noContactInText": "Please remove phone numbers, emails and links from the text"
-    }
+    },
+    "exteriorQuestion": "Exterior or interior",
+    "exterior": "Exterior (street view)",
+    "interior": "Interior (courtyard view)"
   },
   "auth": {
     "loginTitle": "Log in to Evalorio",

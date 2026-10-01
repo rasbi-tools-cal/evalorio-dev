@@ -1,7 +1,7 @@
 -- Security tests for RLS, grants and listing workflow. Run: pnpm db:test (needs `supabase start`).
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(24);
+select plan(28);
 
 -- Fixtures -----------------------------------------------------------------------------------------
 insert into auth.users (id, email, aud, role, instance_id, raw_user_meta_data)
@@ -83,6 +83,14 @@ select ok(
 );
 select pg_temp.reset();
 select is((select is_trusted from public.profiles where id = '11111111-1111-4111-8111-111111111111'), true, 'approval makes the owner trusted');
+
+-- Price history ---------------------------------------------------------------------------------------
+select pg_temp.login('11111111-1111-4111-8111-111111111111');
+select throws_ok($$ update public.listings set previous_price = 999999 where id = 900001 $$, '42501', null, 'owners cannot fake a previous price');
+select lives_ok($$ update public.listings set price = 180000 where id = 900001 $$, 'owner lowers the price');
+select pg_temp.reset();
+select is((select previous_price from public.listings where id = 900001), 200000, 'a price drop on a published listing keeps the old price');
+select is((select count(*)::int from public.listing_price_history where listing_id = 900001), 1, 'price change is recorded in the history');
 
 select * from finish();
 rollback;

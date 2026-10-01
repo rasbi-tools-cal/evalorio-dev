@@ -18,6 +18,7 @@ export interface WizardListing {
   bedrooms: number | null
   bathrooms: number | null
   floor: number | null
+  exterior: boolean | null
   year_built: number | null
   energy_rating: string | null
   features: string[]

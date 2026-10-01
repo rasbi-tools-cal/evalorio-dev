@@ -25,6 +25,13 @@ export interface ListingSummary {
   lng: number
   photos: string[]
   photo_count?: number
+  // Card details (search RPC); optional so older callers and RPC versions still type-check.
+  excerpt?: string
+  previous_price?: number | null
+  floor?: number | null
+  exterior?: boolean | null
+  seller_type?: "private" | "agency"
+  has_phone?: boolean
 }
 
 export interface MapMarker {
@@ -120,7 +127,7 @@ export const getListing = cache(async (id: number) => {
     .from("listings")
     .select(
       `id, owner_id, status, operation, property_type, title, description, price, area_m2, bedrooms, bathrooms,
-       floor, year_built, energy_rating, features, country_code, published_at, updated_at, created_at, expires_at,
+       floor, exterior, previous_price, year_built, energy_rating, features, country_code, published_at, updated_at, created_at, expires_at,
        rejection_reason, views_count,
        city:cities(id, name, slug, region),
        neighborhood:neighborhoods(id, name, slug),

@@ -242,7 +242,15 @@
     "addFavorite": "Ajouter aux favoris",
     "removeFavorite": "Retirer des favoris",
     "view": "Voir",
-    "new": "Nouveau"
+    "new": "Nouveau",
+    "contact": "Contacter",
+    "viewPhone": "Voir le téléphone",
+    "priceDrop": "Baisse de prix -{amount}",
+    "previousPrice": "Ancien prix",
+    "privateOwner": "Particulier",
+    "agency": "Agence",
+    "exterior": "Côté rue",
+    "interior": "Côté cour"
   },
   "listing": {
     "ref": "Réf. {id}",
@@ -277,7 +285,8 @@
     "statusBanner": "Statut : {status}",
     "views": "{count, plural, one {# vue} other {# vues}}",
     "publishedLabel": "Publié",
-    "refLabel": "Référence"
+    "refLabel": "Référence",
+    "orientation": "Exposition"
   },
   "contact": {
     "title": "Contacter le propriétaire",
@@ -414,7 +423,10 @@
       "phone": "Indiquez un numéro de téléphone valide",
       "terms": "Veuillez accepter les conditions",
       "noContactInText": "Retirez les téléphones, emails et liens du texte"
-    }
+    },
+    "exteriorQuestion": "Côté rue ou côté cour",
+    "exterior": "Côté rue",
+    "interior": "Côté cour"
   },
   "auth": {
     "loginTitle": "Connexion à Evalorio",

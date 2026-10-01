@@ -109,7 +109,7 @@ export function ContactCard({
   )
 }
 
-function MessageForm({ listingId, defaultName, defaultEmail }: { listingId: number; defaultName: string; defaultEmail: string }) {
+export function MessageForm({ listingId, defaultName, defaultEmail }: { listingId: number; defaultName: string; defaultEmail: string }) {
   const t = useTranslations("contact")
   const tc = useTranslations("common")
   const captcha = useRef<TurnstileHandle>(null)

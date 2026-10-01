@@ -83,6 +83,7 @@ export function validateDetails(listing: WizardListing, nums: Record<NumField, s
     bedrooms: v.bedrooms,
     bathrooms: v.bathrooms,
     floor: v.floor,
+    exterior: listing.exterior,
     year_built: v.year_built,
     energy_rating: (listing.energy_rating as (typeof ENERGY_RATINGS)[number]) || null,
     features: listing.features as Feature[],
@@ -295,6 +296,17 @@ export function DetailsFields({ form }: { form: ListingForm }) {
         {!noRooms && num("bathrooms", t("bathrooms"))}
         {num("floor", t("floor"), { help: t("floorHelp"), optional: true })}
         {num("year_built", t("yearBuilt"), { optional: true })}
+        <Field label={t("exteriorQuestion")} htmlFor="exterior" optionalLabel={tc("optional")}>
+          <NativeSelect
+            id="exterior"
+            value={listing.exterior == null ? "" : listing.exterior ? "exterior" : "interior"}
+            onChange={(e) => update({ exterior: e.target.value === "" ? null : e.target.value === "exterior" })}
+          >
+            <option value="">—</option>
+            <option value="exterior">{t("exterior")}</option>
+            <option value="interior">{t("interior")}</option>
+          </NativeSelect>
+        </Field>
         <Field label={t("energyRating")} htmlFor="energy_rating" optionalLabel={tc("optional")}>
           <NativeSelect id="energy_rating" value={listing.energy_rating ?? ""} onChange={(e) => update({ energy_rating: e.target.value || null })}>
             <option value="">—</option>

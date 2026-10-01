@@ -75,6 +75,7 @@ const detailsSchema = z.object({
   bedrooms: optionalInt(0, 50),
   bathrooms: optionalInt(0, 50),
   floor: optionalInt(-5, 200),
+  exterior: z.boolean().nullable().optional(),
   year_built: optionalInt(1500, 2100),
   energy_rating: z.enum(ENERGY_RATINGS).nullable().optional(),
   features: z.array(z.enum(FEATURES)).max(FEATURES.length).optional(),

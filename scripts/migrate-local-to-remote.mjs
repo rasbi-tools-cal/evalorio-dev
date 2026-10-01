@@ -81,6 +81,7 @@ for (const l of listings) {
         bedrooms: l.bedrooms,
         bathrooms: l.bathrooms,
         floor: l.floor,
+        exterior: l.exterior,
         year_built: l.year_built,
         energy_rating: l.energy_rating,
         features: l.features,
@@ -124,7 +125,7 @@ for (const l of listings) {
   must(
     await remote
       .from("listings")
-      .update({ status: l.status, published_at: l.published_at, expires_at: l.expires_at, views_count: l.views_count, rejection_reason: l.rejection_reason })
+      .update({ status: l.status, published_at: l.published_at, expires_at: l.expires_at, views_count: l.views_count, rejection_reason: l.rejection_reason, previous_price: l.previous_price })
       .eq("id", l.id),
     `status ${l.id}`,
   )

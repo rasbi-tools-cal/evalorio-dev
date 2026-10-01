@@ -248,7 +248,15 @@
     "addFavorite": "Aggiungi ai preferiti",
     "removeFavorite": "Rimuovi dai preferiti",
     "view": "Vedi",
-    "new": "Nuovo"
+    "new": "Nuovo",
+    "contact": "Contatta",
+    "viewPhone": "Vedi telefono",
+    "priceDrop": "Prezzo ribassato -{amount}",
+    "previousPrice": "Prezzo precedente",
+    "privateOwner": "Privato",
+    "agency": "Agenzia",
+    "exterior": "Esterno",
+    "interior": "Interno"
   },
   "listing": {
     "ref": "Rif. {id}",
@@ -283,7 +291,8 @@
     "statusBanner": "Stato: {status}",
     "views": "{count, plural, one {# visita} other {# visite}}",
     "publishedLabel": "Pubblicato",
-    "refLabel": "Riferimento"
+    "refLabel": "Riferimento",
+    "orientation": "Esterno / interno"
   },
   "contact": {
     "title": "Contatta il proprietario",
@@ -420,7 +429,10 @@
       "phone": "Inserisci un numero di telefono valido",
       "terms": "Accetta le condizioni",
       "noContactInText": "Rimuovi telefoni, email e link dal testo"
-    }
+    },
+    "exteriorQuestion": "Esterno o interno",
+    "exterior": "Esterno (vista strada)",
+    "interior": "Interno (vista cortile)"
   },
   "auth": {
     "loginTitle": "Accedi a Evalorio",

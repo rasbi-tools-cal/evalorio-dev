@@ -12,9 +12,9 @@ export function displayTitle(
   return listing.city ? `${base} · ${listing.city}` : base
 }
 
-const NEW_MS = 3 * 24 * 60 * 60 * 1000
+const NEW_MS = 7 * 24 * 60 * 60 * 1000
 
-/** Published in the last 3 days (cards are server-rendered, so no hydration mismatch). */
+/** Published in the last 7 days (cards are server-rendered, so no hydration mismatch). */
 export function isNewListing(publishedAt: string) {
   return Date.now() - new Date(publishedAt).getTime() < NEW_MS
 }
