@@ -1,12 +1,13 @@
 "use client"
 
-import { SlidersHorizontal } from "lucide-react"
+import { Loader2, SlidersHorizontal } from "lucide-react"
 import { useFormatter, useTranslations } from "next-intl"
-import { useState } from "react"
+import { useEffect, useRef, useState, useTransition } from "react"
 import { Button } from "@/components/ui/button"
 import { NativeSelect } from "@/components/ui/native-select"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { usePathname, useRouter } from "@/i18n/navigation"
+import { countResults, type CountScope } from "@/lib/actions/search-count"
 import { FEATURES, type Operation, type PropertyType } from "@/lib/catalog"
 import type { SearchFilters } from "@/lib/search/filters"
 import { cn } from "@/lib/utils"
@@ -25,27 +26,63 @@ type Props = {
   total: number
 }
 
-/** Plain GET form: works without JavaScript; with JS it navigates client-side on every change. */
-function FiltersBody({ filters, operation, types, onApplied }: Props & { onApplied?: () => void }) {
+function queryFromForm(form: HTMLFormElement, filters: SearchFilters) {
+  const data = new FormData(form)
+  const q = new URLSearchParams()
+  const multi = (key: string) => data.getAll(key).map(String).filter(Boolean)
+  const single = (key: string) => String(data.get(key) ?? "")
+  if (multi("types").length) q.set("types", multi("types").join(","))
+  for (const key of ["price_min", "price_max", "beds", "baths", "area_min", "area_max"]) if (single(key)) q.set(key, single(key))
+  if (multi("features").length) q.set("features", multi("features").sort().join(","))
+  if (filters.bbox) q.set("bbox", filters.bbox.join(","))
+  if (filters.sort !== "newest") q.set("sort", filters.sort)
+  if (filters.view === "map") q.set("view", "map")
+  return q
+}
+
+/**
+ * Plain GET form: works without JavaScript. Sidebar mode navigates on every change; drawer mode
+ * (mobile) keeps changes local, shows a live "Show X results" count and applies on submit.
+ */
+function FiltersBody({
+  filters,
+  operation,
+  types,
+  total,
+  onApplied,
+  countScope,
+}: Props & { onApplied?: () => void; countScope?: CountScope }) {
   const t = useTranslations("filters")
+  const ts = useTranslations("search")
   const tt = useTranslations("types")
   const tf = useTranslations("features")
   const format = useFormatter()
   const router = useRouter()
   const pathname = usePathname()
   const [formKey, setFormKey] = useState(0)
+  const [liveCount, setLiveCount] = useState(total)
+  const [counting, startCount] = useTransition()
+  const countTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const drawer = Boolean(onApplied)
+
+  useEffect(() => () => {
+    if (countTimer.current) clearTimeout(countTimer.current)
+  }, [])
+
+  const recount = (form: HTMLFormElement) => {
+    if (!countScope) return
+    const query = queryFromForm(form, filters).toString()
+    if (countTimer.current) clearTimeout(countTimer.current)
+    countTimer.current = setTimeout(() => {
+      startCount(async () => {
+        const n = await countResults(countScope, query)
+        if (n != null) setLiveCount(n)
+      })
+    }, 250)
+  }
 
   const apply = (form: HTMLFormElement) => {
-    const data = new FormData(form)
-    const q = new URLSearchParams()
-    const multi = (key: string) => data.getAll(key).map(String).filter(Boolean)
-    const single = (key: string) => String(data.get(key) ?? "")
-    if (multi("types").length) q.set("types", multi("types").join(","))
-    for (const key of ["price_min", "price_max", "beds", "baths", "area_min", "area_max"]) if (single(key)) q.set(key, single(key))
-    if (multi("features").length) q.set("features", multi("features").sort().join(","))
-    if (filters.bbox) q.set("bbox", filters.bbox.join(","))
-    if (filters.sort !== "newest") q.set("sort", filters.sort)
-    if (filters.view === "map") q.set("view", "map")
+    const q = queryFromForm(form, filters)
     router.push(`${pathname}${q.size ? `?${q}` : ""}`, { scroll: false })
     onApplied?.()
   }
@@ -69,7 +106,8 @@ function FiltersBody({ filters, operation, types, onApplied }: Props & { onAppli
         apply(e.currentTarget)
       }}
       onChange={(e) => {
-        if (!onApplied) apply(e.currentTarget)
+        if (drawer) recount(e.currentTarget)
+        else apply(e.currentTarget)
       }}
       className="flex flex-col gap-5"
     >
@@ -146,20 +184,26 @@ function FiltersBody({ filters, operation, types, onApplied }: Props & { onAppli
         ))}
       </fieldset>
 
-      <div className="flex flex-col gap-2">
-        {onApplied ? (
-          <Button type="submit" size="lg">
-            {t("apply")}
+      {drawer ? (
+        <div className="bg-background sticky bottom-0 -mx-4 flex gap-2 border-t px-4 py-3">
+          <Button type="button" variant="secondary" onClick={reset}>
+            {t("reset")}
           </Button>
-        ) : (
+          <Button type="submit" size="lg" className="flex-1" aria-live="polite">
+            {counting && <Loader2 className="animate-spin" aria-hidden />}
+            {ts("showResults", { count: liveCount })}
+          </Button>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-2">
           <noscript>
             <Button type="submit">{t("apply")}</Button>
           </noscript>
-        )}
-        <Button type="button" variant="secondary" onClick={reset}>
-          {t("reset")}
-        </Button>
-      </div>
+          <Button type="button" variant="secondary" onClick={reset}>
+            {t("reset")}
+          </Button>
+        </div>
+      )}
     </form>
   )
 }
@@ -205,23 +249,21 @@ export function FiltersSidebar(props: Props) {
   )
 }
 
-export function FiltersSheetButton(props: Props & { activeCount: number }) {
+/** Mobile: a floating "Filters (n)" button that opens the filters in a bottom drawer. */
+export function FiltersSheetButton(props: Props & { activeCount: number; countScope: CountScope }) {
   const t = useTranslations("search")
   const tc = useTranslations("common")
   const [open, setOpen] = useState(false)
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" className="lg:hidden">
+        <Button size="lg" className="fixed bottom-5 left-1/2 z-30 -translate-x-1/2 rounded-full px-6 shadow-[var(--shadow-raised)] lg:hidden">
           <SlidersHorizontal aria-hidden />
-          {t("filters")}
-          {props.activeCount > 0 && (
-            <span className="bg-primary text-primary-foreground rounded-full px-1.5 text-[11px] leading-5">{props.activeCount}</span>
-          )}
+          {props.activeCount > 0 ? t("filtersCount", { count: props.activeCount }) : t("filters")}
         </Button>
       </SheetTrigger>
       <SheetContent title={t("filters")} closeLabel={tc("close")} side="bottom">
-        <div className="p-4 pb-8">
+        <div className="px-4 pt-4">
           <FiltersBody {...props} onApplied={() => setOpen(false)} />
         </div>
       </SheetContent>

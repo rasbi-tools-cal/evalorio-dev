@@ -226,7 +226,8 @@
     "provinceLabel": "{kind, select, department {Dipartimento {name}} district {Distretto di {name}} other {Provincia di {name}}}",
     "inProvince": "{kind, select, department {nel dipartimento {name}} district {nel distretto di {name}} other {in provincia di {name}}}",
     "h1Count": "{heading}: {count, plural, =0 {nessun annuncio} one {# annuncio} other {# annunci}}",
-    "nearbyTitle": "Zone vicine"
+    "nearbyTitle": "Zone vicine",
+    "filtersCount": "Filtri ({count})"
   },
   "filters": {
     "operation": "Contratto",

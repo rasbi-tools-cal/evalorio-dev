@@ -220,7 +220,8 @@
     "provinceLabel": "{kind, select, department {{name} department} district {{name} district} other {{name} province}}",
     "inProvince": "{kind, select, department {in the {name} department} district {in the {name} district} other {in {name} province}}",
     "h1Count": "{heading}: {count, plural, =0 {no listings} one {# listing} other {# listings}}",
-    "nearbyTitle": "Nearby areas"
+    "nearbyTitle": "Nearby areas",
+    "filtersCount": "Filters ({count})"
   },
   "filters": {
     "operation": "Operation",

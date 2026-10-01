@@ -212,7 +212,7 @@ export default async function SearchPage(props: Props) {
     )
 
   return (
-    <div className="page-container pb-16">
+    <div className="page-container pb-28 lg:pb-16">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -276,7 +276,21 @@ export default async function SearchPage(props: Props) {
             </Link>
           </nav>
           <div className="flex flex-wrap items-center gap-2">
-            <FiltersSheetButton filters={filters} operation={ctx.operation} types={CATEGORY_TYPES[ctx.category]} total={total} activeCount={activeFilterCount} />
+            <FiltersSheetButton
+              filters={filters}
+              operation={ctx.operation}
+              types={CATEGORY_TYPES[ctx.category]}
+              total={total}
+              activeCount={activeFilterCount}
+              countScope={{
+                operation: scope.operation,
+                category: scope.category,
+                country: scope.country,
+                provinceId: scope.provinceId,
+                cityId: scope.cityId,
+                neighborhoodId: scope.neighborhoodId,
+              }}
+            />
             <SearchToolbar sort={filters.sort} view={filters.view} query={query} saveContext={saveContext} />
           </div>
         </div>
