@@ -216,7 +216,11 @@
     "latestIn": "Nouveautés {inCountry}",
     "h1Country": "{category} {operation} {inCountry}",
     "seeOnMap": "Voir sur la carte",
-    "mapOfPage": "Carte des biens de cette page"
+    "mapOfPage": "Carte des biens de cette page",
+    "provinceLabel": "{kind, select, department {{name}} district {District de {name}} other {Province de {name}}}",
+    "inProvince": "{kind, select, department {dans le département {name}} district {dans le district de {name}} other {dans la province de {name}}}",
+    "h1Count": "{heading} : {count, plural, =0 {aucune annonce} one {# annonce} other {# annonces}}",
+    "nearbyTitle": "Zones à proximité"
   },
   "filters": {
     "operation": "Transaction",

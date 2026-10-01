@@ -45,6 +45,7 @@ export interface SearchScope {
   operation: Operation
   category: Category
   country?: CountryCode
+  provinceId?: number
   cityId?: number
   neighborhoodId?: number
 }
@@ -80,12 +81,40 @@ export const getCity = cache(async (country: CountryCode, slug: string) => {
   const supabase = createPublicClient()
   const { data } = await supabase
     .from("cities")
-    .select("id, name, slug, region, country_code, population")
+    .select("id, name, slug, region, country_code, population, province:provinces(id, name, slug)")
     .eq("country_code", country)
     .eq("slug", slug)
     .maybeSingle()
   return data
 })
+
+export const getProvince = cache(async (country: CountryCode, slug: string) => {
+  const supabase = createPublicClient()
+  const { data } = await supabase.from("provinces").select("id, name, slug").eq("country_code", country).eq("slug", slug).maybeSingle()
+  return data
+})
+
+export interface NearbyPlace {
+  kind: "city" | "neighborhood"
+  name: string
+  slug: string
+  city_slug: string
+  listings: number
+}
+
+export async function nearbyPlaces(scope: SearchScope, types: PropertyType[]) {
+  const supabase = createPublicClient()
+  const { data } = await supabase.rpc("nearby_places", {
+    p_operation: scope.operation,
+    p_types: types,
+    p_country: scope.country,
+    p_province_id: scope.provinceId,
+    p_city_id: scope.cityId,
+    p_neighborhood_id: scope.neighborhoodId,
+    p_limit: 6,
+  })
+  return (data ?? []) as NearbyPlace[]
+}
 
 export const getNeighborhood = cache(async (cityId: number, slug: string) => {
   const supabase = createPublicClient()
@@ -129,7 +158,7 @@ export const getListing = cache(async (id: number) => {
       `id, owner_id, status, operation, property_type, title, description, price, area_m2, bedrooms, bathrooms,
        floor, exterior, previous_price, year_built, energy_rating, features, country_code, published_at, updated_at, created_at, expires_at,
        rejection_reason, views_count,
-       city:cities(id, name, slug, region),
+       city:cities(id, name, slug, region, province:provinces(name, slug)),
        neighborhood:neighborhoods(id, name, slug),
        photos:listing_photos(id, storage_path, position, width, height, created_at)`,
     )

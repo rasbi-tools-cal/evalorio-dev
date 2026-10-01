@@ -216,7 +216,11 @@
     "latestIn": "Latest {inCountry}",
     "h1Country": "{category} {operation} {inCountry}",
     "seeOnMap": "See on map",
-    "mapOfPage": "Map of the homes on this page"
+    "mapOfPage": "Map of the homes on this page",
+    "provinceLabel": "{kind, select, department {{name} department} district {{name} district} other {{name} province}}",
+    "inProvince": "{kind, select, department {in the {name} department} district {in the {name} district} other {in {name} province}}",
+    "h1Count": "{heading}: {count, plural, =0 {no listings} one {# listing} other {# listings}}",
+    "nearbyTitle": "Nearby areas"
   },
   "filters": {
     "operation": "Operation",

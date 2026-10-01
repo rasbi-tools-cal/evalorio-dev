@@ -4,6 +4,7 @@ import {
   COUNTRIES,
   countryByAnySlug,
   countryBySlug,
+  parseProvinceSegment,
   parseSearchSlug,
   parseSearchSlugAnyLocale,
   type Category,
@@ -11,16 +12,20 @@ import {
   type Operation,
 } from "@/lib/catalog"
 import { createPublicClient } from "@/lib/supabase/public"
-import { getCity, getNeighborhood } from "@/lib/listings/queries"
+import { getCity, getNeighborhood, getProvince } from "@/lib/listings/queries"
 import { countryPath, searchPath } from "@/lib/urls"
+
+type Place = { id: number; name: string; slug: string }
 
 export type SearchContext =
   | { kind: "country"; country: CountryCode }
   | {
       kind: "search"
       country: CountryCode
-      city: { id: number; name: string; slug: string; region: string | null } | null
-      neighborhood: { id: number; name: string; slug: string } | null
+      /** Set for province pages, and for city pages (the city's province, for breadcrumbs). */
+      province: Place | null
+      city: (Place & { region: string | null }) | null
+      neighborhood: Place | null
       category: Category
       operation: Operation
       center: [number, number]
@@ -31,8 +36,9 @@ export type SearchContext =
 
 /**
  * URL grammar (after the locale prefix):
- *   /{country}                                  country landing
- *   /{country}/{category-operation}             whole country
+ *   /{country}                                       country landing
+ *   /{country}/{category-operation}                  whole country
+ *   /{country}/{province-word}-{province}/{cat-op}   province (ES/IT province, FR department, PT district)
  *   /{country}/{city}/{category-operation}
  *   /{country}/{city}/{neighbourhood}/{category-operation}
  * /{country}/{city} and /{country}/{city}/{neighbourhood} redirect to "homes for sale".
@@ -68,16 +74,35 @@ export async function resolveSearchContext(locale: Locale, countrySlug: string, 
     if (segments.length > 2) return { kind: "notFound" }
     parsed = { category: "homes", operation: "sale" }
   }
+  const explicit = Boolean(parseSearchSlug(locale, last))
 
   if (placeSegments.length === 0) {
+    return { kind: "search", country: country.code, province: null, city: null, neighborhood: null, ...parsed, center: country.center, zoom: country.zoom }
+  }
+
+  // Province page.
+  const provinceSlug = parseProvinceSegment(locale, country.code, placeSegments[0])
+  if (provinceSlug) {
+    const province = await getProvince(country.code, provinceSlug)
+    if (!province || placeSegments.length > 1) return { kind: "notFound" }
+    if (!explicit) return { kind: "redirect", path: searchPath(locale, { country: country.code, province: province.slug, ...parsed }) }
+    const { data: center } = await createPublicClient()
+      .from("cities")
+      .select("id")
+      .eq("province_id", province.id)
+      .order("population", { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    const { data: coords } = center ? await createPublicClient().rpc("get_city", { p_id: center.id }) : { data: null }
     return {
       kind: "search",
       country: country.code,
+      province,
       city: null,
       neighborhood: null,
       ...parsed,
-      center: country.center,
-      zoom: country.zoom,
+      center: coords?.[0] ? [coords[0].lat, coords[0].lng] : COUNTRIES[country.code].center,
+      zoom: 9,
     }
   }
 
@@ -87,7 +112,7 @@ export async function resolveSearchContext(locale: Locale, countrySlug: string, 
   if (placeSegments[1] && !neighborhood) return { kind: "notFound" }
 
   // Bare place URL -> canonical "homes for sale" page.
-  if (!parseSearchSlug(locale, last)) {
+  if (!explicit) {
     return {
       kind: "redirect",
       path: searchPath(locale, { country: country.code, city: city.slug, neighborhood: neighborhood?.slug, ...parsed }),
@@ -100,6 +125,7 @@ export async function resolveSearchContext(locale: Locale, countrySlug: string, 
   return {
     kind: "search",
     country: country.code,
+    province: city.province ?? null,
     city: { id: city.id, name: city.name, slug: city.slug, region: city.region },
     neighborhood,
     ...parsed,

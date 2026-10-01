@@ -14,8 +14,8 @@ import { Button } from "@/components/ui/button"
 import { Link, permanentRedirect } from "@/i18n/navigation"
 import { pageLocale } from "@/i18n/locale"
 import type { Locale } from "@/i18n/routing"
-import { categoriesFor, CATEGORY_TYPES, type CountryCode } from "@/lib/catalog"
-import { getNeighborhoods, getTopCities, latestListings, searchListings } from "@/lib/listings/queries"
+import { categoriesFor, CATEGORY_TYPES, PROVINCE_KIND, type CountryCode } from "@/lib/catalog"
+import { getNeighborhoods, getTopCities, latestListings, nearbyPlaces, searchListings } from "@/lib/listings/queries"
 import { filtersToQuery, hasNarrowingFilters, PAGE_SIZE, parseFilters, MAX_PAGE } from "@/lib/search/filters"
 import { resolveSearchContext, type SearchContext } from "@/lib/search/context"
 import { localizedAlternates, ogLocale } from "@/lib/seo"
@@ -33,14 +33,52 @@ async function resolve(props: Props) {
   return { locale, ctx: ctx as Exclude<SearchContext, { kind: "notFound" | "redirect" }> }
 }
 
+/** Province landing page (not a city inside a province). */
+const isProvincePage = (ctx: Search) => Boolean(ctx.province && !ctx.city)
+
 function pathFor(ctx: Search, l: Locale) {
-  return searchPath(l, { country: ctx.country, city: ctx.city?.slug, neighborhood: ctx.neighborhood?.slug, category: ctx.category, operation: ctx.operation })
+  return searchPath(l, {
+    country: ctx.country,
+    province: isProvincePage(ctx) ? ctx.province!.slug : null,
+    city: ctx.city?.slug,
+    neighborhood: ctx.neighborhood?.slug,
+    category: ctx.category,
+    operation: ctx.operation,
+  })
 }
 
 async function placeName(ctx: Search, locale: Locale) {
   const tc = await getTranslations({ locale, namespace: "countries" })
+  const t = await getTranslations({ locale, namespace: "search" })
   if (ctx.neighborhood && ctx.city) return `${ctx.neighborhood.name}, ${ctx.city.name}`
-  return ctx.city?.name ?? tc(ctx.country)
+  if (ctx.city) return ctx.city.name
+  if (ctx.province) return t("provinceLabel", { kind: PROVINCE_KIND[ctx.country], name: ctx.province.name })
+  return tc(ctx.country)
+}
+
+/** "Homes for sale in Madrid" — cities/neighbourhoods use "in {place}", countries/provinces their own preposition. */
+async function headingFor(ctx: Search, locale: Locale, place: string) {
+  const [t, tcat, tph, tin] = await Promise.all([
+    getTranslations({ locale, namespace: "search" }),
+    getTranslations({ locale, namespace: "categories" }),
+    getTranslations({ locale, namespace: "operationPhrase" }),
+    getTranslations({ locale, namespace: "countriesIn" }),
+  ])
+  const base = { category: tcat(ctx.category), operation: tph(ctx.operation) }
+  if (ctx.city) return t("h1", { ...base, place })
+  if (ctx.province) return t("h1Country", { ...base, inCountry: t("inProvince", { kind: PROVINCE_KIND[ctx.country], name: ctx.province.name }) })
+  return t("h1Country", { ...base, inCountry: tin(ctx.country) })
+}
+
+function scopeFor(ctx: Search) {
+  return {
+    operation: ctx.operation,
+    category: ctx.category,
+    country: ctx.country,
+    provinceId: isProvincePage(ctx) ? ctx.province!.id : undefined,
+    cityId: ctx.city?.id,
+    neighborhoodId: ctx.neighborhood?.id,
+  }
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
@@ -60,23 +98,17 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
 
   const filters = parseFilters(await props.searchParams)
-  const tcat = await getTranslations({ locale, namespace: "categories" })
   const tcatLower = await getTranslations({ locale, namespace: "categoriesLower" })
   const tph = await getTranslations({ locale, namespace: "operationPhrase" })
   const place = await placeName(ctx, locale)
-  const { total } = await searchListings(
-    { operation: ctx.operation, category: ctx.category, country: ctx.country, cityId: ctx.city?.id, neighborhoodId: ctx.neighborhood?.id },
-    { ...filters, page: 1 },
-  )
-  const title = ctx.city
-    ? tm("searchTitle", { category: tcat(ctx.category), operation: tph(ctx.operation), place })
-    : tm("searchTitleCountry", { category: tcat(ctx.category), operation: tph(ctx.operation), inCountry: tin(ctx.country) })
+  const { total } = await searchListings(scopeFor(ctx), { ...filters, page: 1 })
+  const title = await headingFor(ctx, locale, place)
   const pageSuffix = filters.page > 1 ? ` (${filters.page})` : ""
   const narrowed = hasNarrowingFilters(filters)
 
   return {
     title: title + pageSuffix,
-    description: ctx.city
+    description: ctx.city || ctx.province
       ? tm("searchDescription", { count: total, category: tcatLower(ctx.category), operation: tph(ctx.operation), place })
       : tm("searchDescriptionCountry", { count: total, category: tcatLower(ctx.category), operation: tph(ctx.operation), inCountry: tin(ctx.country) }),
     // Filtered variants are useful for people, not for the index (thin/duplicate pages).
@@ -91,19 +123,20 @@ export default async function SearchPage(props: Props) {
   if (ctx.kind === "country") return <CountryLanding locale={locale} country={ctx.country} />
 
   const filters = parseFilters(await props.searchParams)
-  const [t, tc, tcat, tph, tcountries, tin] = await Promise.all([
+  const [t, tc, tcat, tph, tcountries] = await Promise.all([
     getTranslations("search"),
     getTranslations("common"),
     getTranslations("categories"),
     getTranslations("operationPhrase"),
     getTranslations("countries"),
-    getTranslations("countriesIn"),
   ])
 
-  const scope = { operation: ctx.operation, category: ctx.category, country: ctx.country, cityId: ctx.city?.id, neighborhoodId: ctx.neighborhood?.id }
-  const [{ total, items, markers }, neighborhoods] = await Promise.all([
+  const scope = scopeFor(ctx)
+  const provincePage = isProvincePage(ctx)
+  const [{ total, items, markers }, neighborhoods, nearby] = await Promise.all([
     searchListings(scope, filters),
     ctx.city && !ctx.neighborhood ? getNeighborhoods(ctx.city.id) : Promise.resolve([]),
+    nearbyPlaces(scope, CATEGORY_TYPES[ctx.category]),
   ])
   const pages = Math.min(Math.ceil(total / PAGE_SIZE), MAX_PAGE)
   if (filters.page > 1 && filters.page > pages) notFound()
@@ -111,9 +144,7 @@ export default async function SearchPage(props: Props) {
   const place = await placeName(ctx, locale)
   const basePath = pathFor(ctx, locale)
   const query = filtersToQuery(filters).toString()
-  const heading = ctx.city
-    ? t("h1", { category: tcat(ctx.category), operation: tph(ctx.operation), place })
-    : t("h1Country", { category: tcat(ctx.category), operation: tph(ctx.operation), inCountry: tin(ctx.country) })
+  const heading = await headingFor(ctx, locale, place)
   const otherOperation = ctx.operation === "sale" ? "rent" : "sale"
   const otherCategory = ctx.category === "rooms" && otherOperation === "sale" ? "homes" : ctx.category
   const activeFilterCount = [filters.types, filters.priceMin, filters.priceMax, filters.bedrooms, filters.bathrooms, filters.areaMin, filters.areaMax, filters.features].filter(
@@ -123,6 +154,15 @@ export default async function SearchPage(props: Props) {
   const breadcrumbs = [
     { name: tc("home"), href: "/" },
     { name: tcountries(ctx.country), href: countryPath(locale, ctx.country) },
+    // Skip the province level when it reads the same as the city (e.g. Paris department / Paris).
+    ...(ctx.province && t("provinceLabel", { kind: PROVINCE_KIND[ctx.country], name: ctx.province.name }) !== ctx.city?.name
+      ? [
+          {
+            name: t("provinceLabel", { kind: PROVINCE_KIND[ctx.country], name: ctx.province.name }),
+            href: searchPath(locale, { country: ctx.country, province: ctx.province.slug, category: ctx.category, operation: ctx.operation }),
+          },
+        ]
+      : []),
     ...(ctx.city ? [{ name: ctx.city.name, href: searchPath(locale, { country: ctx.country, city: ctx.city.slug, category: ctx.category, operation: ctx.operation }) }] : []),
     ...(ctx.neighborhood ? [{ name: ctx.neighborhood.name, href: basePath }] : []),
   ]
@@ -130,6 +170,7 @@ export default async function SearchPage(props: Props) {
   const saveContext = {
     name: heading,
     country: ctx.country,
+    provinceId: scope.provinceId,
     cityId: ctx.city?.id,
     neighborhoodId: ctx.neighborhood?.id,
     category: ctx.category,
@@ -201,19 +242,34 @@ export default async function SearchPage(props: Props) {
       </nav>
 
       <div className="flex flex-col gap-3 border-b pb-4">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-          <h1 className="text-2xl font-bold sm:text-3xl">{heading}</h1>
-          <p className="text-muted-foreground text-sm" aria-live="polite">
-            {t("resultsCount", { count: total })}
-          </p>
-        </div>
+        <h1 className="text-2xl font-bold sm:text-3xl">{t("h1Count", { heading, count: total })}</h1>
+        {nearby.length > 0 && (
+          <nav aria-label={t("nearbyTitle")} className="flex flex-wrap items-center gap-2 text-sm">
+            <span className="text-muted-foreground font-medium">{t("nearbyTitle")}:</span>
+            {nearby.map((n) => (
+              <Link
+                key={`${n.kind}-${n.city_slug}-${n.slug}`}
+                href={searchPath(locale, {
+                  country: ctx.country,
+                  city: n.city_slug,
+                  neighborhood: n.kind === "neighborhood" ? n.slug : null,
+                  category: ctx.category,
+                  operation: ctx.operation,
+                })}
+                className="hover:border-primary hover:text-primary rounded-full border px-3 py-1 transition-colors"
+              >
+                {n.name} <span className="text-muted-foreground">({n.listings})</span>
+              </Link>
+            ))}
+          </nav>
+        )}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <nav className="flex gap-1" aria-label={tph("sale") + " / " + tph("rent")}>
             <span aria-current="page" className="border-primary text-primary border-b-2 px-3 py-1.5 text-sm font-semibold">
               {tcat(ctx.category)} {tph(ctx.operation)}
             </span>
             <Link
-              href={searchPath(locale, { country: ctx.country, city: ctx.city?.slug, neighborhood: ctx.neighborhood?.slug, category: otherCategory, operation: otherOperation })}
+              href={searchPath(locale, { country: ctx.country, province: provincePage ? ctx.province!.slug : null, city: ctx.city?.slug, neighborhood: ctx.neighborhood?.slug, category: otherCategory, operation: otherOperation })}
               className="text-muted-foreground hover:text-foreground px-3 py-1.5 text-sm font-medium"
             >
               {tcat(otherCategory)} {tph(otherOperation)}
@@ -280,7 +336,7 @@ export default async function SearchPage(props: Props) {
                 .map((c) => (
                   <li key={`${c}-${op}`}>
                     <Link
-                      href={searchPath(locale, { country: ctx.country, city: ctx.city?.slug, neighborhood: ctx.neighborhood?.slug, category: c, operation: op })}
+                      href={searchPath(locale, { country: ctx.country, province: provincePage ? ctx.province!.slug : null, city: ctx.city?.slug, neighborhood: ctx.neighborhood?.slug, category: c, operation: op })}
                       className="text-subtle-foreground hover:text-primary"
                     >
                       {tcat(c)} {tph(op)}

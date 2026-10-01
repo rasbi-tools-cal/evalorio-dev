@@ -7,13 +7,13 @@ export type Database = {
           Tables: {
             "cities": {
                   Row: {
-                    "country_code": string,"id": number,"location": unknown,"name": string,"population": number,"region": string | null,"slug": string
+                    "country_code": string,"id": number,"location": unknown,"name": string,"population": number,"province_id": number | null,"region": string | null,"slug": string
                   }
                   Insert: {
-                    "country_code": string,"id"?: never,"location": unknown,"name": string,"population"?: number,"region"?: string | null,"slug": string
+                    "country_code": string,"id"?: never,"location": unknown,"name": string,"population"?: number,"province_id"?: number | null,"region"?: string | null,"slug": string
                   }
                   Update: {
-                    "country_code"?: string,"id"?: never,"location"?: unknown,"name"?: string,"population"?: number,"region"?: string | null,"slug"?: string
+                    "country_code"?: string,"id"?: never,"location"?: unknown,"name"?: string,"population"?: number,"province_id"?: number | null,"region"?: string | null,"slug"?: string
                   }
                   Relationships: [
                     {
@@ -22,6 +22,12 @@ export type Database = {
 isOneToOne: false
       referencedRelation: "countries"
       referencedColumns: ["code"]
+    },{
+      foreignKeyName: "cities_province_id_fkey"
+      columns: ["province_id"]
+isOneToOne: false
+      referencedRelation: "provinces"
+      referencedColumns: ["id"]
     }
                   ]
                 },"countries": {
@@ -317,6 +323,25 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"provinces": {
+                  Row: {
+                    "code": string,"country_code": string,"id": number,"name": string,"slug": string
+                  }
+                  Insert: {
+                    "code": string,"country_code": string,"id"?: never,"name": string,"slug": string
+                  }
+                  Update: {
+                    "code"?: string,"country_code"?: string,"id"?: never,"name"?: string,"slug"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "provinces_country_code_fkey"
+      columns: ["country_code"]
+isOneToOne: false
+      referencedRelation: "countries"
+      referencedColumns: ["code"]
+    }
+                  ]
                 },"rate_limits": {
                   Row: {
                     "hits": number,"key": string,"window_start": string
@@ -439,6 +464,11 @@ isOneToOne: false
               "country_code": string,"id": number,"lat": number,"lng": number,"name": string,"region": string,"slug": string
             }[]
                            },
+"get_province":
+{ Args: { "p_id": number }; Returns: {
+              "country_code": string,"id": number,"name": string,"slug": string
+            }[]
+                           },
 "hit_rate_limit":
 { Args: { "p_key": string,"p_limit": number,"p_window_seconds": number }; Returns: boolean
                            },
@@ -475,6 +505,11 @@ isOneToOne: false
               "favorites": number,"listing_id": number,"messages": number,"reveals": number
             }[]
                            },
+"nearby_places":
+{ Args: { "p_city_id"?: number,"p_country"?: string,"p_limit"?: number,"p_neighborhood_id"?: number,"p_operation": Database["public"]['Enums']["listing_operation"],"p_province_id"?: number,"p_types"?: (Database["public"]['Enums']["property_type"])[] }; Returns: {
+              "city_slug": string,"kind": string,"listings": number,"name": string,"slug": string
+            }[]
+                           },
 "renew_listing":
 { Args: { "p_listing_id": number }; Returns: undefined
                            },
@@ -487,12 +522,12 @@ isOneToOne: false
             }[]
                            },
 "search_listing_markers":
-{ Args: { "p_area_max"?: number,"p_area_min"?: number,"p_bathrooms_min"?: number,"p_bedrooms_min"?: number,"p_city_id"?: number,"p_country"?: string,"p_east"?: number,"p_features"?: (string)[],"p_neighborhood_id"?: number,"p_north"?: number,"p_operation": Database["public"]['Enums']["listing_operation"],"p_price_max"?: number,"p_price_min"?: number,"p_south"?: number,"p_types"?: (Database["public"]['Enums']["property_type"])[],"p_west"?: number }; Returns: {
+{ Args: { "p_area_max"?: number,"p_area_min"?: number,"p_bathrooms_min"?: number,"p_bedrooms_min"?: number,"p_city_id"?: number,"p_country"?: string,"p_east"?: number,"p_features"?: (string)[],"p_neighborhood_id"?: number,"p_north"?: number,"p_operation": Database["public"]['Enums']["listing_operation"],"p_price_max"?: number,"p_price_min"?: number,"p_province_id"?: number,"p_south"?: number,"p_types"?: (Database["public"]['Enums']["property_type"])[],"p_west"?: number }; Returns: {
               "id": number,"lat": number,"lng": number,"price": number
             }[]
                            },
 "search_listings":
-{ Args: { "p_area_max"?: number,"p_area_min"?: number,"p_bathrooms_min"?: number,"p_bedrooms_min"?: number,"p_city_id"?: number,"p_country"?: string,"p_east"?: number,"p_features"?: (string)[],"p_limit"?: number,"p_neighborhood_id"?: number,"p_north"?: number,"p_offset"?: number,"p_operation": Database["public"]['Enums']["listing_operation"],"p_price_max"?: number,"p_price_min"?: number,"p_sort"?: string,"p_south"?: number,"p_types"?: (Database["public"]['Enums']["property_type"])[],"p_west"?: number }; Returns: Json
+{ Args: { "p_area_max"?: number,"p_area_min"?: number,"p_bathrooms_min"?: number,"p_bedrooms_min"?: number,"p_city_id"?: number,"p_country"?: string,"p_east"?: number,"p_features"?: (string)[],"p_limit"?: number,"p_neighborhood_id"?: number,"p_north"?: number,"p_offset"?: number,"p_operation": Database["public"]['Enums']["listing_operation"],"p_price_max"?: number,"p_price_min"?: number,"p_province_id"?: number,"p_sort"?: string,"p_south"?: number,"p_types"?: (Database["public"]['Enums']["property_type"])[],"p_west"?: number }; Returns: Json
                            },
 "set_user_banned":
 { Args: { "p_banned": boolean,"p_note"?: string,"p_user_id": string }; Returns: undefined

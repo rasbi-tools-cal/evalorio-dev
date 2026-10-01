@@ -36,6 +36,7 @@ export async function runAlerts(frequency: "instant" | "daily" | "weekly") {
     const args = toRpcArgs(filters, {
       operation: f.operation,
       country: f.country,
+      provinceId: f.provinceId,
       cityId: f.cityId,
       neighborhoodId: f.neighborhoodId,
       types: CATEGORY_TYPES[f.category as Category] ?? CATEGORY_TYPES.homes,
@@ -61,12 +62,14 @@ export async function runAlerts(frequency: "instant" | "daily" | "weekly") {
       getFormatter({ locale }),
     ])
 
+    const provinceRow = f.provinceId ? (await admin.from("provinces").select("slug").eq("id", f.provinceId).single()).data : null
     const cityRow = f.cityId ? (await admin.from("cities").select("slug").eq("id", f.cityId).single()).data : null
     const hoodRow = f.neighborhoodId ? (await admin.from("neighborhoods").select("slug").eq("id", f.neighborhoodId).single()).data : null
     const resultsUrl = absoluteUrl(
       locale,
       searchPath(locale, {
         country: f.country as CountryCode,
+        province: provinceRow?.slug,
         city: cityRow?.slug,
         neighborhood: hoodRow?.slug,
         category: f.category as Category,

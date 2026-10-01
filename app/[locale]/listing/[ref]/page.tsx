@@ -13,7 +13,7 @@ import { JsonLd } from "@/components/seo/json-ld"
 import { Link, permanentRedirect } from "@/i18n/navigation"
 import { pageLocale } from "@/i18n/locale"
 import type { Locale } from "@/i18n/routing"
-import { categoryForType, type CountryCode, type Operation, type PropertyType } from "@/lib/catalog"
+import { categoryForType, PROVINCE_KIND, type CountryCode, type Operation, type PropertyType } from "@/lib/catalog"
 import { photoUrl } from "@/lib/env"
 import { displayTitle, pricePerSqm } from "@/lib/listings/display"
 import { getListing, getOwnerPublic, similarListings, type ListingDetail } from "@/lib/listings/queries"
@@ -149,9 +149,19 @@ export default async function ListingPage({ params, searchParams }: PageProps<"/
   ].filter(Boolean) as { icon: typeof Bath; value: string | number; label: string }[]
 
   const url = absoluteUrl(locale, listingPath(listing.id, title))
+  const tSearch = await getTranslations("search")
+  const province = listing.city!.province
   const breadcrumbs = [
     { name: tc("home"), href: "/" },
     { name: tcountries(country), href: countryPath(locale, country) },
+    ...(province && tSearch("provinceLabel", { kind: PROVINCE_KIND[country], name: province.name }) !== listing.city!.name
+      ? [
+          {
+            name: tSearch("provinceLabel", { kind: PROVINCE_KIND[country], name: province.name }),
+            href: searchPath(locale, { country, province: province.slug, category, operation }),
+          },
+        ]
+      : []),
     { name: listing.city!.name, href: cityHref },
     ...(hoodHref ? [{ name: listing.neighborhood!.name, href: hoodHref }] : []),
   ]

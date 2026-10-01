@@ -1,6 +1,6 @@
 import type { Locale } from "@/i18n/routing"
 import { routing } from "@/i18n/routing"
-import { COUNTRIES, searchSlug, type Category, type CountryCode, type Operation } from "@/lib/catalog"
+import { COUNTRIES, provinceSegment, searchSlug, type Category, type CountryCode, type Operation } from "@/lib/catalog"
 import { SITE_URL } from "@/lib/env"
 import { slugify } from "@/lib/utils"
 
@@ -15,6 +15,8 @@ export function searchPath(
   locale: Locale,
   opts: {
     country: CountryCode
+    /** Province slug; only used when there is no city (province landing pages). */
+    province?: string | null
     city?: string | null
     neighborhood?: string | null
     category: Category
@@ -23,6 +25,7 @@ export function searchPath(
   },
 ) {
   const parts = [COUNTRIES[opts.country].slug[locale]]
+  if (opts.province && !opts.city) parts.push(provinceSegment(locale, opts.country, opts.province))
   if (opts.city) parts.push(opts.city)
   if (opts.city && opts.neighborhood) parts.push(opts.neighborhood)
   parts.push(searchSlug(locale, opts.category, opts.operation))

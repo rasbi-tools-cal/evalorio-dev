@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils"
 export interface SaveSearchContext {
   name: string
   country: CountryCode
+  provinceId?: number
   cityId?: number
   neighborhoodId?: number
   category: Category

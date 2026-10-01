@@ -207,3 +207,29 @@ export const REPORT_REASONS = [
   "other",
 ] as const
 export type ReportReason = (typeof REPORT_REASONS)[number]
+
+/** What the province level is called in each country (GeoNames admin2; districts in Portugal). */
+export const PROVINCE_KIND: Record<CountryCode, "province" | "department" | "district"> = {
+  ES: "province",
+  FR: "department",
+  IT: "province",
+  PT: "district",
+}
+
+const PROVINCE_PREFIX: Record<Locale, Record<"province" | "department" | "district", string>> = {
+  en: { province: "province", department: "department", district: "district" },
+  es: { province: "provincia", department: "departamento", district: "distrito" },
+  fr: { province: "province", department: "departement", district: "district" },
+  it: { province: "provincia", department: "dipartimento", district: "distretto" },
+  pt: { province: "provincia", department: "departamento", district: "distrito" },
+}
+
+/** URL segment of a province page: /spain/province-valencia/..., /es/espana/provincia-valencia/... */
+export function provinceSegment(locale: Locale, country: CountryCode, slug: string) {
+  return `${PROVINCE_PREFIX[locale][PROVINCE_KIND[country]]}-${slug}`
+}
+
+export function parseProvinceSegment(locale: Locale, country: CountryCode, segment: string) {
+  const prefix = `${PROVINCE_PREFIX[locale][PROVINCE_KIND[country]]}-`
+  return segment.startsWith(prefix) ? segment.slice(prefix.length) : null
+}

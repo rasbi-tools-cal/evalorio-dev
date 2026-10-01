@@ -24,6 +24,10 @@ export default async function SavedSearchesPage({ params }: PageProps<"/[locale]
 
   const all = (searches ?? []).map((s) => ({ ...s, filters: s.filters as unknown as SavedSearchFilters }))
   const cityIds = [...new Set(all.map((s) => s.filters.cityId).filter(Boolean))] as number[]
+  const provinceIds = [...new Set(all.map((s) => s.filters.provinceId).filter(Boolean))] as number[]
+  const { data: provinces } = provinceIds.length
+    ? await supabase.from("provinces").select("id, slug").in("id", provinceIds)
+    : { data: [] as { id: number; slug: string }[] }
   const hoodIds = [...new Set(all.map((s) => s.filters.neighborhoodId).filter(Boolean))] as number[]
   const [{ data: cities }, { data: hoods }] = await Promise.all([
     cityIds.length ? supabase.from("cities").select("id, slug").in("id", cityIds) : Promise.resolve({ data: [] as { id: number; slug: string }[] }),
@@ -40,6 +44,7 @@ export default async function SavedSearchesPage({ params }: PageProps<"/[locale]
           {all.map((s) => {
             const href = searchPath(locale, {
               country: s.filters.country as CountryCode,
+              province: provinces?.find((p) => p.id === s.filters.provinceId)?.slug,
               city: cities?.find((c) => c.id === s.filters.cityId)?.slug,
               neighborhood: hoods?.find((h) => h.id === s.filters.neighborhoodId)?.slug,
               category: s.filters.category as Category,

@@ -216,7 +216,11 @@
     "latestIn": "Lo último {inCountry}",
     "h1Country": "{category} {operation} {inCountry}",
     "seeOnMap": "Ver en el mapa",
-    "mapOfPage": "Mapa de las viviendas de esta página"
+    "mapOfPage": "Mapa de las viviendas de esta página",
+    "provinceLabel": "{kind, select, department {Departamento de {name}} district {Distrito de {name}} other {Provincia de {name}}}",
+    "inProvince": "{kind, select, department {en el departamento de {name}} district {en el distrito de {name}} other {en la provincia de {name}}}",
+    "h1Count": "{heading}: {count, plural, =0 {ningún anuncio} one {# anuncio} other {# anuncios}}",
+    "nearbyTitle": "Zonas cercanas"
   },
   "filters": {
     "operation": "Operación",

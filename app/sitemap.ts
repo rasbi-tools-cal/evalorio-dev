@@ -49,7 +49,10 @@ export default async function sitemap({ id }: { id: Promise<string> }): Promise<
     }
 
     // City pages that actually have listings (no empty/thin pages in the index).
-    const { data } = await supabase.from("listings").select("operation, country_code, city:cities(slug)").eq("status", "active")
+    const { data } = await supabase
+      .from("listings")
+      .select("operation, country_code, city:cities(slug, province:provinces(slug))")
+      .eq("status", "active")
     const seen = new Set<string>()
     for (const row of data ?? []) {
       const city = row.city?.slug
@@ -58,6 +61,17 @@ export default async function sitemap({ id }: { id: Promise<string> }): Promise<
       if (seen.has(key)) continue
       seen.add(key)
       const country = row.country_code as keyof typeof COUNTRIES
+      const province = row.city?.province?.slug
+      const provinceKey = `${row.country_code}/p/${province}/${row.operation}`
+      if (province && !seen.has(provinceKey)) {
+        seen.add(provinceKey)
+        entries.push({
+          url: absoluteUrl("en", searchPath("en", { country, province, category: "homes", operation: row.operation })),
+          changeFrequency: "daily",
+          priority: 0.7,
+          alternates: alternates((l) => searchPath(l, { country, province, category: "homes", operation: row.operation })),
+        })
+      }
       entries.push({
         url: absoluteUrl("en", searchPath("en", { country, city, category: "homes", operation: row.operation })),
         changeFrequency: "daily",

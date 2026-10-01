@@ -102,12 +102,20 @@ export function hasNarrowingFilters(f: SearchFilters) {
 
 export function toRpcArgs(
   f: SearchFilters,
-  scope: { operation: "sale" | "rent"; country?: string; cityId?: number; neighborhoodId?: number; types: PropertyType[] },
+  scope: {
+    operation: "sale" | "rent"
+    country?: string
+    provinceId?: number
+    cityId?: number
+    neighborhoodId?: number
+    types: PropertyType[]
+  },
 ) {
   const types = f.types?.filter((t) => scope.types.includes(t))
   return {
     p_operation: scope.operation,
     p_country: scope.country,
+    p_province_id: scope.provinceId,
     p_city_id: scope.cityId,
     p_neighborhood_id: scope.neighborhoodId,
     p_types: types?.length ? types : scope.types,
@@ -128,6 +136,7 @@ export function toRpcArgs(
 /** Stored in saved_searches.filters — everything needed to re-run the search later. */
 export interface SavedSearchFilters {
   country: string
+  provinceId?: number
   cityId?: number
   neighborhoodId?: number
   category: string

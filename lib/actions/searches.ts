@@ -8,6 +8,7 @@ import { createClient, getUser } from "@/lib/supabase/server"
 
 const filtersSchema = z.object({
   country: z.enum(COUNTRY_CODES),
+  provinceId: z.number().int().positive().optional(),
   cityId: z.number().int().positive().optional(),
   neighborhoodId: z.number().int().positive().optional(),
   category: z.enum(CATEGORIES),
