@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { usePathname, useRouter } from "@/i18n/navigation"
 import { routing } from "@/i18n/routing"
 import type { MapMarker } from "@/lib/listings/queries"
+import { useResultsHighlight } from "./results-highlight"
 
 export function SearchMapView({
   markers,
@@ -29,6 +30,7 @@ export function SearchMapView({
   const router = useRouter()
   const pathname = usePathname()
   const [moved, setMoved] = useState<[number, number, number, number] | null>(null)
+  const { activeId, setActiveId } = useResultsHighlight()
   const [pending, start] = useTransition()
 
   const compact = useMemo(
@@ -60,6 +62,8 @@ export function SearchMapView({
           formatPrice={formatPrice}
           hrefFor={hrefFor}
           onMoved={setMoved}
+          activeId={activeId}
+          onActiveChange={setActiveId}
           className="h-full w-full overflow-hidden rounded-xl border"
         />
         <div className="pointer-events-none absolute inset-x-0 top-3 z-[500] flex justify-center gap-2">

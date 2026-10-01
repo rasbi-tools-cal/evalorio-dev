@@ -104,6 +104,7 @@ export function ResultsMap({
   hrefFor,
   onMoved,
   activeId,
+  onActiveChange,
   className,
 }: {
   markers: MarkerPoint[]
@@ -114,6 +115,7 @@ export function ResultsMap({
   hrefFor: (id: number) => string
   onMoved: (bbox: [number, number, number, number]) => void
   activeId?: number | null
+  onActiveChange?: (id: number | null) => void
   className?: string
 }) {
   const el = useRef<HTMLDivElement>(null)
@@ -121,6 +123,7 @@ export function ResultsMap({
   const layer = useRef<L.LayerGroup | null>(null)
   const markerRefs = useRef(new Map<number, L.Marker>())
   const emitMoved = useEffectEvent((b: [number, number, number, number]) => onMoved(b))
+  const emitActive = useEffectEvent((id: number | null) => onActiveChange?.(id))
   const initialView = useEffectEvent(() => ({ center: fallbackCenter, zoom: fallbackZoom }))
   const programmatic = useRef(false)
 
@@ -156,6 +159,8 @@ export function ResultsMap({
         iconSize: [0, 0],
       })
       const mk = L.marker([p.lat, p.lng], { icon, keyboard: false, riseOnHover: true })
+      mk.on("mouseover", () => emitActive(p.id))
+      mk.on("mouseout", () => emitActive(null))
       mk.addTo(group)
       markerRefs.current.set(p.id, mk)
     }
@@ -175,7 +180,7 @@ export function ResultsMap({
       if (a) a.setAttribute("data-active", String(id === activeId))
       mk.setZIndexOffset(id === activeId ? 1000 : 0)
     })
-  }, [activeId])
+  }, [activeId, markers])
 
   return <div ref={el} className={`relative z-0 ${className ?? ""}`} role="region" aria-label="Map" />
 }
