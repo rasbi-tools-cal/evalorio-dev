@@ -3,9 +3,12 @@
 // Usage: pnpm remote:migrate-local   (target must be empty of listings)
 import { createClient } from "@supabase/supabase-js"
 import { execFileSync } from "node:child_process"
+import { readFileSync } from "node:fs"
 
 const LOCAL_URL = "http://127.0.0.1:54321"
-const LOCAL_SECRET = "sb_secret_N7UND0UgjKTVK-Uodkm0Hg_xSvEMPvz" // well-known local dev key
+// Local Docker stack key, read from .env.local (never hard-code keys: GitHub push protection blocks them).
+const LOCAL_SECRET = readFileSync(".env.local", "utf8").match(/^SUPABASE_SECRET_KEY=(.+)$/m)?.[1]?.trim()
+if (!LOCAL_SECRET) throw new Error("SUPABASE_SECRET_KEY missing in .env.local")
 const remoteUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const remoteSecret = process.env.SUPABASE_SECRET_KEY
 if (!remoteUrl?.startsWith("https://") || !remoteSecret) throw new Error("Run with --env-file=.env.remote.local")
