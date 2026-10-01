@@ -24,6 +24,10 @@ if (!user) {
   process.exit(1)
 }
 
-const { error } = await admin.from("profiles").update({ role: "admin", is_trusted: true }).eq("id", user.id)
+const { data: updated, error } = await admin.from("profiles").update({ role: "admin", is_trusted: true }).eq("id", user.id).select("id")
 if (error) throw error
+if (!updated?.length) {
+  console.error(`${email} has no profile row, nothing was changed.`)
+  process.exit(1)
+}
 console.log(`${email} is now an admin on ${url}`)

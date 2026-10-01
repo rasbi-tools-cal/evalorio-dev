@@ -8,7 +8,7 @@ import { createClient } from "@/lib/supabase/server"
 import { safeNextPath } from "@/lib/urls"
 
 export type AuthResult =
-  | { ok: true; next?: string; email?: string }
+  | { ok: true; next?: string; email?: string; signedIn?: boolean }
   | { ok: false; error: "invalid_credentials" | "email_not_confirmed" | "weak_password" | "email_taken" | "captcha" | "rate_limited" | "generic" }
 
 const email = z.string().trim().toLowerCase().email().max(254)
@@ -66,19 +66,21 @@ export async function signUp(input: {
 
   const locale = await getLocale()
   const supabase = await createClient()
+  const next = safeNextPath(input.next, "/account/listings")
   const { data, error } = await supabase.auth.signUp({
     email: parsed.data.email,
     password: parsed.data.password,
     options: {
       captchaToken: input.captchaToken,
-      emailRedirectTo: confirmUrl(safeNextPath(input.next, "/account/listings")),
+      emailRedirectTo: confirmUrl(next),
       data: { display_name: parsed.data.displayName, locale },
     },
   })
   if (error) return mapError(error.message)
   // Supabase returns a user with no identities when the email already exists (anti-enumeration).
   if (data.user && data.user.identities?.length === 0) return { ok: false, error: "email_taken" }
-  return { ok: true, email: parsed.data.email }
+  // With email confirmation off (Supabase "autoconfirm"), sign-up returns a session: the user is in.
+  return { ok: true, email: parsed.data.email, next, signedIn: Boolean(data.session) }
 }
 
 export async function requestPasswordReset(input: { email: string; captchaToken?: string }): Promise<AuthResult> {

@@ -77,7 +77,7 @@ async function cleanUpTestData() {
 test.describe.serial("owner → moderation → buyer", () => {
   test.afterAll(cleanUpTestData)
 
-  test("sign up and confirm email", async ({ page }) => {
+  test("sign up logs in directly (no confirmation email)", async ({ page }) => {
     await page.goto("/signup")
     await page.getByLabel("Your name").fill(owner.name)
     await page.getByLabel("Email").fill(owner.email)
@@ -85,11 +85,8 @@ test.describe.serial("owner → moderation → buyer", () => {
     const submit = page.getByRole("button", { name: "Create account" })
     await expect(submit).toBeEnabled()
     await submit.click()
-    await expect(page.getByText("Check your email")).toBeVisible()
-
-    const link = await latestEmailLink(owner.email, "/api/auth/confirm")
-    await page.goto(link)
     await page.waitForURL(/\/account\/listings/)
+    await expect(page.getByRole("link", { name: /Log in/ })).toHaveCount(0)
     await expect(page.getByRole("heading", { name: "My listings" })).toBeVisible()
   })
 

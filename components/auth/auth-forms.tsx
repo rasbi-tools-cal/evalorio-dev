@@ -167,6 +167,7 @@ export function SignupForm({ next }: { next?: string }) {
   const [error, setError] = useState<string | null>(null)
   const [sentTo, setSentTo] = useState<string | null>(null)
   const [pending, start] = useTransition()
+  const router = useRouter()
 
   if (sentTo) {
     return (
@@ -188,7 +189,11 @@ export function SignupForm({ next }: { next?: string }) {
         captchaToken: token ?? undefined,
         next,
       })
-      if (result.ok) setSentTo(result.email ?? "")
+      if (result.ok && result.signedIn) {
+        notifyAuthChanged()
+        router.replace(result.next ?? "/account/listings")
+        router.refresh()
+      } else if (result.ok) setSentTo(result.email ?? "")
       else {
         setError(toMessage(result))
         captcha.current?.reset()
