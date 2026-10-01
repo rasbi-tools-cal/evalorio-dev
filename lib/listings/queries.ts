@@ -178,7 +178,7 @@ export type ListingDetail = NonNullable<Awaited<ReturnType<typeof getListing>>>
 
 export async function getOwnerPublic(ownerId: string) {
   const supabase = createPublicClient()
-  const { data } = await supabase.from("public_profiles").select("display_name, created_at").eq("id", ownerId).maybeSingle()
+  const { data } = await supabase.rpc("public_profile", { p_user_id: ownerId }).maybeSingle()
   return data
 }
 
