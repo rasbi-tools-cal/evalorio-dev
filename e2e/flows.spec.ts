@@ -1,4 +1,6 @@
 import { expect, test, type BrowserContext, type Page } from "@playwright/test"
+import { createClient } from "@supabase/supabase-js"
+import fs from "node:fs"
 import path from "node:path"
 import { POLICY_VERSION } from "../lib/legal/company"
 
@@ -49,7 +51,32 @@ async function login(page: Page, email: string, password: string) {
   await page.waitForURL(/\/account\/listings/)
 }
 
+/** Removes the listing, photos and account this run created, so test data never piles up in the demo. */
+async function cleanUpTestData() {
+  const env = Object.fromEntries(
+    fs
+      .readFileSync(".env.local", "utf8")
+      .split(/\r?\n/)
+      .filter((l) => /^[A-Z_]+=/.test(l))
+      .map((l) => [l.slice(0, l.indexOf("=")), l.slice(l.indexOf("=") + 1)]),
+  )
+  const key = env.SUPABASE_SECRET_KEY ?? env.SUPABASE_SERVICE_ROLE_KEY
+  if (!key) return
+  const admin = createClient(env.NEXT_PUBLIC_SUPABASE_URL, key, { auth: { persistSession: false } })
+  const { data: listings } = await admin.from("listings").select("id, photos:listing_photos(storage_path)").eq("title", title)
+  for (const l of listings ?? []) {
+    const paths = l.photos.map((p) => p.storage_path)
+    if (paths.length) await admin.storage.from("listing-photos").remove(paths)
+    await admin.from("listings").delete().eq("id", l.id)
+  }
+  const { data } = await admin.auth.admin.listUsers({ perPage: 1000 })
+  const user = data?.users.find((u) => u.email === owner.email)
+  if (user) await admin.auth.admin.deleteUser(user.id)
+}
+
 test.describe.serial("owner → moderation → buyer", () => {
+  test.afterAll(cleanUpTestData)
+
   test("sign up and confirm email", async ({ page }) => {
     await page.goto("/signup")
     await page.getByLabel("Your name").fill(owner.name)
