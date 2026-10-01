@@ -198,7 +198,7 @@
     "areaActive": "Mostrando resultados en la zona del mapa",
     "removeArea": "Quitar zona del mapa",
     "saveSearch": "Guardar búsqueda",
-    "saveSearchTitle": "Recibe nuevos anuncios por email",
+    "saveSearchTitle": "Nuevos anuncios por email",
     "saveSearchText": "Te avisaremos por email cuando haya una vivienda nueva que encaje.",
     "searchSaved": "Búsqueda guardada. Te enviaremos las novedades por email.",
     "loginToSave": "Inicia sesión para guardar esta búsqueda",
@@ -214,7 +214,9 @@
     "countryH1": "Inmuebles en venta y alquiler {inCountry}",
     "browseCities": "Buscar por ciudad",
     "latestIn": "Lo último {inCountry}",
-    "h1Country": "{category} {operation} {inCountry}"
+    "h1Country": "{category} {operation} {inCountry}",
+    "seeOnMap": "Ver en el mapa",
+    "mapOfPage": "Mapa de las viviendas de esta página"
   },
   "filters": {
     "operation": "Operación",

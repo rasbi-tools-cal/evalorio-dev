@@ -76,12 +76,23 @@ export function SearchToolbar({ sort, view, query, saveContext }: { sort: SortKe
           </button>
         ))}
       </div>
-      <SaveSearchButton query={query} context={saveContext} />
+      {/* In list view the sidebar has its own "New listings by email" card (desktop). */}
+      <SaveSearchButton query={query} context={saveContext} className={view === "list" ? "lg:hidden" : undefined} />
     </div>
   )
 }
 
-export function SaveSearchButton({ query, context, className }: { query: string; context: SaveSearchContext; className?: string }) {
+export function SaveSearchButton({
+  query,
+  context,
+  className,
+  variant = "soft",
+}: {
+  query: string
+  context: SaveSearchContext
+  className?: string
+  variant?: "soft" | "default"
+}) {
   const t = useTranslations("search")
   const tc = useTranslations("common")
   const { user, ready } = useSessionUser()
@@ -92,7 +103,7 @@ export function SaveSearchButton({ query, context, className }: { query: string;
   return (
     <Button
       type="button"
-      variant="soft"
+      variant={variant}
       className={className}
       disabled={!ready || pending}
       title={t("saveSearchText")}

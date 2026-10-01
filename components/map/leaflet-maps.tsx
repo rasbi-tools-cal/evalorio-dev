@@ -179,3 +179,79 @@ export function ResultsMap({
 
   return <div ref={el} className={`relative z-0 ${className ?? ""}`} role="region" aria-label="Map" />
 }
+
+/**
+ * Small, non-searching map for the results sidebar: price pins of the current page, fitted to them.
+ * `activeId` / `onActiveChange` sync the highlight with the result cards.
+ */
+export function MiniResultsMap({
+  markers,
+  fallbackCenter,
+  fallbackZoom,
+  formatPrice,
+  hrefFor,
+  activeId,
+  onActiveChange,
+  label,
+}: {
+  markers: MarkerPoint[]
+  fallbackCenter: [number, number]
+  fallbackZoom: number
+  formatPrice: (price: number) => string
+  hrefFor: (id: number) => string
+  activeId?: number | null
+  onActiveChange?: (id: number | null) => void
+  label: string
+}) {
+  const el = useRef<HTMLDivElement>(null)
+  const map = useRef<L.Map | null>(null)
+  const layer = useRef<L.LayerGroup | null>(null)
+  const markerRefs = useRef(new Map<number, L.Marker>())
+  const emitActive = useEffectEvent((id: number | null) => onActiveChange?.(id))
+  const initialView = useEffectEvent(() => ({ center: fallbackCenter, zoom: fallbackZoom }))
+
+  useEffect(() => {
+    if (!el.current) return
+    const m = baseMap(el.current, { ...initialView(), scrollWheelZoom: false, attributionControl: true })
+    layer.current = L.layerGroup().addTo(m)
+    map.current = m
+    return () => {
+      m.remove()
+      map.current = null
+    }
+  }, [])
+
+  useEffect(() => {
+    const m = map.current
+    const group = layer.current
+    if (!m || !group) return
+    group.clearLayers()
+    markerRefs.current.clear()
+    for (const p of markers) {
+      const icon = L.divIcon({
+        html: `<a class="price-marker" href="${hrefFor(p.id)}">${formatPrice(p.price)}</a>`,
+        className: "",
+        iconSize: [0, 0],
+      })
+      const mk = L.marker([p.lat, p.lng], { icon, keyboard: false, riseOnHover: true }).addTo(group)
+      mk.on("mouseover", () => emitActive(p.id))
+      mk.on("mouseout", () => emitActive(null))
+      markerRefs.current.set(p.id, mk)
+    }
+    if (markers.length) {
+      m.fitBounds(L.latLngBounds(markers.map((p) => [p.lat, p.lng] as [number, number])), { padding: [28, 28], maxZoom: 14 })
+    } else {
+      m.setView(fallbackCenter, fallbackZoom)
+    }
+  }, [markers, fallbackCenter, fallbackZoom, formatPrice, hrefFor])
+
+  useEffect(() => {
+    markerRefs.current.forEach((mk, id) => {
+      const a = mk.getElement()?.querySelector(".price-marker")
+      if (a) a.setAttribute("data-active", String(id === activeId))
+      mk.setZIndexOffset(id === activeId ? 1000 : 0)
+    })
+  }, [activeId, markers])
+
+  return <div ref={el} className="relative z-0 h-72 w-full overflow-hidden rounded-xl border" role="region" aria-label={label} />
+}

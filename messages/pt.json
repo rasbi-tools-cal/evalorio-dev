@@ -205,7 +205,7 @@
     "areaActive": "Resultados na zona do mapa",
     "removeArea": "Remover zona",
     "saveSearch": "Guardar pesquisa",
-    "saveSearchTitle": "Receba novos anúncios por email",
+    "saveSearchTitle": "Novos anúncios por email",
     "saveSearchText": "Enviamos-lhe um email quando uma nova casa corresponder a esta pesquisa.",
     "searchSaved": "Pesquisa guardada. Vamos enviar-lhe as novidades por email.",
     "loginToSave": "Entre para guardar esta pesquisa",
@@ -220,7 +220,9 @@
     "resultsCount": "{count, plural, =0 {Sem resultados} one {# resultado} other {# resultados}}",
     "countryH1": "Imóveis para venda e arrendamento {inCountry}",
     "browseCities": "Pesquisar por cidade",
-    "latestIn": "Novidades {inCountry}"
+    "latestIn": "Novidades {inCountry}",
+    "seeOnMap": "Ver no mapa",
+    "mapOfPage": "Mapa dos imóveis desta página"
   },
   "filters": {
     "operation": "Negócio",

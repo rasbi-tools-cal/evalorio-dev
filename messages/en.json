@@ -198,7 +198,7 @@
     "areaActive": "Showing results in the map area",
     "removeArea": "Remove map area",
     "saveSearch": "Save search",
-    "saveSearchTitle": "Get new listings by email",
+    "saveSearchTitle": "New listings by email",
     "saveSearchText": "We'll email you when a new home matches this search.",
     "searchSaved": "Search saved. We'll email you new matches.",
     "loginToSave": "Log in to save this search",
@@ -214,7 +214,9 @@
     "countryH1": "Property for sale and rent {inCountry}",
     "browseCities": "Browse by city",
     "latestIn": "Latest {inCountry}",
-    "h1Country": "{category} {operation} {inCountry}"
+    "h1Country": "{category} {operation} {inCountry}",
+    "seeOnMap": "See on map",
+    "mapOfPage": "Map of the homes on this page"
   },
   "filters": {
     "operation": "Operation",

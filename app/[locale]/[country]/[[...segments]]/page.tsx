@@ -5,7 +5,10 @@ import { ListingCard } from "@/components/listings/listing-card"
 import { FiltersSheetButton, FiltersSidebar } from "@/components/search/filters-form"
 import { Pagination } from "@/components/search/pagination"
 import { SearchMapView } from "@/components/search/search-map-view"
+import { ResultsHighlightProvider } from "@/components/search/results-highlight"
+import { SaveSearchCard } from "@/components/search/save-search-card"
 import { SaveSearchButton, SearchToolbar } from "@/components/search/search-toolbar"
+import { SidebarMap } from "@/components/search/sidebar-map"
 import { JsonLd } from "@/components/seo/json-ld"
 import { Button } from "@/components/ui/button"
 import { Link, permanentRedirect } from "@/i18n/navigation"
@@ -224,9 +227,17 @@ export default async function SearchPage(props: Props) {
         {filters.bbox && <p className="text-primary text-sm font-medium">{t("areaActive")}</p>}
       </div>
 
+      <ResultsHighlightProvider>
       <div className="mt-6 flex gap-8">
         {filters.view === "list" && (
-          <aside className="hidden w-72 shrink-0 lg:block" aria-label={t("filters")}>
+          <aside className="hidden w-72 shrink-0 flex-col gap-5 lg:flex" aria-label={t("filters")}>
+            <SaveSearchCard query={query} context={saveContext} />
+            <SidebarMap
+              markers={items.map((i) => ({ id: i.id, price: i.price, lat: i.lat, lng: i.lng }))}
+              center={ctx.center}
+              zoom={ctx.zoom}
+              mapHref={`${basePath}?${filtersToQuery({ ...filters, view: "map", page: 1 })}`}
+            />
             <FiltersSidebar filters={filters} operation={ctx.operation} types={CATEGORY_TYPES[ctx.category]} total={total} />
           </aside>
         )}
@@ -240,6 +251,7 @@ export default async function SearchPage(props: Props) {
           )}
         </div>
       </div>
+      </ResultsHighlightProvider>
 
       <section className="mt-14 grid gap-10 border-t pt-10 md:grid-cols-2">
         {neighborhoods.length > 0 && ctx.city && (

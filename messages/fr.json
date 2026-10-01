@@ -198,7 +198,7 @@
     "areaActive": "Résultats dans la zone de la carte",
     "removeArea": "Retirer la zone",
     "saveSearch": "Enregistrer la recherche",
-    "saveSearchTitle": "Recevez les nouvelles annonces par email",
+    "saveSearchTitle": "Nouvelles annonces par email",
     "saveSearchText": "Nous vous écrirons dès qu'un nouveau bien correspond à cette recherche.",
     "searchSaved": "Recherche enregistrée. Vous recevrez les nouveautés par email.",
     "loginToSave": "Connectez-vous pour enregistrer cette recherche",
@@ -214,7 +214,9 @@
     "countryH1": "Immobilier à vendre et à louer {inCountry}",
     "browseCities": "Rechercher par ville",
     "latestIn": "Nouveautés {inCountry}",
-    "h1Country": "{category} {operation} {inCountry}"
+    "h1Country": "{category} {operation} {inCountry}",
+    "seeOnMap": "Voir sur la carte",
+    "mapOfPage": "Carte des biens de cette page"
   },
   "filters": {
     "operation": "Transaction",

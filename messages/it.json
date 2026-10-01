@@ -205,7 +205,7 @@
     "areaActive": "Risultati nella zona della mappa",
     "removeArea": "Rimuovi zona",
     "saveSearch": "Salva ricerca",
-    "saveSearchTitle": "Ricevi i nuovi annunci via email",
+    "saveSearchTitle": "Nuovi annunci via email",
     "saveSearchText": "Ti scriveremo quando una nuova casa corrisponde a questa ricerca.",
     "searchSaved": "Ricerca salvata. Ti invieremo le novità via email.",
     "loginToSave": "Accedi per salvare questa ricerca",
@@ -220,7 +220,9 @@
     "resultsCount": "{count, plural, =0 {Nessun risultato} one {# risultato} other {# risultati}}",
     "countryH1": "Immobili in vendita e in affitto {inCountry}",
     "browseCities": "Cerca per città",
-    "latestIn": "Novità {inCountry}"
+    "latestIn": "Novità {inCountry}",
+    "seeOnMap": "Vedi sulla mappa",
+    "mapOfPage": "Mappa degli immobili di questa pagina"
   },
   "filters": {
     "operation": "Contratto",

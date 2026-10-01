@@ -21,3 +21,8 @@ export const ResultsMap = dynamic(() => import("./leaflet-maps").then((m) => m.R
   ssr: false,
   loading: () => <Placeholder className="h-full min-h-80" />,
 })
+
+export const MiniResultsMap = dynamic(() => import("./leaflet-maps").then((m) => m.MiniResultsMap), {
+  ssr: false,
+  loading: () => <Placeholder className="h-72" />,
+})
