@@ -593,7 +593,16 @@
     "reportDismissedText": "Obrigado pela sua denúncia do anúncio {listing}. Analisámo-lo e não viola as nossas regras nem a lei, pelo que continua publicado. Se tiver mais informações, responda a este email.",
     "openMessages": "Abrir mensagens",
     "viewListing": "Ver anúncio",
-    "openMyListings": "Abrir os meus anúncios"
+    "openMyListings": "Abrir os meus anúncios",
+    "welcomeSubject": "Bem-vindo ao Evalorio, {name}",
+    "welcomeTitle": "Bem-vindo, {name}!",
+    "welcomeIntro": "A sua conta está pronta. O Evalorio põe quem procura casa em contacto direto com os proprietários, em Espanha, França, Itália e Portugal.",
+    "welcomePost": "Publique o seu imóvel gratuitamente, com até 12 fotografias",
+    "welcomeSearch": "Procure casas para venda ou arrendamento, em lista ou no mapa",
+    "welcomeAlerts": "Guarde uma pesquisa e receba um email quando surgirem casas novas",
+    "welcomeButton": "Publicar um anúncio",
+    "welcomeAccount": "Pode gerir os seus anúncios, mensagens e definições na sua conta a qualquer momento.",
+    "welcomeFooter": "Recebeu este email porque criou uma conta no Evalorio."
   },
   "errors": {
     "notFoundTitle": "Página não encontrada",

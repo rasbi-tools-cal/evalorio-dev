@@ -587,7 +587,16 @@
     "reportDismissedText": "Merci pour votre signalement de l'annonce {listing}. Après examen, elle n'enfreint ni nos règles ni la loi et reste en ligne. Si vous avez d'autres informations, répondez à cet email.",
     "openMessages": "Voir les messages",
     "viewListing": "Voir l'annonce",
-    "openMyListings": "Ouvrir mes annonces"
+    "openMyListings": "Ouvrir mes annonces",
+    "welcomeSubject": "Bienvenue sur Evalorio, {name}",
+    "welcomeTitle": "Bienvenue, {name} !",
+    "welcomeIntro": "Votre compte est prêt. Evalorio met en relation directe les personnes qui cherchent un logement et les propriétaires, en Espagne, en France, en Italie et au Portugal.",
+    "welcomePost": "Publiez votre bien gratuitement, avec jusqu'à 12 photos",
+    "welcomeSearch": "Cherchez des logements à vendre ou à louer, en liste ou sur la carte",
+    "welcomeAlerts": "Enregistrez une recherche et recevez un email dès qu'un nouveau bien apparaît",
+    "welcomeButton": "Publier une annonce",
+    "welcomeAccount": "Vous pouvez gérer vos annonces, messages et paramètres depuis votre compte à tout moment.",
+    "welcomeFooter": "Vous recevez cet email car vous avez créé un compte sur Evalorio."
   },
   "errors": {
     "notFoundTitle": "Page introuvable",

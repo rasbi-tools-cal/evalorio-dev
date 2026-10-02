@@ -1,5 +1,5 @@
 import { after, NextResponse, type NextRequest } from "next/server"
-import { notifyAdminsOfSignup } from "@/lib/notifications"
+import { notifyAdminsOfSignup, sendWelcomeEmail } from "@/lib/notifications"
 import { createClient } from "@/lib/supabase/server"
 import { safeNextPath } from "@/lib/urls"
 
@@ -17,7 +17,10 @@ export async function GET(request: NextRequest) {
       const user = data.user
       if (user?.email && Date.now() - new Date(user.created_at).getTime() < 120_000) {
         const meta = user.user_metadata ?? {}
-        after(() => notifyAdminsOfSignup({ email: user.email!, name: meta.full_name ?? meta.name, locale: meta.locale, method: "google" }))
+        after(async () => {
+          await sendWelcomeEmail({ email: user.email!, name: meta.full_name ?? meta.name, locale: meta.locale })
+          await notifyAdminsOfSignup({ email: user.email!, name: meta.full_name ?? meta.name, locale: meta.locale, method: "google" })
+        })
       }
       return NextResponse.redirect(new URL(next, origin))
     }
