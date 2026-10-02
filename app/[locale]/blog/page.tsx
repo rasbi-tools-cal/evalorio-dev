@@ -69,7 +69,7 @@ export default async function BlogIndexPage({ params, searchParams }: PageProps<
           aria-hidden
           className="from-surface/90 via-surface/75 to-surface/40 md:from-surface md:via-surface/80 md:to-transparent absolute inset-0 -z-10 bg-linear-to-b md:bg-linear-to-r md:via-45%"
         />
-        <div className="page-container py-10 sm:py-16">
+        <div className="page-container py-2.5">
           <nav aria-label="Breadcrumb" className="text-muted-foreground text-sm">
             <ol className="flex items-center gap-1.5">
               <li>
@@ -83,7 +83,7 @@ export default async function BlogIndexPage({ params, searchParams }: PageProps<
               </li>
             </ol>
           </nav>
-          <header className="mt-6 max-w-2xl">
+          <header className="mt-3 max-w-2xl">
             <p className="text-primary mb-3 flex items-center gap-2 text-xs font-semibold tracking-widest uppercase">
               <span className="bg-primary size-2 rounded-full" aria-hidden />
               {t("eyebrow")}
