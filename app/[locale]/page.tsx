@@ -71,14 +71,14 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       />
 
       <section className="bg-surface relative isolate overflow-hidden border-b">
-        {/* Villa with pool on the Costa Blanca (Unsplash License), faded towards the text side. */}
+        {/* Mediterranean villa with pool (Unsplash License), faded towards the text side. */}
         <Image
-          src="/hero/costa-blanca-villa.jpg"
+          src="/hero/mediterranean-villa.jpg"
           alt=""
           fill
           priority
           sizes="100vw"
-          className="-z-20 object-cover object-[70%_center]"
+          className="-z-20 object-cover object-[center_60%]"
         />
         <div
           aria-hidden
