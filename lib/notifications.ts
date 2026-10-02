@@ -25,13 +25,11 @@ export async function notifyAdminsOfSignup(user: { email: string; name?: string 
   const admin = createAdminClient()
   const { data: admins } = await admin.from("profiles").select("id").eq("role", "admin").eq("is_banned", false)
   const link = absoluteUrl("en", `/admin/users?q=${encodeURIComponent(user.email)}`)
-  const when = new Date().toLocaleString("en-GB", { timeZone: "Europe/Madrid", dateStyle: "medium", timeStyle: "short" })
   const rows: [string, string][] = [
     ["Name", user.name || "-"],
     ["Email", user.email],
     ["Language", (user.locale || "en").toUpperCase()],
     ["Signed up with", user.method === "google" ? "Google" : "Email and password"],
-    ["When", `${when} (Madrid)`],
   ]
   for (const a of admins ?? []) {
     const { email } = await userContact(a.id)
