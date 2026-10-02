@@ -1,12 +1,7 @@
 import type { MetadataRoute } from "next"
 import { SITE_URL } from "@/lib/env"
-import { generateSitemaps } from "./sitemap"
 
-export const revalidate = 3600
-
-// Sitemaps are split (generateSitemaps), so there is no /sitemap.xml: list every chunk.
-export default async function robots(): Promise<MetadataRoute.Robots> {
-  const sitemaps = await generateSitemaps()
+export default function robots(): MetadataRoute.Robots {
   const isProduction = process.env.VERCEL_ENV ? process.env.VERCEL_ENV === "production" : process.env.NODE_ENV === "production"
   if (!isProduction) return { rules: { userAgent: "*", disallow: "/" } }
 
@@ -15,7 +10,8 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
 
   return {
     rules: { userAgent: "*", allow: "/", disallow: [...privatePaths, ...localized] },
-    sitemap: sitemaps.map(({ id }) => `${SITE_URL}/sitemap/${id}.xml`),
+    // Index of every sitemap chunk (app/sitemap_index.xml/route.ts).
+    sitemap: `${SITE_URL}/sitemap_index.xml`,
     host: SITE_URL,
   }
 }
