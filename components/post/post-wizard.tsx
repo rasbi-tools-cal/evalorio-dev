@@ -130,11 +130,14 @@ export function NewListingStart() {
 export function PostWizard({
   initial,
   initialStep,
+  submittedStatus = null,
   emailConfirmed,
   trusted,
 }: {
   initial: WizardListing
   initialStep: Step
+  /** Set when the listing was just submitted: show the "thank you" screen. */
+  submittedStatus?: string | null
   emailConfirmed: boolean
   trusted: boolean
 }) {
@@ -146,7 +149,7 @@ export function PostWizard({
 
   const [step, setStep] = useState<Step>(initialStep)
   const [pending, start] = useTransition()
-  const [submitted, setSubmitted] = useState<string | null>(null)
+  const [submitted, setSubmitted] = useState<string | null>(submittedStatus)
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [uploading, setUploading] = useState(false)
 

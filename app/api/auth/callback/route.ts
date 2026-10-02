@@ -1,4 +1,5 @@
-import { NextResponse, type NextRequest } from "next/server"
+import { after, NextResponse, type NextRequest } from "next/server"
+import { notifyAdminsOfSignup } from "@/lib/notifications"
 import { createClient } from "@/lib/supabase/server"
 import { safeNextPath } from "@/lib/urls"
 
@@ -10,8 +11,16 @@ export async function GET(request: NextRequest) {
 
   if (code) {
     const supabase = await createClient()
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
-    if (!error) return NextResponse.redirect(new URL(next, origin))
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+    if (!error) {
+      // First Google sign-in creates the account: alert the admins (account created < 2 min ago).
+      const user = data.user
+      if (user?.email && Date.now() - new Date(user.created_at).getTime() < 120_000) {
+        const meta = user.user_metadata ?? {}
+        after(() => notifyAdminsOfSignup({ email: user.email!, name: meta.full_name ?? meta.name, locale: meta.locale, method: "google" }))
+      }
+      return NextResponse.redirect(new URL(next, origin))
+    }
   }
   return NextResponse.redirect(new URL("/login?error=callback", origin))
 }

@@ -14,7 +14,7 @@ export async function loadListingForEdit(id: number) {
     .from("listings")
     .select(
       `id, owner_id, status, operation, property_type, title, description, price, area_m2, bedrooms, bathrooms, floor, exterior,
-       year_built, energy_rating, features, neighborhood_id, rejection_reason, city_id,
+       year_built, energy_rating, features, neighborhood_id, rejection_reason, city_id, updated_at,
        photos:listing_photos(id, storage_path, position, created_at)`,
     )
     .eq("id", id)
@@ -67,7 +67,9 @@ export async function loadListingForEdit(id: number) {
       .map((p) => ({ id: p.id, storage_path: p.storage_path })),
   }
 
-  return { initial, emailConfirmed: Boolean(user.email_confirmed_at), trusted: profile.is_trusted }
+  // Submitted in the last few minutes: the wizard still shows its "thank you" screen (also after a reload).
+  const justSubmitted = !DRAFT_STATUSES.includes(listing.status) && Date.now() - new Date(listing.updated_at).getTime() < 10 * 60_000
+  return { initial, justSubmitted, emailConfirmed: Boolean(user.email_confirmed_at), trusted: profile.is_trusted }
 }
 
 /** Statuses that are still being written: they use the step-by-step flow. */
