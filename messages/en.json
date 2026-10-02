@@ -587,7 +587,16 @@
     "reportDismissedText": "Thank you for your report about listing {listing}. We reviewed it and found that it does not break our rules or the law, so it stays online. If you have more information, reply to this email.",
     "openMessages": "Open messages",
     "viewListing": "View listing",
-    "openMyListings": "Open my listings"
+    "openMyListings": "Open my listings",
+    "welcomeSubject": "Welcome to Evalorio, {name}",
+    "welcomeTitle": "Welcome, {name}!",
+    "welcomeIntro": "Your account is ready. Evalorio connects people looking for a home directly with the owners, in Spain, France, Italy and Portugal.",
+    "welcomePost": "Publish your property for free, with up to 12 photos",
+    "welcomeSearch": "Search homes for sale or rent, on a list or on the map",
+    "welcomeAlerts": "Save a search and get an email when new homes appear",
+    "welcomeButton": "Publish a listing",
+    "welcomeAccount": "You can manage your listings, messages and settings in your account at any time.",
+    "welcomeFooter": "You received this email because you created an account on Evalorio."
   },
   "errors": {
     "notFoundTitle": "Page not found",

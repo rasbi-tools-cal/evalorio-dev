@@ -20,6 +20,38 @@ async function listingLabel(listingId: number) {
   return data ? { ...data, label: data.title || `#${data.id}` } : null
 }
 
+/** Welcome email in the user's language, sent right after the account is created. */
+export async function sendWelcomeEmail(user: { email: string; name?: string | null; locale?: string | null }) {
+  const locale = (["en", "es", "fr", "it", "pt"].includes(user.locale ?? "") ? user.locale : "en") as Locale
+  const t = await getTranslations({ locale, namespace: "notifications" })
+  const name = user.name?.trim() || user.email.split("@")[0]
+  const postUrl = absoluteUrl(locale, "/post")
+  const items = [
+    [t("welcomePost"), postUrl],
+    [t("welcomeSearch"), absoluteUrl(locale, "/")],
+    [t("welcomeAlerts"), absoluteUrl(locale, "/account/searches")],
+  ]
+  await sendEmail({
+    to: user.email,
+    subject: t("welcomeSubject", { name }),
+    text: `${t("welcomeTitle", { name })}\n\n${t("welcomeIntro")}\n\n${items.map(([label, url]) => `- ${label}: ${url}`).join("\n")}\n\n${t("welcomeAccount")}`,
+    html: emailLayout(
+      `<p style="margin:0 0 12px;font-size:22px;line-height:30px;font-weight:700;color:#0b1c30">${escapeHtml(t("welcomeTitle", { name }))}</p>
+       <p>${escapeHtml(t("welcomeIntro"))}</p>
+       <table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 20px">
+         ${items
+           .map(
+             ([label, url]) => `<tr><td style="padding:6px 10px 6px 0;vertical-align:top;color:#006948;font-weight:700">✓</td><td style="padding:6px 0"><a href="${escapeHtml(url)}" style="color:#0b1c30;text-decoration:none">${escapeHtml(label)}</a></td></tr>`,
+           )
+           .join("")}
+       </table>
+       ${emailButton(postUrl, t("welcomeButton"))}
+       <p style="margin-top:20px;color:#565e74">${escapeHtml(t("welcomeAccount"))}</p>`,
+      escapeHtml(t("welcomeFooter")),
+    ),
+  })
+}
+
 /** Emails every admin when someone creates an account (sign-up form or first Google sign-in). */
 export async function notifyAdminsOfSignup(user: { email: string; name?: string | null; locale?: string | null; method: "email" | "google" }) {
   const admin = createAdminClient()
