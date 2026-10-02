@@ -76,7 +76,8 @@
     "rights": "© {year} Evalorio. Tutti i diritti riservati.",
     "geonames": "Dati geografici © GeoNames (CC BY 4.0)",
     "legalNotice": "Note legali",
-    "privacyRequest": "I tuoi diritti privacy"
+    "privacyRequest": "I tuoi diritti privacy",
+    "blog": "Blog"
   },
   "operations": {
     "sale": "In vendita",
@@ -743,5 +744,45 @@
     "rejected": "Rifiutati",
     "makeRequest": "Fai una richiesta privacy",
     "requests": "Le tue richieste"
+  },
+  "blog": {
+    "title": "Blog di Evalorio",
+    "metaTitle": "Blog: comprare, affittare e vendere casa in Spagna, Francia, Italia e Portogallo",
+    "description": "Guide pratiche per acquirenti, inquilini e proprietari in Spagna, Francia, Italia e Portogallo: costi, pratiche, tasse e consigli.",
+    "eyebrow": "Guide e novità",
+    "intro": "Guide pratiche e con fonti per comprare, affittare e vendere casa in Spagna, Francia, Italia e Portogallo.",
+    "filterCountry": "Paese",
+    "filterAudience": "Per",
+    "allCountries": "Tutti i paesi",
+    "allAudiences": "Tutti",
+    "audience": {
+      "buyers": "Acquirenti",
+      "renters": "Inquilini",
+      "owners": "Proprietari"
+    },
+    "readArticle": "Leggi l'articolo",
+    "minutesRead": "{minutes} min di lettura",
+    "published": "Pubblicato il {date}",
+    "updated": "Aggiornato il {date}",
+    "emptyTitle": "Ancora nessun articolo in questa lingua",
+    "emptyText": "Stiamo scrivendo le prime guide in questa lingua. Nel frattempo puoi cercare casa o pubblicare gratis il tuo immobile.",
+    "noResults": "Nessun articolo corrisponde a questi filtri.",
+    "resetFilters": "Mostra tutti gli articoli",
+    "faqTitle": "Domande frequenti",
+    "sourcesTitle": "Fonti",
+    "accessed": "consultato il {date}",
+    "otherLanguages": "Disponibile anche in",
+    "disclaimerTitle": "Da sapere",
+    "disclaimer": "Questo articolo contiene informazioni generali e non costituisce consulenza legale, fiscale o finanziaria. Norme, aliquote e scadenze cambiano e possono variare per regione; verifica le fonti ufficiali indicate o rivolgiti a un professionista prima di decidere.",
+    "backToBlog": "Tutti gli articoli",
+    "searchHomes": "Cerca casa",
+    "listFree": "Pubblica gratis il tuo immobile",
+    "languages": {
+      "en": "English",
+      "es": "Español",
+      "fr": "Français",
+      "it": "Italiano",
+      "pt": "Português"
+    }
   }
 }

@@ -76,7 +76,8 @@
     "rights": "© {year} Evalorio. Tous droits réservés.",
     "geonames": "Données géographiques © GeoNames (CC BY 4.0)",
     "legalNotice": "Mentions légales",
-    "privacyRequest": "Vos droits sur vos données"
+    "privacyRequest": "Vos droits sur vos données",
+    "blog": "Blog"
   },
   "operations": {
     "sale": "À vendre",
@@ -743,5 +744,45 @@
     "rejected": "Refusés",
     "makeRequest": "Faire une demande",
     "requests": "Vos demandes"
+  },
+  "blog": {
+    "title": "Blog Evalorio",
+    "metaTitle": "Blog : acheter, louer et vendre un logement en Espagne, France, Italie et Portugal",
+    "description": "Guides pratiques pour acheteurs, locataires et propriétaires en Espagne, en France, en Italie et au Portugal : frais, démarches, impôts et conseils.",
+    "eyebrow": "Guides et actualités",
+    "intro": "Des guides pratiques et sourcés pour acheter, louer et vendre un logement en Espagne, en France, en Italie et au Portugal.",
+    "filterCountry": "Pays",
+    "filterAudience": "Pour",
+    "allCountries": "Tous les pays",
+    "allAudiences": "Tout le monde",
+    "audience": {
+      "buyers": "Acheteurs",
+      "renters": "Locataires",
+      "owners": "Propriétaires"
+    },
+    "readArticle": "Lire l'article",
+    "minutesRead": "{minutes} min de lecture",
+    "published": "Publié le {date}",
+    "updated": "Mis à jour le {date}",
+    "emptyTitle": "Pas encore d'articles dans cette langue",
+    "emptyText": "Nous rédigeons nos premiers guides dans cette langue. En attendant, vous pouvez chercher un logement ou publier votre bien gratuitement.",
+    "noResults": "Aucun article ne correspond à ces filtres.",
+    "resetFilters": "Voir tous les articles",
+    "faqTitle": "Questions fréquentes",
+    "sourcesTitle": "Sources",
+    "accessed": "consulté le {date}",
+    "otherLanguages": "Aussi disponible en",
+    "disclaimerTitle": "Bon à savoir",
+    "disclaimer": "Cet article fournit des informations générales et ne constitue pas un conseil juridique, fiscal ou financier. Les règles, taux et délais évoluent et peuvent varier selon la région ; vérifiez les sources officielles citées ou consultez un professionnel avant de décider.",
+    "backToBlog": "Tous les articles",
+    "searchHomes": "Chercher un logement",
+    "listFree": "Publier votre bien gratuitement",
+    "languages": {
+      "en": "English",
+      "es": "Español",
+      "fr": "Français",
+      "it": "Italiano",
+      "pt": "Português"
+    }
   }
 }
