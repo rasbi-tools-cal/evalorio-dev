@@ -1,5 +1,6 @@
 import { ArrowRight, Bell, HandCoins, MessagesSquare } from "lucide-react"
 import type { Metadata } from "next"
+import Image from "next/image"
 import { getTranslations } from "next-intl/server"
 import { ListingCard } from "@/components/listings/listing-card"
 import { HeroSearch } from "@/components/search/hero-search"
@@ -69,8 +70,21 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         }}
       />
 
-      <section className="bg-surface border-b">
-        <div className="page-container pt-10 pb-12 sm:pt-16 sm:pb-16">
+      <section className="bg-surface relative isolate overflow-hidden border-b">
+        {/* Villa with pool on the Costa Blanca (Unsplash License), faded towards the text side. */}
+        <Image
+          src="/hero/costa-blanca-villa.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="-z-20 object-cover object-[70%_center]"
+        />
+        <div
+          aria-hidden
+          className="from-surface/95 via-surface/85 to-surface/60 md:from-surface md:via-surface/85 md:to-surface/10 absolute inset-0 -z-10 bg-linear-to-b md:bg-linear-to-r md:via-45%"
+        />
+        <div className="page-container pt-10 pb-12 sm:pt-16 sm:pb-20">
           <p className="text-primary mb-4 flex items-center gap-2 text-xs font-semibold tracking-widest uppercase">
             <span className="bg-primary size-2 rounded-full" aria-hidden />
             {t("eyebrow")}
