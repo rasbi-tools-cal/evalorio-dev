@@ -78,11 +78,11 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           fill
           priority
           sizes="100vw"
-          className="-z-20 object-cover object-[center_60%]"
+          className="-z-20 object-cover object-[center_80%]"
         />
         <div
           aria-hidden
-          className="from-surface/95 via-surface/85 to-surface/60 md:from-surface md:via-surface/85 md:to-surface/10 absolute inset-0 -z-10 bg-linear-to-b md:bg-linear-to-r md:via-45%"
+          className="from-surface/90 via-surface/70 to-surface/25 md:from-surface md:via-surface/75 md:to-transparent absolute inset-0 -z-10 bg-linear-to-b md:bg-linear-to-r md:via-40%"
         />
         <div className="page-container pt-10 pb-12 sm:pt-16 sm:pb-20">
           <p className="text-primary mb-4 flex items-center gap-2 text-xs font-semibold tracking-widest uppercase">
