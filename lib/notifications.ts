@@ -20,6 +20,37 @@ async function listingLabel(listingId: number) {
   return data ? { ...data, label: data.title || `#${data.id}` } : null
 }
 
+/** Emails every admin when someone creates an account (sign-up form or first Google sign-in). */
+export async function notifyAdminsOfSignup(user: { email: string; name?: string | null; locale?: string | null; method: "email" | "google" }) {
+  const admin = createAdminClient()
+  const { data: admins } = await admin.from("profiles").select("id").eq("role", "admin").eq("is_banned", false)
+  const link = absoluteUrl("en", `/admin/users?q=${encodeURIComponent(user.email)}`)
+  const when = new Date().toLocaleString("en-GB", { timeZone: "Europe/Madrid", dateStyle: "medium", timeStyle: "short" })
+  const rows: [string, string][] = [
+    ["Name", user.name || "-"],
+    ["Email", user.email],
+    ["Language", (user.locale || "en").toUpperCase()],
+    ["Signed up with", user.method === "google" ? "Google" : "Email and password"],
+    ["When", `${when} (Madrid)`],
+  ]
+  for (const a of admins ?? []) {
+    const { email } = await userContact(a.id)
+    if (!email) continue
+    await sendEmail({
+      to: email,
+      subject: `[Evalorio] New account: ${user.name || user.email}`,
+      text: `New account on Evalorio\n\n${rows.map(([k, v]) => `${k}: ${v}`).join("\n")}\n\n${link}`,
+      html: emailLayout(
+        `<p style="margin:0 0 16px;font-size:18px;font-weight:700;color:#0b1c30">New account on Evalorio</p>
+         <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin-bottom:20px;font-size:14px">
+           ${rows.map(([k, v]) => `<tr><td style="padding:6px 0;color:#7a8580;width:130px">${k}</td><td style="padding:6px 0;color:#0b1c30;font-weight:600">${escapeHtml(v)}</td></tr>`).join("")}
+         </table>
+         ${emailButton(link, "Open in admin")}`,
+      ),
+    })
+  }
+}
+
 export async function notifyAdminsOfPendingListing(listingId: number) {
   const admin = createAdminClient()
   const { data: admins } = await admin.from("profiles").select("id").eq("role", "admin").eq("is_banned", false)

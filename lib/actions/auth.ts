@@ -1,8 +1,10 @@
 "use server"
 
 import { getLocale } from "next-intl/server"
+import { after } from "next/server"
 import { z } from "zod"
 import { SITE_URL } from "@/lib/env"
+import { notifyAdminsOfSignup } from "@/lib/notifications"
 import { clientIp, hashIp, rateLimit } from "@/lib/security"
 import { createClient } from "@/lib/supabase/server"
 import { safeNextPath } from "@/lib/urls"
@@ -79,6 +81,8 @@ export async function signUp(input: {
   if (error) return mapError(error.message)
   // Supabase returns a user with no identities when the email already exists (anti-enumeration).
   if (data.user && data.user.identities?.length === 0) return { ok: false, error: "email_taken" }
+  // Tell the admins after the response, so sign-up is never slowed down or broken by email.
+  after(() => notifyAdminsOfSignup({ email: parsed.data.email, name: parsed.data.displayName, locale, method: "email" }))
   // With email confirmation off (Supabase "autoconfirm"), sign-up returns a session: the user is in.
   return { ok: true, email: parsed.data.email, next, signedIn: Boolean(data.session) }
 }

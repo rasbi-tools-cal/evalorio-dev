@@ -20,9 +20,9 @@ export default async function DraftListingPage({ params, searchParams }: PagePro
   const { step: rawStep } = await searchParams
   const data = await loadListingForEdit(Number(id))
   if (!data) notFound()
-  // Submitted listings are edited in the dashboard. Not on the publish step itself: submitting
+  // Submitted listings are edited in the dashboard, except right after submitting: the submit action
   // re-renders this page (revalidatePath) and the wizard must stay to show its "thank you" screen.
-  if (!DRAFT_STATUSES.includes(data.initial.status) && rawStep !== "publish") {
+  if (!DRAFT_STATUSES.includes(data.initial.status) && !data.justSubmitted) {
     redirect({ href: `/account/listings/${id}/edit`, locale })
   }
 
@@ -33,7 +33,7 @@ export default async function DraftListingPage({ params, searchParams }: PagePro
     <div className="bg-card rounded-xl border p-5 shadow-[var(--shadow-card)] sm:p-8">
       <h1 className="text-2xl font-bold sm:text-3xl">{t("title")}</h1>
       <p className="text-muted-foreground mt-1 mb-8">{t("subtitle")}</p>
-      <PostWizard initial={data.initial} initialStep={step} emailConfirmed={data.emailConfirmed} trusted={data.trusted} />
+      <PostWizard initial={data.initial} initialStep={step} submittedStatus={data.justSubmitted ? data.initial.status : null} emailConfirmed={data.emailConfirmed} trusted={data.trusted} />
     </div>
   )
 }
