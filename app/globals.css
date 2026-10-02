@@ -200,3 +200,9 @@
 .prose-evalorio code {
   @apply text-foreground text-xs;
 }
+.prose-evalorio blockquote {
+  @apply border-primary bg-surface text-foreground rounded-r-lg border-l-4 px-4 py-3;
+}
+.prose-evalorio hr {
+  @apply my-8;
+}

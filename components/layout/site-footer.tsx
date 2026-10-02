@@ -47,6 +47,9 @@ export async function SiteFooter() {
             <Link href="/about" className={linkClass}>
               {t("about")}
             </Link>
+            <Link href="/blog" className={linkClass}>
+              {t("blog")}
+            </Link>
             <Link href="/contact" className={linkClass}>
               {t("contact")}
             </Link>

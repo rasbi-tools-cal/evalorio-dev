@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next"
 import { routing, type Locale } from "@/i18n/routing"
+import { blogLocales, blogPath, getAllPosts } from "@/lib/blog/posts"
 import { COUNTRIES, COUNTRY_CODES } from "@/lib/catalog"
 import { createPublicClient } from "@/lib/supabase/public"
 import { absoluteUrl, countryPath, listingPath, searchPath } from "@/lib/urls"
@@ -77,6 +78,23 @@ export default async function sitemap({ id }: { id: Promise<string> }): Promise<
         changeFrequency: "daily",
         priority: 0.7,
         alternates: alternates((l) => searchPath(l, { country, city, category: "homes", operation: row.operation })),
+      })
+    }
+
+    // Blog: each article in the languages it exists in; hreflang only between real translations.
+    const [posts, postLocales] = await Promise.all([getAllPosts(), blogLocales()])
+    const blogIndexLanguages = Object.fromEntries(postLocales.map((l) => [l, absoluteUrl(l, blogPath())]))
+    for (const l of postLocales) {
+      entries.push({ url: absoluteUrl(l, blogPath()), changeFrequency: "weekly", priority: 0.5, alternates: { languages: blogIndexLanguages } })
+    }
+    for (const post of posts) {
+      const translations = posts.filter((p) => p.translationKey === post.translationKey)
+      entries.push({
+        url: absoluteUrl(post.locale, blogPath(post.slug)),
+        lastModified: post.updated ?? post.date,
+        changeFrequency: "monthly",
+        priority: 0.6,
+        alternates: { languages: Object.fromEntries(translations.map((p) => [p.locale, absoluteUrl(p.locale, blogPath(p.slug))])) },
       })
     }
     return entries

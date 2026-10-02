@@ -76,7 +76,8 @@
     "rights": "© {year} Evalorio. All rights reserved.",
     "geonames": "Place data © GeoNames (CC BY 4.0)",
     "legalNotice": "Legal notice",
-    "privacyRequest": "Your privacy rights"
+    "privacyRequest": "Your privacy rights",
+    "blog": "Blog"
   },
   "operations": {
     "sale": "For sale",
@@ -743,5 +744,45 @@
     "rejected": "Rejected",
     "makeRequest": "Make a privacy request",
     "requests": "Your requests"
+  },
+  "blog": {
+    "title": "Evalorio blog",
+    "metaTitle": "Blog: buying, renting and selling property in Spain, France, Italy and Portugal",
+    "description": "Practical guides for buyers, renters and owners in Spain, France, Italy and Portugal: costs, paperwork, taxes and tips.",
+    "eyebrow": "Guides and news",
+    "intro": "Practical, sourced guides for buying, renting and selling homes in Spain, France, Italy and Portugal.",
+    "filterCountry": "Country",
+    "filterAudience": "For",
+    "allCountries": "All countries",
+    "allAudiences": "Everyone",
+    "audience": {
+      "buyers": "Buyers",
+      "renters": "Renters",
+      "owners": "Owners"
+    },
+    "readArticle": "Read article",
+    "minutesRead": "{minutes} min read",
+    "published": "Published {date}",
+    "updated": "Updated {date}",
+    "emptyTitle": "No articles in this language yet",
+    "emptyText": "We're writing our first guides in this language. Meanwhile you can search homes or publish your property for free.",
+    "noResults": "No articles match these filters.",
+    "resetFilters": "Show all articles",
+    "faqTitle": "Frequently asked questions",
+    "sourcesTitle": "Sources",
+    "accessed": "accessed {date}",
+    "otherLanguages": "Also available in",
+    "disclaimerTitle": "Good to know",
+    "disclaimer": "This article is general information, not legal, tax or financial advice. Rules, rates and deadlines change and can differ by region; check the official sources linked above or ask a qualified professional before you decide.",
+    "backToBlog": "All articles",
+    "searchHomes": "Search homes",
+    "listFree": "List your property for free",
+    "languages": {
+      "en": "English",
+      "es": "Español",
+      "fr": "Français",
+      "it": "Italiano",
+      "pt": "Português"
+    }
   }
 }

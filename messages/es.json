@@ -76,7 +76,8 @@
     "rights": "© {year} Evalorio. Todos los derechos reservados.",
     "geonames": "Datos de lugares © GeoNames (CC BY 4.0)",
     "legalNotice": "Aviso legal",
-    "privacyRequest": "Tus derechos de privacidad"
+    "privacyRequest": "Tus derechos de privacidad",
+    "blog": "Blog"
   },
   "operations": {
     "sale": "En venta",
@@ -743,5 +744,45 @@
     "rejected": "Rechazadas",
     "makeRequest": "Hacer una solicitud de privacidad",
     "requests": "Tus solicitudes"
+  },
+  "blog": {
+    "title": "Blog de Evalorio",
+    "metaTitle": "Blog: comprar, alquilar y vender vivienda en España, Francia, Italia y Portugal",
+    "description": "Guías prácticas para compradores, inquilinos y propietarios en España, Francia, Italia y Portugal: costes, trámites, impuestos y consejos.",
+    "eyebrow": "Guías y novedades",
+    "intro": "Guías prácticas y con fuentes para comprar, alquilar y vender vivienda en España, Francia, Italia y Portugal.",
+    "filterCountry": "País",
+    "filterAudience": "Para",
+    "allCountries": "Todos los países",
+    "allAudiences": "Todos",
+    "audience": {
+      "buyers": "Compradores",
+      "renters": "Inquilinos",
+      "owners": "Propietarios"
+    },
+    "readArticle": "Leer artículo",
+    "minutesRead": "{minutes} min de lectura",
+    "published": "Publicado el {date}",
+    "updated": "Actualizado el {date}",
+    "emptyTitle": "Todavía no hay artículos en este idioma",
+    "emptyText": "Estamos escribiendo nuestras primeras guías en este idioma. Mientras tanto, puedes buscar vivienda o publicar tu inmueble gratis.",
+    "noResults": "Ningún artículo coincide con estos filtros.",
+    "resetFilters": "Ver todos los artículos",
+    "faqTitle": "Preguntas frecuentes",
+    "sourcesTitle": "Fuentes",
+    "accessed": "consultado el {date}",
+    "otherLanguages": "También disponible en",
+    "disclaimerTitle": "Ten en cuenta",
+    "disclaimer": "Este artículo es información general, no asesoramiento legal, fiscal ni financiero. Las normas, tipos y plazos cambian y pueden variar según la región; consulta las fuentes oficiales enlazadas o a un profesional antes de decidir.",
+    "backToBlog": "Todos los artículos",
+    "searchHomes": "Buscar vivienda",
+    "listFree": "Publica tu inmueble gratis",
+    "languages": {
+      "en": "English",
+      "es": "Español",
+      "fr": "Français",
+      "it": "Italiano",
+      "pt": "Português"
+    }
   }
 }

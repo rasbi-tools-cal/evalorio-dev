@@ -1,6 +1,13 @@
+import createMDX from "@next/mdx"
 import createNextIntlPlugin from "next-intl/plugin"
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts")
+
+// Blog articles (content/blog/<locale>/<slug>.mdx) are imported by app/[locale]/blog, never routed as pages.
+// Plugin names as strings so they work with Turbopack. Frontmatter is parsed separately (lib/blog/posts.ts).
+const withMDX = createMDX({
+  options: { remarkPlugins: ["remark-frontmatter", "remark-gfm"] },
+})
 
 const supabaseUrl = new URL(process.env.NEXT_PUBLIC_SUPABASE_URL || "http://127.0.0.1:54321")
 const isDev = process.env.NODE_ENV !== "production"
@@ -32,7 +39,7 @@ const contentSecurityPolicy = [
 const nextConfig = {
   poweredByHeader: false,
   // Legal pages read content/legal/<locale>/*.md at runtime.
-  outputFileTracingIncludes: { "/[locale]/**": ["./content/legal/**/*.md"] },
+  outputFileTracingIncludes: { "/[locale]/**": ["./content/legal/**/*.md", "./content/blog/**/*.mdx"], "/sitemap/**": ["./content/blog/**/*.mdx"] },
   reactStrictMode: true,
   images: {
     remotePatterns: [
@@ -65,4 +72,4 @@ const nextConfig = {
   },
 }
 
-export default withNextIntl(nextConfig)
+export default withNextIntl(withMDX(nextConfig))

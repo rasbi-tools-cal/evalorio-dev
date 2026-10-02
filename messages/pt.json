@@ -76,7 +76,8 @@
     "rights": "© {year} Evalorio. Todos os direitos reservados.",
     "geonames": "Dados geográficos © GeoNames (CC BY 4.0)",
     "legalNotice": "Aviso legal",
-    "privacyRequest": "Os seus direitos de privacidade"
+    "privacyRequest": "Os seus direitos de privacidade",
+    "blog": "Blog"
   },
   "operations": {
     "sale": "Para venda",
@@ -743,5 +744,45 @@
     "rejected": "Rejeitados",
     "makeRequest": "Fazer um pedido de privacidade",
     "requests": "Os seus pedidos"
+  },
+  "blog": {
+    "title": "Blog do Evalorio",
+    "metaTitle": "Blog: comprar, arrendar e vender casa em Espanha, França, Itália e Portugal",
+    "description": "Guias práticos para compradores, inquilinos e proprietários em Espanha, França, Itália e Portugal: custos, burocracia, impostos e dicas.",
+    "eyebrow": "Guias e novidades",
+    "intro": "Guias práticos e com fontes para comprar, arrendar e vender casa em Espanha, França, Itália e Portugal.",
+    "filterCountry": "País",
+    "filterAudience": "Para",
+    "allCountries": "Todos os países",
+    "allAudiences": "Todos",
+    "audience": {
+      "buyers": "Compradores",
+      "renters": "Inquilinos",
+      "owners": "Proprietários"
+    },
+    "readArticle": "Ler artigo",
+    "minutesRead": "{minutes} min de leitura",
+    "published": "Publicado a {date}",
+    "updated": "Atualizado a {date}",
+    "emptyTitle": "Ainda não há artigos nesta língua",
+    "emptyText": "Estamos a escrever os primeiros guias nesta língua. Entretanto, pode procurar casa ou publicar o seu imóvel gratuitamente.",
+    "noResults": "Nenhum artigo corresponde a estes filtros.",
+    "resetFilters": "Ver todos os artigos",
+    "faqTitle": "Perguntas frequentes",
+    "sourcesTitle": "Fontes",
+    "accessed": "consultado a {date}",
+    "otherLanguages": "Também disponível em",
+    "disclaimerTitle": "A ter em conta",
+    "disclaimer": "Este artigo é informação geral, não aconselhamento jurídico, fiscal ou financeiro. As regras, taxas e prazos mudam e podem variar por região; consulte as fontes oficiais indicadas ou um profissional antes de decidir.",
+    "backToBlog": "Todos os artigos",
+    "searchHomes": "Procurar casa",
+    "listFree": "Publique o seu imóvel gratuitamente",
+    "languages": {
+      "en": "English",
+      "es": "Español",
+      "fr": "Français",
+      "it": "Italiano",
+      "pt": "Português"
+    }
   }
 }
