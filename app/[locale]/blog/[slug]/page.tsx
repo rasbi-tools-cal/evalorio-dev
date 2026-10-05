@@ -7,10 +7,19 @@ import { Button } from "@/components/ui/button"
 import { Link } from "@/i18n/navigation"
 import { pageLocale } from "@/i18n/locale"
 import type { Locale } from "@/i18n/routing"
-import { blogPath, getPost, getTranslations as getPostTranslations, loadPostBody, type PostMeta } from "@/lib/blog/posts"
+import { blogPath, getPost, getPosts, getTranslations as getPostTranslations, loadPostBody, type PostMeta } from "@/lib/blog/posts"
 import { SITE_URL } from "@/lib/env"
 import { ogLocale } from "@/lib/seo"
 import { absoluteUrl } from "@/lib/urls"
+
+// Every article is prerendered for its own language; unknown slugs are a plain 404.
+export const revalidate = 86400
+export const dynamicParams = false
+
+export async function generateStaticParams({ params }: { params: { locale: string } }) {
+  const posts = await getPosts(params.locale as Locale)
+  return posts.map((p) => ({ slug: p.slug }))
+}
 
 async function loadPost(params: PageProps<"/[locale]/blog/[slug]">["params"]) {
   const locale = await pageLocale(params)

@@ -1,15 +1,15 @@
 import type { Metadata } from "next"
 import Image from "next/image"
+import { Suspense } from "react"
 import { getFormatter, getTranslations } from "next-intl/server"
-import { BlogPostCard } from "@/components/blog/post-card"
+import { BlogList, BlogListFromUrl, type BlogListItem } from "@/components/blog/blog-list"
 import { JsonLd } from "@/components/seo/json-ld"
 import { Button } from "@/components/ui/button"
 import { Link } from "@/i18n/navigation"
 import { pageLocale } from "@/i18n/locale"
 import type { Locale } from "@/i18n/routing"
-import { AUDIENCES, blogLocales, blogPath, getPosts, type Audience } from "@/lib/blog/posts"
-import { COUNTRY_CODES, type CountryCode } from "@/lib/catalog"
-import { cn } from "@/lib/utils"
+import { AUDIENCES, blogLocales, blogPath, getPosts } from "@/lib/blog/posts"
+import { COUNTRY_CODES } from "@/lib/catalog"
 import { absoluteUrl } from "@/lib/urls"
 
 async function blogAlternates(locale: Locale): Promise<Metadata["alternates"]> {
@@ -19,6 +19,9 @@ async function blogAlternates(locale: Locale): Promise<Metadata["alternates"]> {
   if (locales.includes("en")) languages["x-default"] = absoluteUrl("en", blogPath())
   return { canonical: absoluteUrl(locale, blogPath()), languages }
 }
+
+// Articles change only on deploy; regenerate at most once a day.
+export const revalidate = 86400
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/blog">): Promise<Metadata> {
   const locale = await pageLocale(params)
@@ -33,11 +36,8 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/blog">):
   }
 }
 
-export default async function BlogIndexPage({ params, searchParams }: PageProps<"/[locale]/blog">) {
+export default async function BlogIndexPage({ params }: PageProps<"/[locale]/blog">) {
   const locale = await pageLocale(params)
-  const { country: rawCountry, audience: rawAudience } = await searchParams
-  const country = COUNTRY_CODES.includes(rawCountry as CountryCode) ? (rawCountry as CountryCode) : undefined
-  const audience = AUDIENCES.includes(rawAudience as Audience) ? (rawAudience as Audience) : undefined
 
   const [t, tc, tf, format, posts] = await Promise.all([
     getTranslations("blog"),
@@ -46,19 +46,32 @@ export default async function BlogIndexPage({ params, searchParams }: PageProps<
     getFormatter(),
     getPosts(locale),
   ])
-  const shown = posts.filter((p) => (!country || p.countries.includes(country)) && (!audience || p.audience.includes(audience)))
-  const filterHref = (next: { country?: CountryCode; audience?: Audience }) => {
-    const q = new URLSearchParams()
-    if (next.country) q.set("country", next.country)
-    if (next.audience) q.set("audience", next.audience)
-    const s = q.toString()
-    return s ? `${blogPath()}?${s}` : blogPath()
+  const listProps = {
+    basePath: blogPath(),
+    posts: posts.map((post): BlogListItem => ({
+      slug: post.slug,
+      href: blogPath(post.slug),
+      title: post.title,
+      description: post.description,
+      date: format.dateTime(new Date(post.updated ?? post.date), { dateStyle: "medium" }),
+      readingTime: t("minutesRead", { minutes: post.readingMinutes }),
+      countries: post.countries,
+      audience: post.audience,
+      countryLabels: post.countries.map((c) => tc(c)),
+      audienceLabels: post.audience.map((a) => t(`audience.${a}`)),
+    })),
+    countries: COUNTRY_CODES.map((c) => ({ value: c, label: tc(c) })),
+    audiences: AUDIENCES.map((a) => ({ value: a, label: t(`audience.${a}`) })),
+    labels: {
+      filterCountry: t("filterCountry"),
+      filterAudience: t("filterAudience"),
+      allCountries: t("allCountries"),
+      allAudiences: t("allAudiences"),
+      noResults: t("noResults"),
+      resetFilters: t("resetFilters"),
+      readArticle: t("readArticle"),
+    },
   }
-  const chip = (active: boolean) =>
-    cn(
-      "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
-      active ? "border-primary bg-primary-soft text-primary" : "bg-card hover:border-primary/40 text-foreground",
-    )
 
   return (
     <>
@@ -118,58 +131,10 @@ export default async function BlogIndexPage({ params, searchParams }: PageProps<
             </div>
           </section>
         ) : (
-          <>
-            <nav className="flex flex-col gap-3" aria-label={`${t("filterCountry")} / ${t("filterAudience")}`}>
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-muted-foreground w-16 text-sm">{t("filterCountry")}</span>
-                <Link href={filterHref({ audience })} className={chip(!country)} aria-current={!country ? "page" : undefined}>
-                  {t("allCountries")}
-                </Link>
-                {COUNTRY_CODES.map((c) => (
-                  <Link key={c} href={filterHref({ country: c, audience })} className={chip(country === c)} aria-current={country === c ? "page" : undefined}>
-                    {tc(c)}
-                  </Link>
-                ))}
-              </div>
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-muted-foreground w-16 text-sm">{t("filterAudience")}</span>
-                <Link href={filterHref({ country })} className={chip(!audience)} aria-current={!audience ? "page" : undefined}>
-                  {t("allAudiences")}
-                </Link>
-                {AUDIENCES.map((a) => (
-                  <Link key={a} href={filterHref({ country, audience: a })} className={chip(audience === a)} aria-current={audience === a ? "page" : undefined}>
-                    {t(`audience.${a}`)}
-                  </Link>
-                ))}
-              </div>
-            </nav>
-
-            {shown.length ? (
-              <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {shown.map((post) => (
-                  <li key={post.slug}>
-                    <BlogPostCard
-                      href={blogPath(post.slug)}
-                      title={post.title}
-                      description={post.description}
-                      date={format.dateTime(new Date(post.updated ?? post.date), { dateStyle: "medium" })}
-                      readingTime={t("minutesRead", { minutes: post.readingMinutes })}
-                      countries={post.countries.map((c) => tc(c))}
-                      audience={post.audience.map((a) => t(`audience.${a}`))}
-                      cta={t("readArticle")}
-                    />
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <div className="bg-surface mt-8 rounded-2xl border p-8 text-center">
-                <p className="text-subtle-foreground">{t("noResults")}</p>
-                <Button asChild variant="outline" className="mt-4">
-                  <Link href={blogPath()}>{t("resetFilters")}</Link>
-                </Button>
-              </div>
-            )}
-          </>
+          // Filters are applied in the browser (?country / ?audience), keeping this page static.
+          <Suspense fallback={<BlogList {...listProps} />}>
+            <BlogListFromUrl {...listProps} />
+          </Suspense>
         )}
       </div>
     </>

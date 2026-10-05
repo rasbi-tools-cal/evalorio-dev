@@ -1,10 +1,11 @@
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
-import { LoginForm } from "@/components/auth/auth-forms"
-import { redirect } from "@/i18n/navigation"
+import { Suspense } from "react"
+import { LoginForm, LoginFormFromUrl } from "@/components/auth/auth-forms"
 import { pageLocale } from "@/i18n/locale"
-import { getUser } from "@/lib/supabase/server"
-import { safeNextPath } from "@/lib/urls"
+
+// Static page: ?next= / ?error= are read in the browser; signed-in users are redirected by proxy.ts.
+export const revalidate = 86400
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/login">): Promise<Metadata> {
   const locale = await pageLocale(params)
@@ -12,18 +13,17 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/login">)
   return { title: t("loginTitle") }
 }
 
-export default async function LoginPage({ params, searchParams }: PageProps<"/[locale]/login">) {
-  const locale = await pageLocale(params)
-  const { next, error } = await searchParams
-  const nextPath = typeof next === "string" ? safeNextPath(next) : undefined
-  if (await getUser()) redirect({ href: nextPath ?? "/account/listings", locale })
+export default async function LoginPage({ params }: PageProps<"/[locale]/login">) {
+  await pageLocale(params)
   const t = await getTranslations("auth")
 
   return (
     <>
       <h1 className="text-2xl font-bold">{t("loginTitle")}</h1>
       <p className="text-muted-foreground mt-1 mb-6 text-sm">{t("loginSubtitle")}</p>
-      <LoginForm next={nextPath} initialError={error ? t("callbackError") : undefined} />
+      <Suspense fallback={<LoginForm />}>
+        <LoginFormFromUrl />
+      </Suspense>
     </>
   )
 }

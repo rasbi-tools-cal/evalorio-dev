@@ -1,7 +1,9 @@
 import "server-only"
+import type { SupabaseClient } from "@supabase/supabase-js"
 import { cache } from "react"
 import type { Category, CountryCode, Operation, PropertyType } from "@/lib/catalog"
 import { CATEGORY_TYPES } from "@/lib/catalog"
+import type { Database } from "@/lib/database.types"
 import { PAGE_SIZE, toRpcArgs, type SearchFilters } from "@/lib/search/filters"
 import { createPublicClient } from "@/lib/supabase/public"
 import { createClient } from "@/lib/supabase/server"
@@ -150,8 +152,7 @@ export async function getTopCities(country: CountryCode, limit = 40) {
   return data ?? []
 }
 
-export const getListing = cache(async (id: number) => {
-  const supabase = await createClient()
+async function fetchListing(supabase: SupabaseClient<Database>, id: number) {
   const { data } = await supabase
     .from("listings")
     .select(
@@ -172,7 +173,13 @@ export const getListing = cache(async (id: number) => {
   )
   const point = (location.data as { lat: number; lng: number; exact: boolean }[] | null)?.[0] ?? null
   return { ...data, photos, point }
-})
+}
+
+/** With the visitor's session: owners and admins also see their non-active listings (preview, edit). */
+export const getListing = cache(async (id: number) => fetchListing(await createClient(), id))
+
+/** Cookie-less, public listings only: safe for statically cached (ISR) pages. */
+export const getPublicListing = cache(async (id: number) => fetchListing(createPublicClient(), id))
 
 export type ListingDetail = NonNullable<Awaited<ReturnType<typeof getListing>>>
 

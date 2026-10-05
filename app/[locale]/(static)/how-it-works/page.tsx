@@ -4,6 +4,9 @@ import { pageLocale } from "@/i18n/locale"
 import { STATIC_CONTENT } from "@/lib/static-content"
 import { absoluteUrl } from "@/lib/urls"
 
+// Static content: regenerated at most once a day.
+export const revalidate = 86400
+
 const page = STATIC_CONTENT["how-it-works"]
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/how-it-works">): Promise<Metadata> {

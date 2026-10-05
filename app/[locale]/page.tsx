@@ -14,7 +14,8 @@ import { getCitiesBySlugs, latestListings } from "@/lib/listings/queries"
 import { localizedAlternates, ogLocale } from "@/lib/seo"
 import { absoluteUrl, searchPath } from "@/lib/urls"
 
-export const revalidate = 60
+// Shows the latest listings: regenerated hourly (approvals revalidate it immediately).
+export const revalidate = 3600
 
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
   const locale = await pageLocale(params)
