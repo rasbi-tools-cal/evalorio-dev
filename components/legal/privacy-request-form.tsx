@@ -2,7 +2,7 @@
 
 import { CheckCircle2, Loader2 } from "lucide-react"
 import { useFormatter, useTranslations } from "next-intl"
-import { useRef, useState, useTransition } from "react"
+import { useEffect, useRef, useState, useTransition } from "react"
 import { captchaEnabled, Turnstile, type TurnstileHandle } from "@/components/security/turnstile"
 import { Button } from "@/components/ui/button"
 import { Field } from "@/components/ui/field"
@@ -10,10 +10,11 @@ import { Input } from "@/components/ui/input"
 import { NativeSelect } from "@/components/ui/native-select"
 import { Textarea } from "@/components/ui/textarea"
 import { submitPrivacyRequest } from "@/lib/actions/privacy"
+import { createClient } from "@/lib/supabase/client"
 
 const TYPES = ["access", "rectification", "erasure", "restriction", "portability", "objection", "withdraw_consent", "other"] as const
 
-export function PrivacyRequestForm({ defaultEmail, defaultName }: { defaultEmail?: string; defaultName?: string }) {
+export function PrivacyRequestForm() {
   const t = useTranslations("privacyRequest")
   const tc = useTranslations("common")
   const format = useFormatter()
@@ -22,6 +23,19 @@ export function PrivacyRequestForm({ defaultEmail, defaultName }: { defaultEmail
   const [error, setError] = useState<string | null>(null)
   const [done, setDone] = useState<{ reference: string; dueAt: string; email: string } | null>(null)
   const [pending, start] = useTransition()
+  const emailRef = useRef<HTMLInputElement>(null)
+  const nameRef = useRef<HTMLInputElement>(null)
+
+  // Signed-in users: prefill email and name in the browser (keeps the page static).
+  useEffect(() => {
+    const supabase = createClient()
+    void supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!user) return
+      if (emailRef.current && !emailRef.current.value && user.email) emailRef.current.value = user.email
+      const { data: profile } = await supabase.from("profiles").select("display_name").eq("id", user.id).maybeSingle()
+      if (nameRef.current && !nameRef.current.value && profile?.display_name) nameRef.current.value = profile.display_name
+    })
+  }, [])
 
   if (done) {
     return (
@@ -74,10 +88,10 @@ export function PrivacyRequestForm({ defaultEmail, defaultName }: { defaultEmail
       </Field>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label={t("email")} htmlFor="email">
-          <Input id="email" name="email" type="email" required maxLength={254} autoComplete="email" defaultValue={defaultEmail} />
+          <Input ref={emailRef} id="email" name="email" type="email" required maxLength={254} autoComplete="email" />
         </Field>
         <Field label={t("name")} htmlFor="name" optionalLabel={tc("optional")}>
-          <Input id="name" name="name" maxLength={100} autoComplete="name" defaultValue={defaultName} />
+          <Input ref={nameRef} id="name" name="name" maxLength={100} autoComplete="name" />
         </Field>
       </div>
       <Field label={t("details")} htmlFor="details" help={t("detailsHelp")} optionalLabel={tc("optional")}>

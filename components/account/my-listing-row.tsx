@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Link, useRouter } from "@/i18n/navigation"
 import { deleteListing, renewListing, setListingStatus } from "@/lib/actions/listings"
 import { photoUrl } from "@/lib/env"
-import { listingPath } from "@/lib/urls"
+import { ownerListingPath } from "@/lib/urls"
 import { cn } from "@/lib/utils"
 
 export interface MyListing {
@@ -87,7 +87,7 @@ export function MyListingRow({ listing }: { listing: MyListing }) {
         </div>
         <h2 className="truncate font-semibold">
           {viewable ? (
-            <Link href={listingPath(listing.id, listing.title)} className="hover:text-primary">
+            <Link href={ownerListingPath(listing.id, listing.title, s)} className="hover:text-primary">
               {title}
             </Link>
           ) : (

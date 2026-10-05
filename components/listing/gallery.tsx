@@ -5,22 +5,33 @@ import useEmblaCarousel from "embla-carousel-react"
 import { ChevronLeft, ChevronRight, Images, X } from "lucide-react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react"
 import { photoUrl } from "@/lib/env"
 import { cn } from "@/lib/utils"
 
-/** `initialPhoto` (1-based, from "?photo=N" links on result cards) opens the lightbox on that photo. */
-export function Gallery({ photos, title, initialPhoto }: { photos: string[]; title: string; initialPhoto?: number }) {
+const subscribeNever = () => () => {}
+
+/** 0-based index from "?photo=N" (1-based), or null. */
+function photoFromUrl(count: number) {
+  const n = Number(new URLSearchParams(window.location.search).get("photo"))
+  return Number.isInteger(n) && n >= 1 && n <= count ? n - 1 : null
+}
+
+/**
+ * A "?photo=N" link (1-based, from the photo carousels on result cards) opens the lightbox on that
+ * photo. It is read in the browser so the listing page can stay static.
+ */
+export function Gallery({ photos, title }: { photos: string[]; title: string }) {
   const t = useTranslations("listing")
   const tc = useTranslations("common")
-  const initial = initialPhoto && initialPhoto >= 1 && initialPhoto <= photos.length ? initialPhoto - 1 : null
-  const [open, setOpen] = useState(initial !== null)
-  const [start, setStart] = useState(initial ?? 0)
+  // null on the server and until the visitor opens/closes the lightbox: then the URL decides.
+  const urlPhoto = useSyncExternalStore(subscribeNever, () => photoFromUrl(photos.length), () => null)
+  const [lightbox, setLightbox] = useState<{ open: boolean; start: number } | null>(null)
+  const open = lightbox ? lightbox.open : urlPhoto !== null
+  const start = lightbox ? lightbox.start : (urlPhoto ?? 0)
+  const setOpen = (value: boolean) => setLightbox({ open: value, start })
 
-  const openAt = (i: number) => {
-    setStart(i)
-    setOpen(true)
-  }
+  const openAt = (i: number) => setLightbox({ open: true, start: i })
 
   if (photos.length === 0) {
     return <div className="bg-surface-low aspect-[16/9] w-full rounded-xl" aria-hidden />

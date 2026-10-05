@@ -1,6 +1,7 @@
 "use client"
 
 import { Loader2 } from "lucide-react"
+import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { useRef, useState, useTransition } from "react"
 import { Button } from "@/components/ui/button"
@@ -17,6 +18,7 @@ import {
   type AuthResult,
 } from "@/lib/actions/auth"
 import { notifyAuthChanged } from "@/lib/auth-events"
+import { safeNextPath } from "@/lib/urls"
 
 function useAuthError() {
   const t = useTranslations("auth")
@@ -96,6 +98,23 @@ function SubmitButton({ pending, disabled, children }: { pending: boolean; disab
       {children}
     </Button>
   )
+}
+
+/** Reads ?next= and ?error= in the browser, so the login and sign-up pages can be static. */
+function useAuthParams() {
+  const params = useSearchParams()
+  const raw = params.get("next")
+  return { next: raw ? safeNextPath(raw) : undefined, error: params.get("error") }
+}
+
+export function LoginFormFromUrl() {
+  const t = useTranslations("auth")
+  const { next, error } = useAuthParams()
+  return <LoginForm next={next} initialError={error ? t("callbackError") : undefined} />
+}
+
+export function SignupFormFromUrl() {
+  return <SignupForm next={useAuthParams().next} />
 }
 
 export function LoginForm({ next, initialError }: { next?: string; initialError?: string }) {

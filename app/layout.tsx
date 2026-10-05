@@ -1,11 +1,6 @@
 import type { Metadata, Viewport } from "next"
-import { Inter, Outfit } from "next/font/google"
-import { getLocale } from "next-intl/server"
 import { SITE_URL } from "@/lib/env"
 import "./globals.css"
-
-const inter = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-inter", display: "swap" })
-const outfit = Outfit({ subsets: ["latin", "latin-ext"], variable: "--font-outfit", display: "swap" })
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -24,12 +19,10 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const locale = await getLocale()
-
-  return (
-    <html lang={locale} className={`${inter.variable} ${outfit.variable}`}>
-      <body className="min-h-dvh">{children}</body>
-    </html>
-  )
+/**
+ * <html> and <body> are rendered by app/[locale]/layout.tsx, where the language comes from the URL.
+ * Reading it here (getLocale) would fall back to request headers and make every page dynamic.
+ */
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return children
 }

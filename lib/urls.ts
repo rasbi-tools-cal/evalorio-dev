@@ -11,6 +11,11 @@ export function listingPath(id: number, title?: string | null) {
   return `/listing/${id}${slug ? `-${slug}` : ""}`
 }
 
+/** Where an owner sees their own listing: the public page when active, otherwise the private preview. */
+export function ownerListingPath(id: number, title: string | null | undefined, status: string) {
+  return status === "active" ? listingPath(id, title) : `/preview/listing/${id}`
+}
+
 export function searchPath(
   locale: Locale,
   opts: {

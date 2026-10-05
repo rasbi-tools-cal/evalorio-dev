@@ -8,6 +8,12 @@ import { FavoritesProvider } from "@/components/listings/favorites-provider"
 import { SiteFooter } from "@/components/layout/site-footer"
 import { SiteHeader } from "@/components/layout/site-header"
 import { routing } from "@/i18n/routing"
+import { fontVariables } from "@/lib/fonts"
+
+// Prerender every language: pages without request-time APIs become static (○/●) instead of ƒ.
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
+}
 
 export async function generateMetadata({ params }: LayoutProps<"/[locale]">) {
   const { locale } = await params
@@ -27,6 +33,8 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const t = await getTranslations("common")
 
   return (
+    <html lang={locale} className={fontVariables}>
+      <body className="min-h-dvh">
     <NextIntlClientProvider>
       <ConsentProvider>
       <FavoritesProvider>
@@ -50,5 +58,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
       </FavoritesProvider>
       </ConsentProvider>
     </NextIntlClientProvider>
+      </body>
+    </html>
   )
 }

@@ -3,6 +3,9 @@ import { getTranslations } from "next-intl/server"
 import { ForgotPasswordForm } from "@/components/auth/auth-forms"
 import { pageLocale } from "@/i18n/locale"
 
+// Static content: regenerated at most once a day.
+export const revalidate = 86400
+
 export async function generateMetadata({ params }: PageProps<"/[locale]/forgot-password">): Promise<Metadata> {
   const locale = await pageLocale(params)
   const t = await getTranslations({ locale, namespace: "auth" })

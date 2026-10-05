@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Link, useRouter } from "@/i18n/navigation"
 import { saveContact, saveDetails, saveLocation, submitListing } from "@/lib/actions/listings"
 import type { WizardListing } from "@/lib/listings/wizard"
-import { listingPath } from "@/lib/urls"
+import { ownerListingPath } from "@/lib/urls"
 import { cn } from "@/lib/utils"
 import {
   BasicsFields,
@@ -128,7 +128,7 @@ export function ListingEditForm({ initial, emailConfirmed, trusted }: { initial:
         <span className="text-muted-foreground text-sm">#{listing.id}</span>
         {!["draft", "removed"].includes(status) && (
           <Link
-            href={listingPath(listing.id, listing.title)}
+            href={ownerListingPath(listing.id, listing.title, status)}
             className="text-primary ml-auto inline-flex items-center gap-1.5 text-sm font-semibold hover:underline"
           >
             {ta("viewListing")} <ExternalLink className="size-3.5" aria-hidden />

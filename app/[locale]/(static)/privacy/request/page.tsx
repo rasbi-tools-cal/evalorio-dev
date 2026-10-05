@@ -4,7 +4,9 @@ import { PrivacyRequestForm } from "@/components/legal/privacy-request-form"
 import { Link } from "@/i18n/navigation"
 import { pageLocale } from "@/i18n/locale"
 import { localizedAlternates } from "@/lib/seo"
-import { getProfile, getUser } from "@/lib/supabase/server"
+
+// Static content: regenerated at most once a day.
+export const revalidate = 86400
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/privacy/request">): Promise<Metadata> {
   const locale = await pageLocale(params)
@@ -14,7 +16,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/privacy/
 
 export default async function PrivacyRequestPage({ params }: PageProps<"/[locale]/privacy/request">) {
   await pageLocale(params)
-  const [t, user, profile] = await Promise.all([getTranslations("privacyRequest"), getUser(), getProfile()])
+  const t = await getTranslations("privacyRequest")
   return (
     <div className="page-container max-w-2xl py-12">
       <h1 className="text-3xl font-bold">{t("title")}</h1>
@@ -29,7 +31,7 @@ export default async function PrivacyRequestPage({ params }: PageProps<"/[locale
         })}
       </p>
       <div className="bg-card mt-8 rounded-xl border p-5 sm:p-6">
-        <PrivacyRequestForm defaultEmail={user?.email ?? undefined} defaultName={profile?.display_name ?? undefined} />
+        <PrivacyRequestForm />
       </div>
     </div>
   )

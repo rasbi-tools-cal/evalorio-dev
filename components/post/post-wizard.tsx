@@ -9,7 +9,7 @@ import { Link, useRouter } from "@/i18n/navigation"
 import { createDraft, saveContact, saveDetails, saveLocation, submitListing } from "@/lib/actions/listings"
 import { PROPERTY_TYPES, type Operation, type PropertyType } from "@/lib/catalog"
 import { STEPS, type Step, type WizardListing } from "@/lib/listings/wizard"
-import { listingPath } from "@/lib/urls"
+import { ownerListingPath } from "@/lib/urls"
 import { cn } from "@/lib/utils"
 import {
   BasicsFields,
@@ -230,7 +230,7 @@ export function PostWizard({
         <p className="text-muted-foreground mt-2 max-w-md">{live ? t("submittedActive") : t("submittedPending")}</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Button asChild>
-            <Link href={listingPath(listing.id, listing.title)}>{t("viewListing")}</Link>
+            <Link href={ownerListingPath(listing.id, listing.title, live ? "active" : "pending")}>{t("viewListing")}</Link>
           </Button>
           <Button asChild variant="outline">
             <Link href="/account/listings">{t("goToMyListings")}</Link>
