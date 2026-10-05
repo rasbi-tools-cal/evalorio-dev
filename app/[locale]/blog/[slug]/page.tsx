@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Link } from "@/i18n/navigation"
 import { pageLocale } from "@/i18n/locale"
 import type { Locale } from "@/i18n/routing"
-import { blogPath, getPost, getPosts, getTranslations as getPostTranslations, loadPostBody, type PostMeta } from "@/lib/blog/posts"
+import { blogPath, getAllPosts, getPost, getTranslations as getPostTranslations, loadPostBody, type PostMeta } from "@/lib/blog/posts"
 import { SITE_URL } from "@/lib/env"
 import { ogLocale } from "@/lib/seo"
 import { absoluteUrl } from "@/lib/urls"
@@ -16,9 +16,10 @@ import { absoluteUrl } from "@/lib/urls"
 export const revalidate = 86400
 export const dynamicParams = false
 
-export async function generateStaticParams({ params }: { params: { locale: string } }) {
-  const posts = await getPosts(params.locale as Locale)
-  return posts.map((p) => ({ slug: p.slug }))
+// Generates both segments here (every article in its own language) instead of relying on the
+// locale passed down from the layout.
+export async function generateStaticParams() {
+  return (await getAllPosts()).map((p) => ({ locale: p.locale, slug: p.slug }))
 }
 
 async function loadPost(params: PageProps<"/[locale]/blog/[slug]">["params"]) {
