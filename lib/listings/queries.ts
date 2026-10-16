@@ -52,7 +52,17 @@ export interface SearchScope {
   neighborhoodId?: number
 }
 
-export async function searchListings(scope: SearchScope, filters: SearchFilters) {
+/**
+ * One search per request: generateMetadata and the page ask for the same results. React's cache()
+ * compares object arguments by reference, so the memoized call is keyed by a serialized string.
+ * Map markers (every match in the area) are only fetched for the map view.
+ */
+export function searchListings(scope: SearchScope, filters: SearchFilters) {
+  return searchListingsCached(JSON.stringify({ scope, filters }))
+}
+
+const searchListingsCached = cache(async (key: string) => {
+  const { scope, filters } = JSON.parse(key) as { scope: SearchScope; filters: SearchFilters }
   const supabase = createPublicClient()
   const args = toRpcArgs(filters, { ...scope, types: CATEGORY_TYPES[scope.category] })
   const [{ data, error }, markers] = await Promise.all([
@@ -62,12 +72,12 @@ export async function searchListings(scope: SearchScope, filters: SearchFilters)
       p_limit: PAGE_SIZE,
       p_offset: (filters.page - 1) * PAGE_SIZE,
     }),
-    supabase.rpc("search_listing_markers", args),
+    filters.view === "map" ? supabase.rpc("search_listing_markers", args) : Promise.resolve({ data: [] }),
   ])
   if (error) throw error
   const result = data as unknown as { total: number; items: ListingSummary[] }
   return { total: result.total, items: result.items, markers: (markers.data ?? []) as MapMarker[] }
-}
+})
 
 export async function latestListings(opts: { country?: CountryCode; limit?: number; operation?: Operation } = {}) {
   const supabase = createPublicClient()

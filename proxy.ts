@@ -1,36 +1,28 @@
-import createIntlMiddleware from "next-intl/middleware"
 import { NextResponse, type NextRequest } from "next/server"
 import { routing } from "@/i18n/routing"
 import { AUTH_COOKIE_NAME } from "@/lib/env"
 import { refreshSession } from "@/lib/supabase/middleware"
 import { safeNextPath } from "@/lib/urls"
 
-const handleI18nRouting = createIntlMiddleware(routing)
+// Language routing is done by redirects/rewrites in next.config.mjs (no function call). This proxy
+// only runs where a session matters (see `config.matcher`): for visitors carrying a session cookie,
+// and on the private sections so anonymous visitors get sent to the login page.
 
 const PROTECTED = [/^\/account(\/|$)/, /^\/post(\/|$)/, /^\/admin(\/|$)/, /^\/preview(\/|$)/]
 const GUEST_ONLY = [/^\/login\/?$/, /^\/signup\/?$/]
 const localePrefix = new RegExp(`^/(${routing.locales.join("|")})(?=/|$)`)
 
 export async function proxy(request: NextRequest) {
-  const response = handleI18nRouting(request)
-  // Redirects issued by next-intl (e.g. /en/... -> /...) don't need a session.
-  if (response.headers.get("location")) return response
-
-  // Most visitors are anonymous: without a session cookie there is nothing to refresh, so skip the
-  // network call to Supabase Auth and only do the language routing.
-  const hasSession = request.cookies.getAll().some((c) => c.name.startsWith(AUTH_COOKIE_NAME))
+  const response = NextResponse.next()
 
   const { pathname, search } = request.nextUrl
   const localeMatch = pathname.match(localePrefix)
   const prefix = localeMatch ? localeMatch[0] : ""
   const pathWithoutLocale = localeMatch ? pathname.slice(prefix.length) || "/" : pathname
 
-  if (!hasSession) {
-    if (PROTECTED.some((re) => re.test(pathWithoutLocale))) return toLogin(request, prefix, pathname + search, response)
-    return response
-  }
-
-  const user = await refreshSession(request, response)
+  // Anonymous visitor on a private page: nothing to refresh, skip the call to Supabase Auth.
+  const hasSession = request.cookies.getAll().some((c) => c.name.startsWith(AUTH_COOKIE_NAME))
+  const user = hasSession ? await refreshSession(request, response) : null
 
   if (!user && PROTECTED.some((re) => re.test(pathWithoutLocale))) return toLogin(request, prefix, pathname + search, response)
 
@@ -50,15 +42,18 @@ function toLogin(request: NextRequest, prefix: string, back: string, response: N
   return withCookies(NextResponse.redirect(loginUrl), response)
 }
 
-/** Keep refreshed session cookies (set on the i18n response) on a redirect. */
+/** Keep refreshed session cookies on a redirect. */
 function withCookies(redirect: NextResponse, response: NextResponse) {
   response.cookies.getAll().forEach((cookie) => redirect.cookies.set(cookie))
   return redirect
 }
 
+// Page routes only (no api, Next/Vercel internals or files). Matchers must be literals: the cookie
+// names are AUTH_COOKIE_NAME from lib/env.ts ("evalorio_session", ".0" when @supabase/ssr chunks it).
 export const config = {
-  // Page routes only: no API routes (incl. the auth callback), no Next internals (_next/static,
-  // _next/image), no Vercel internals and no files with an extension (images, favicon, robots.txt,
-  // sitemap.xml, manifest...).
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  matcher: [
+    { source: "/((?!api|_next|_vercel|.*\\..*).*)", has: [{ type: "cookie", key: "evalorio_session" }] },
+    { source: "/((?!api|_next|_vercel|.*\\..*).*)", has: [{ type: "cookie", key: "evalorio_session.0" }] },
+    "/:locale(es|fr|it|pt)?/(account|post|admin|preview)/:path*",
+  ],
 }
