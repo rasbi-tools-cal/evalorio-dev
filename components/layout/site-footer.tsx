@@ -1,5 +1,6 @@
 import { getLocale, getTranslations } from "next-intl/server"
 import { CookieSettingsButton } from "@/components/consent/consent-ui"
+import { FoldworthCredit } from "@/components/brand/foldworth-credit"
 import { Logo } from "@/components/brand/logo"
 import { Link } from "@/i18n/navigation"
 import type { Locale } from "@/i18n/routing"
@@ -74,8 +75,11 @@ export async function SiteFooter() {
             </Link>
           </nav>
         </div>
-        <div className="text-muted-foreground mt-10 flex flex-col gap-2 border-t pt-6 text-xs sm:flex-row sm:justify-between">
-          <p>{t("rights", { year: new Date().getFullYear() })}</p>
+        <div className="text-muted-foreground mt-10 flex flex-col gap-2 border-t pt-6 text-xs sm:flex-row sm:items-baseline sm:justify-between">
+          <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
+            <p>{t("rights", { year: new Date().getFullYear() })}</p>
+            <FoldworthCredit label={t("websiteBy")} />
+          </div>
           <p>
             <a href="https://www.geonames.org/" className="hover:text-primary" rel="noopener">
               {t("geonames")}
