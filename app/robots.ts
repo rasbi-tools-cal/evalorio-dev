@@ -31,18 +31,42 @@ const AI_CRAWLERS = [
   "ImagesiftBot",
 ]
 
+/**
+ * SEO-tool and scraper crawlers: they bring no visitors, but crawl every page they can find and
+ * burn the hosting quota.
+ */
+const SEO_CRAWLERS = [
+  "AhrefsBot",
+  "AhrefsSiteAudit",
+  "SemrushBot",
+  "SiteAuditBot",
+  "MJ12bot",
+  "DotBot",
+  "BLEXBot",
+  "DataForSeoBot",
+  "SerpstatBot",
+  "barkrowler",
+  "PetalBot",
+  "Seekport",
+  "MauiBot",
+  "ZoominfoBot",
+]
+
 // robots.txt is static: built once per deployment.
 export default function robots(): MetadataRoute.Robots {
   const isProduction = process.env.VERCEL_ENV ? process.env.VERCEL_ENV === "production" : process.env.NODE_ENV === "production"
   if (!isProduction) return { rules: { userAgent: "*", disallow: "/" } }
 
-  const privatePaths = ["/account", "/post", "/admin", "/preview", "/login", "/signup", "/forgot-password", "/reset-password", "/api/"]
+  // "/filtered" is the internal dynamic twin of the search pages (next.config.mjs rewrites).
+  const privatePaths = ["/account", "/post", "/admin", "/preview", "/login", "/signup", "/forgot-password", "/reset-password", "/filtered", "/api/"]
   const localized = ["es", "fr", "it", "pt"].flatMap((l) => privatePaths.filter((p) => p !== "/api/").map((p) => `/${l}${p}`))
 
   return {
     rules: [
-      { userAgent: "*", allow: "/", disallow: [...privatePaths, ...localized] },
-      { userAgent: AI_CRAWLERS, disallow: "/" },
+      // "/*?": filter, sort and page combinations are endless and rendered on demand; listings are
+      // all reachable through the sitemaps, so crawlers only need the clean URLs.
+      { userAgent: "*", allow: "/", disallow: [...privatePaths, ...localized, "/*?"] },
+      { userAgent: [...AI_CRAWLERS, ...SEO_CRAWLERS], disallow: "/" },
     ],
     // Index of every sitemap chunk (app/sitemap_index.xml/route.ts).
     sitemap: `${SITE_URL}/sitemap_index.xml`,

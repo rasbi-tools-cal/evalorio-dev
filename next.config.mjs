@@ -35,6 +35,27 @@ const contentSecurityPolicy = [
   ...(isDev ? [] : ["upgrade-insecure-requests"]),
 ].join("; ")
 
+// Language routing ("as-needed" prefix) lives here instead of in proxy.ts, so anonymous page views
+// are served straight from the CDN without invoking a function. English has no prefix: "/spain/..."
+// is served by app/[locale] as "/en/spain/...", and "/en/..." redirects to the unprefixed URL.
+// Keep in sync with i18n/routing.ts.
+const PREFIXED_LOCALES = ["es", "fr", "it", "pt"]
+
+// Search pages are static (ISR); a URL carrying any search parameter goes to the dynamic twin at
+// app/[locale]/filtered. Keep in sync with lib/search/filters.ts (parseFilters) and the country
+// slugs in lib/catalog.ts (COUNTRIES[*].slug).
+const SEARCH_PARAMS = ["types", "price_min", "price_max", "beds", "baths", "area_min", "area_max", "features", "bbox", "sort", "page", "view"]
+const COUNTRY_SLUGS = "spain|espana|espagne|spagna|espanha|france|francia|franca|italy|italia|italie|portugal|portogallo"
+
+const searchRewrites = SEARCH_PARAMS.flatMap((key) => [
+  {
+    source: `/:locale(${PREFIXED_LOCALES.join("|")})/:country(${COUNTRY_SLUGS})/:segments*`,
+    has: [{ type: "query", key }],
+    destination: "/:locale/filtered/:country/:segments*",
+  },
+  { source: `/:country(${COUNTRY_SLUGS})/:segments*`, has: [{ type: "query", key }], destination: "/en/filtered/:country/:segments*" },
+])
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   poweredByHeader: false,
@@ -54,6 +75,24 @@ const nextConfig = {
     dangerouslyAllowLocalIP: isDev,
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24 * 30,
+  },
+  async redirects() {
+    return [
+      { source: "/en", destination: "/", permanent: true },
+      { source: "/en/:path*", destination: "/:path*", permanent: true },
+    ]
+  },
+  async rewrites() {
+    return {
+      // beforeFiles entries apply in sequence, so these already carry the final locale.
+      beforeFiles: searchRewrites,
+      // afterFiles run after public files and static routes (robots.txt, sitemap_index.xml, api/*)
+      // but before dynamic routes, so only unprefixed page paths get the English locale.
+      afterFiles: [
+        { source: "/", destination: "/en" },
+        { source: `/:first((?!(?:en|${PREFIXED_LOCALES.join("|")}|api|_next|_vercel|sitemap)(?:/|$))[^/]+)/:rest*`, destination: "/en/:first/:rest*" },
+      ],
+    }
   },
   async headers() {
     return [
